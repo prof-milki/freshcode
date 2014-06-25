@@ -26,13 +26,17 @@ include("layout_header.php");
 
 <h3>Login</h3>
 
-<p>Please provide an OpenID handle.</p>
+<p>Please provide an <a href="http://en.wikipedia.org/wiki/OpenID">OpenID</a> handle.</p>
 
 <p>
-<form action="" method=POST class=box>
-  <input type=text name=login_url size=50 value="" placeholder="http://name.openid.xy/">
+<form action="" method=POST class="login box">
+  <input type=text id=login_url name=login_url size=50 value="" placeholder="http://name.openid.xy/">
   <br>
+  <input type=password style=display:none value=dummy>
   <input type=submit value=Login>
+  <span class="service-logins">
+     <!--Or with <a onclick="$('#login_url').val('https://www.google.com/accounts/o8/id');">Google</a>-->
+  </span> 
 </form>
 </p>
 

@@ -39,7 +39,6 @@ if ($_GET->has("openid_mode")) {
             $_COOKIE->no("USER") and session_fresh();
             $_SESSION["openid"] = $openid->identity;
             $_SESSION["name"] = $openid->getAttributes()["namePerson/friendly"];
-            print_r($_SESSION);
         }
     }
 

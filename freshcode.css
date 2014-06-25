@@ -152,7 +152,20 @@ img {
     margin: 3pt;
     background: #f7faff;
 }
-
+#main .login.box .service-logins {
+    padding-top: 10pt;
+    float: right;
+    color: #ccc;
+    font-size: 85%;
+}
+#main .login.box .service-logins a {
+    color: #dde;
+}
+#main .login.box #login_url {
+    background: #f7faff;
+    background: linear-gradient(99deg, #888 0%, #a0a0a0 1%, #fc7 3%, #bbb 5%, #fff 8%);
+    padding-left: 33px;
+}
 
 #main .project h3 a {
     color: #000;

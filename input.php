@@ -153,8 +153,6 @@ class input implements ArrayAccess, Countable, Iterator {
      *
      */
 
-    #_session_id($name) { ... }  // e.g. verify last IP, stale session, user-agent
-    #_
 
     
     /**
@@ -1018,25 +1016,23 @@ class input implements ArrayAccess, Countable, Iterator {
      */
 
     /**
-     * isset/array_key_exists check.
+     * isset/array_key_exists check;
+     * may list multiple keys to check.
      *
      */
     function has($args) {
-        $r = 1;
-        is_array($args) or $args = func_get_args();
-        foreach ($args as $name) {
-            $r &= isset($this->__vars[$name]);
-        }
-        return $r;
+        $args = (func_num_args() > 1) ? func_get_args() : explode(",", $args);
+        return count(array_intersect_key($this->__vars, array_flip($args))) == count($args);
     }
     
     /**
      * empty() probing,
-     * Tests if variable is absent or falsy.
+     * Tests if named keys are absent or falsy.
      *
      */
-    function no($name) {
-        return empty($this->__vars[$name]);
+    function no($args) {
+        $args = (func_num_args() > 1) ? func_get_args() : explode(",", $args);
+        return count(array_filter(array_intersect_key($this->__vars, array_flip($args)))) == 0;
     }
     
     /**
