@@ -24,6 +24,17 @@ $fields = array(
     "autoupdate_module", "autoupdate_url", "autoupdate_regex",
     "submitter", "lock",
 );
+// License abbreviated names (later adding title= attributes to the select form)
+$licenses = "Apache,Artistic,BSDL,BSDL-2,CDDL,MITL,MPL,Python,PHPL,"
+          . "GNU GPL,GNU GPLv3,GNU LPGL,GNU LPGLv3,Affero GPL,Affero GPLv3,"
+          . "AAL,AFL,APL,APSL,BSL,CeCILL,CATOSL,CPAL,CUA-OPL,EUDatagrid,Eclipse,"
+          . "ECL,Eiffel,Entessa,EUPL,Fair,Frameworx,"
+          . "HPND,IBM PL,IPA,ISC,LaTeX,LPL,MirOS,MS-PL,MS-RL,Motoso,Multics,NASA,"
+          . "NTP,Naumen,NGPL,Nokia,NPOSL,OCLC,OpenFont,OGTSL,OSL,Postgres"
+          . "QPL,RPSL,RPL,Ricoh,SimPL,Sleepycat,Sun PL,Watcom,NCSA"
+          . "VSL,W3C,WXwindows,Xnet,ZPL,Zlib,Other";
+      // todo: discuss adding Commercial/Proprietary?
+      // hint: separation usually works better than prohibition (e.g. filtering instead of moderating)
 
 
 // Start page output
@@ -152,8 +163,10 @@ else {
 
            <label>
                License
-               <input name=license size=20 placeholder="MITL, BSDL, GNU GPL" value="$data[license]">
-               <small>Use abbreviated license names preferrably.</small>
+               <select name=license>
+                  {$select($licenses, $data["license"])}
+               </select>
+               <small>For abbreviated license names check <a href="http://opensource.org/licenses/alphabetical">OSI list</a>.</small>
            </label>
 
            <label>
