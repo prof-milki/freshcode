@@ -1,0 +1,25 @@
+# encoding: UTF-8
+# api: apache
+# title: RewriteRules
+# description: Map paths onto dispatcher script
+#
+#
+
+
+RewriteEngine On
+
+# strip www. prefix
+RewriteCond %{HTTP_HOST} ^ww+\.(\w+\.\w+)\.?$
+RewriteCond %{REQUEST_METHOD} ^GET$
+RewriteRule ^(.*)$ http://%1/$1 [R,QSA,L]
+
+# pages
+RewriteRule ^$ index.php?page=index [L,QSA]
+RewriteRule ^(projects|submit|flag|tags|feed|links|admin)/?(\w+)?/?$ index.php?page=$1&name=$2 [L,QSA]
+
+# deny direct invocations
+RewriteRule ^^^freshcode\.db.*$$$ - [F]
+RewriteRule ^\. - [F]
+RewriteRule ^(?!index\.)\w+\.php($$$|/.*)$ - [F]
+
+
