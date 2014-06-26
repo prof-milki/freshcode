@@ -10,7 +10,7 @@
  */
 
 define("INPUT_QUIET", 1);
-define("INPUT_DIRECT", "trim");
+#define("INPUT_DIRECT", "trim");
 include_once("input.php");
 
 include_once("db.php");
@@ -23,6 +23,7 @@ include_once("deferred_openid_session.php");
 
 // List of moderator OpenID handles
 $moderator_ids = array(
+    # "http://...",
 );
 
 
