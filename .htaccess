@@ -15,7 +15,7 @@ RewriteRule ^(.*)$ http://%1/$1 [R,QSA,L]
 
 # pages
 RewriteRule ^$ index.php?page=index [L,QSA]
-RewriteRule ^(projects|submit|flag|tags|feed|links|admin)/?(\w+)?/?$ index.php?page=$1&name=$2 [L,QSA]
+RewriteRule ^(projects|submit|flag|tags|feed|login|links|admin)/?(\w+(?:-\w+)*)?/?$ index.php?page=$1&name=$2 [L,QSA]
 
 # deny direct invocations
 RewriteRule ^^^freshcode\.db.*$$$ - [F]
