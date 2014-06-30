@@ -3,7 +3,7 @@
  * api: php
  * title: Freshcode.club
  * description: FLOSS software release tracking website
- * version: 0.3
+ * version: 0.3.1
  * author: mario
  * license: AGPL
  * 
@@ -31,7 +31,7 @@ switch ($page = $_GET->id["page"]) {
 
     case "flag":
     case "submit":
-        if (LOGIN_REQUIRED and empty($_SESSION["openid"])) {
+        if ((LOGIN_REQUIRED or $page === "flag") and empty($_SESSION["openid"])) {
             exit(include("page_login.php"));
         }
         include("page_$page.php");
