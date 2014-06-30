@@ -210,7 +210,7 @@ class input implements ArrayAccess, Countable, Iterator {
      *
      */
     function _text($data) {
-        return preg_replace("/[^\w\d\s,._\-+?!;:\"\'\/`´()*=]+/u", " ", strip_tags($data));
+        return preg_replace("/[^\w\d\s,._\-+?!;:\"\'\/`´()*=#]+/u", " ", strip_tags($data));
     }
     
     /**
@@ -278,11 +278,18 @@ class input implements ArrayAccess, Countable, Iterator {
     
     /**
      * [w]
-     * Miximum string length.
+     * Miximum and minimum string length.
      *
      */
-    function _length($data, $max=65535) {
-        return substr($data, 0, $max);
+    function _length($data, $max=65535, $cut=NULL) {
+        // just the length limit
+        if (is_null($cut)) {
+            return substr($data, 0, $max);
+        }
+        // require minimum string length, else drop value completely
+        else {
+            return strlen($data) >= $max ? substr($data, 0, $cut)  : NULL;
+        }
     }
     
     /**
@@ -820,7 +827,7 @@ class input implements ArrayAccess, Countable, Iterator {
             }
             // ordinary php function, or closure, or rebound method
             elseif (is_callable($filtername)) {
-                $data = call_user_func($filtername, $data);
+                $data = call_user_func_array($filtername, array_merge(array($data), $args));
             }
             else {
                 INPUT_QUIET>=2 or trigger_error("unknown filter '" . (is_scalar($filtername) ? $filtername : "closure") . "', falling back on wiping non-alpha characters from '{$this->__varname}'", E_USER_WARNING);
@@ -1084,8 +1091,25 @@ class input implements ArrayAccess, Countable, Iterator {
     function count() {
         return count($this->__vars);
     }
-    
-    
+
+
+    /**
+     * @hide Make filtering functions available as static methods
+     *       without underscore prefix for external invocation.
+     */ 
+    static function __callStatic($func, $args) {
+        static $filter = "input";
+
+        // Also eschew E_STRICT notices
+        if (!is_object($filter)) {
+            $filter = new input(array(), "\$_INLINE_INPUT");
+        }
+
+        return isset($filter->{"_$func"})
+             ? call_user_func_array($filter->{"_$func"}, $args)
+             : call_user_func_array(array($filter, "_$func"), $args);
+    }
+
     /**
      * @hide Allows testing variable presence with e.g. if ( $_POST() )
      *       Alternatively $_POST("var") is an alias to $_POST["var"].
