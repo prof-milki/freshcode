@@ -12,25 +12,23 @@
 
 include("layout_header.php");
 
-// query projects
+// fetch most current project/release entry
 $releases = db("
     SELECT *
       FROM release_versions
      WHERE name = ?
-", $_REQUEST->name["name"]);
+       AND NOT deleted
+     LIMIT 1
+", $_REQUEST->proj_name["name"]);
 
 // show
 if ($entry = $releases->fetch()) {
 
-    // HTML preparation and some auto-generated fields
-    prepare_output($entry);
+    prepare_output($entry);   // HTML preparation and some auto-generated fields
+    $_ = "trim";    // callback for varexpression function calls in heredoc
     
-    // callback for varexpression function calls in heredoc
-    $_ = "trim";
-    
-    // output
-    print <<<HTML
-
+    // Output
+    print <<<SIDEBAR
       <aside id=sidebar>
          <section>
            <h5>Links</h5>
@@ -57,7 +55,10 @@ if ($entry = $releases->fetch()) {
          </section>
       </aside>
       <section id=main>
+SIDEBAR;
       
+    // Output
+    print <<<PROJECT
       <article class=project>
         <h3>
             <a href="projects/$entry[name]">$entry[title]
@@ -72,28 +73,30 @@ if ($entry = $releases->fetch()) {
             <a href="$entry[download]"><img src="img/disk.png" width=20 height=20 border=0 align=middle> Download</a>
         </p>
       </article>
-      
-HTML;
+PROJECT;
+
 }
 
 
-// query projects
+// retrieve all released versions
 $releases = db("
     SELECT *
       FROM release
-     WHERE name = ? AND flag < 5 AND NOT deleted
+     WHERE name = ?
+       AND flag < 5
+       AND NOT deleted
   GROUP BY version
   ORDER BY t_published DESC, t_changed DESC
 ", $_REQUEST->name["name"]);
 
+
 // show
-print " <article class=release-list>  <h3>Recent Releases</h3> ";
+?> <article class=release-list>  <h3>Recent Releases</h3> <?php
 while ($entry = $releases->fetch()) {
     prepare_output($entry);
     
     // output
-    print <<<HTML
-
+    print <<<VERSION_ENTRY
        <div class=release-entry>
           <span class=version>$entry[version]</span><span class=published_date>{$_(strftime("%d %b %Y %H:%M", $entry["t_published"]))}</span>
           <span class=release-notes>
@@ -101,16 +104,21 @@ while ($entry = $releases->fetch()) {
              $entry[changes]
           </span>
        </div>
+VERSION_ENTRY;
 
-HTML;
 }
-print "</article>";
+?> </article> <?php
 
 
+// html tail
 include("layout_bottom.php");
 
 
 
+/**
+ * Convert "url1=, url2=, url3=" list into titled hyperlinks.
+ *
+ */
 function proj_links($urls, $entry, $r="") {
     foreach (p_key_value($urls) as $title=>$url) {
         $title = ucwords($title);
