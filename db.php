@@ -4,7 +4,7 @@
  * description: basic db() interface for parameterized SQL and result folding
  * api: php
  * type: database
- * version: 0.7
+ * version: 0.8
  * depends: pdo
  * license: Public Domain
  * author: Mario Salzer
@@ -70,7 +70,7 @@ function db($sql=NULL, $params="...") {
         
         // save settings
         $db->tokens = array("PREFIX"=>""); // or reference global $config
-        $db->broken = strstr($params[0], "sqlite");
+        #$db->in_clause = strstr($params[0], "sqlite");
     }
     
     #-- singleton use
@@ -106,7 +106,7 @@ function db($sql=NULL, $params="...") {
                             break;
 
                         case ":?":  // and :? name placeholder, transforms list into enumerated params
-                            $replace = implode(",", db_identifier($enum ? $a : array_keys($a)) );
+                            $replace = implode(",", db_identifier($enum ? $a : array_keys($a)), "`");
                             $enum = 1;  $a = array();   // do not actually add values
                             break;
 
@@ -139,13 +139,17 @@ function db($sql=NULL, $params="...") {
         }
 
         #-- placeholders
-        if ($db->tokens && strpos($sql, "{")) {
-            $sql = preg_replace("/\{(\w+)(.*?)\}/e", 'isset($db->token["$1"]) ? $db->token["$1"]."$2" : @$db->token["$1$2"]', $sql);
+        if (empty(!$db->tokens) && strpos($sql, "{")) {
+            $sql = preg_replace_callback("/\{(\w+)(.*?)\}/e", function($m) use ($db) {
+                return isset($db->token["$m[1]"]) ? $db->token["$m[1]"]."$m[2]" : $db->token["$m[1]$m[2]"];
+            }, $sql);
         }
         
         #-- SQL incompliance workarounds
-        if ($db->broken && strpos($sql, " IN (")) { // only for ?,?,?,? enum params
-            $sql = preg_replace("/(`?\w+`?) IN \(([?,]+)\)/e", '"($1=" . implode("OR $1=", array_fill(0, 1+strlen("$2")/2, "? ")) . ")"', $sql);
+        if (!empty($db->in_clause) && strpos($sql, " IN (")) { // only for ?,?,?,? enum params
+            $sql = preg_replace_calback("/(\S+)\s+IN\s+\(([?,]+)\)/", function($m) {
+               return "($m[1]=" . implode("OR $m[1]=", array_fill(0, 1+strlen("$m[2]")/2, "? ")) . ")";
+            }, $sql);
         }
 
 if (isset($db->test)) { print json_encode($params2)." => " . trim($sql) . "\n"; return; }
@@ -160,9 +164,9 @@ if (isset($db->test)) { print json_encode($params2)." => " . trim($sql) . "\n"; 
     }
 }
 
-// This is a restrictive filter function or column/table name identifiers.
-function db_identifier($as) {
-    return preg_replace("/[^\w\d_.]/", "_", $as);  // Can only be foregone if it's ensured that none of the passed named db() $arg keys originated from http/user input.
+// This is a restrictive filter function for column/table name identifiers.
+function db_identifier($as, $wrap="") {
+    return preg_replace("/[^\w\d_.]/", "_", $wrap.$as.$wrap);  // Can only be foregone if it's ensured that none of the passed named db() $arg keys originated from http/user input.
 }
 
 
