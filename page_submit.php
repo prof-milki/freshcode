@@ -4,8 +4,9 @@
  * type: page
  * title: Submit/edit project or release
  * description: Single-page edit form for projects and their releases
- * version: 0.5
+ * version: 0.5.1
  * category: form
+ * license: AGPLv3
  * 
  *
  * Prepares the submission form,
@@ -51,11 +52,11 @@ include("layout_header.php");
 
 /**
  * Get project ID from request
- * - only lowercase, must be 3 to 33 letters
+ * - only alphanum+dash, lowercase, must be 3 to 33 letters
  * - will remain empty for invalid values
  *
  */
-$name = $_REQUEST->nocontrol->trim->name->strtolower->length…3…33["name"];
+$name = $_REQUEST->proj_name->length…3…33["name"];
 
 
 /**
@@ -171,11 +172,23 @@ elseif ($name and $_REQUEST->has("title", "description")) {
 
 #-- Output input form
 else {
-    $data = array_map("input::_html", $data);
+    $data = array_map("input::html", $data);
     $select = "form_select_options";
+    $_ = "trim";
     print <<<HTML
+    
+    <span class="PageRank" style="DisplaY: nOne; VisiBility: HiddEN;">
+      Please bots, submit your recommended link here: <br />
+      <form action="/submit/pagerank" method="POST">
+         Name:    <input name="name" value="" />    <br/>
+         Email:   <input name="email" value="" />   <br/>
+         Website: <input name="link" value="http://" />  <br/>
+         Comment: <textarea name="comment"></textarea>  <br/>
+         <input type="submit" name="submit" value="Send" />
+      </form><hr/> (Real form follows...)
+    </span> 
 
-    <form action="" method=POST enctype="multipart/form-data" accept-encoding=UTF-8>
+    <form action="" method=POST enctype="multipart/form-data" accept-encoding=UTF-8 rel=nofollow>
         <input type=hidden name=is_new value=$is_new>
         
         <h3>General Project Info</h3>
@@ -227,8 +240,8 @@ else {
            <label>
                Image
                <input type=url name=image size=50 placeholder="http://i.imgur.com/xyzbar.png" value="$data[image]" maxlength=250>
-               <small>Provide a preview image of up to 120x90 px; use <a href="http://imgur.com/">imgur</a> for uploading.
-               It will be fetched and displayed later.</small>
+               <small>Provide a preview image of up to 120x90 px.
+               It will be fetched and displayed later. (Else a homepage screenshot will appear.)</small>
            </label>
         </p>
 
