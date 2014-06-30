@@ -1,6 +1,6 @@
 #
 # title: freshcode database schema
-# version: 0.3
+# version: 0.5
 #
 
 
@@ -18,14 +18,22 @@ CREATE TABLE [release]
 CREATE TABLE flags
   (name TEXT, reason TEXT, note TEXT, submitter_openid TEXT, submitter_ip TEXT);
 
+CREATE TABLE [tags]
+  ([name] VARCHAR (1, 33), [tag] VARCHAR (1, 33));
+
+
 CREATE INDEX [idx_release] ON [release]
   ([name], [version] COLLATE NOCASE, [t_changed] DESC, [t_published] DESC);
+
 
 CREATE VIEW [release_ordered] AS
   SELECT * FROM release
   ORDER BY t_published DESC, t_changed DESC;
 
 CREATE VIEW [release_versions] AS
-  SELECT *, MAX(t_published) FROM release_ordered ordered
-  WHERE NOT deleted  GROUP BY name, version;
-   
+  SELECT *, MAX(t_changed) AS _order
+  FROM release_ordered
+  WHERE NOT deleted
+  GROUP BY name, version
+  ORDER BY t_published DESC;
+    
