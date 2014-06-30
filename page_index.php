@@ -3,24 +3,27 @@
  * type: page
  * title: Project release listing
  * description: Front page for listing recently submitted projects and their releases
- * 
+ * version: 0.2
+ * license: AGPL
+ *
+ * Just shows the most recent projects and their released versions.
  *
  */
 
 
 include("layout_header.php");
+include("layout_index_sidebar.php");
 ?> <section id=main> <?php
 
 
 // query projects
 $releases = db("
     SELECT *
-      FROM release
+      FROM release_versions
      WHERE flag < 5
-  GROUP BY name, version
-  ORDER BY t_published DESC, t_changed DESC
      LIMIT 50
-");
+    OFFSET ?
+", $_GET->int->max…0['n']);
 
 // show
 foreach ($releases->fetchAll() as $entry) {
@@ -37,15 +40,15 @@ foreach ($releases->fetchAll() as $entry) {
             <a href="projects/$entry[name]">$entry[title]
             <em class=version>$entry[version]</em></a>
             <span class=links>
-                <span class=published_date>$entry[formatted_date]}</span>
+                <span class=published_date>$entry[formatted_date]</span>
                 <a href="$entry[homepage]"><img src="img/home.png" width=20 height=20 border=0 align=middle></a>
                 <a href="$entry[download]"><img src="img/disk.png" width=20 height=20 border=0 align=middle></a>
             </span>
         </h3>
         <a href="$entry[homepage]"><img class=preview src="$entry[image]" align=right width=120 height=90 border=0></a>
-        <p class=description>$entry[description]</p>
-        <p class=release-notes><b>$entry[scope]:</b> $entry[changes]</p>
-        <p class=tags><img src="img/tag.png" width=49 align=left height=22 border=0><a class=license>$entry[license]</a>{$_(wrap_tags($entry["tags"]))}</p>
+        <p class="description trimmed">$entry[description]</p>
+        <p class="release-notes trimmed"><b>$entry[scope]:</b> $entry[changes]</p>
+        <p class=tags><img src="img/tag.png" width=30 align=middle height=22 border=0><a class=license>$entry[license]</a>{$_(wrap_tags($entry["tags"]))}</p>
       </article>
 HTML;
 
