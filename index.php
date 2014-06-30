@@ -3,9 +3,9 @@
  * api: php
  * title: Freshcode.club
  * description: FLOSS software release tracking website
- * version: 0.1
+ * version: 0.3
  * author: mario
- * license: MITL
+ * license: AGPL
  * 
  * Implements a freshmeat/freecode-like directory for open source
  * release publishing / tracking.
@@ -25,6 +25,7 @@ switch ($page = $_GET->id["page"]) {
     case "feed":
     case "links":
     case "tags":
+    case "login":
         include("page_$page.php");
         break;
 
