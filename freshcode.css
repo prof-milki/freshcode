@@ -1,12 +1,12 @@
 * {
-   font-family: Verdana, Arial;
-   font-size: 12pt;
 }
 
 html, body {
     padding: 0;
     margin: 0;
     background: #fff;
+    font-family: Verdana, Arial;
+    font-size: 11pt;
 }
 a {
     text-decoration: none;
@@ -18,6 +18,10 @@ img {
     vertical-align: middle;
     border: 0;
 }
+h2 { font-size: 13pt; }
+h3 { font-size: 12pt; }
+h4 { font-size: 11.5pt; }
+h5 { font-size: 11pt; }
 
 
 #topbar {
@@ -42,7 +46,9 @@ img {
     height: 100px;
     margin: 5px;
     float: right;
-    width: 67%;
+    min-width: 50%;
+    width: 60%;
+    max-width: 70%;
     background: #fdfdfd;
     border: 1pt solid #777;
 }
@@ -96,6 +102,18 @@ img {
     margin: 1pt;
     border-bottom: 1px solid #ddd;
 }
+#sidebar section.article-links a {
+    margin: 2pt;
+    padding: 1pt;
+    font-size: 72%;
+    color: #448;
+    display: block;
+    background: linear-gradient(#f7f7f7 40%, #eee 70%, #ddd 100%);
+}
+#sidebar section.article-links.trimmed a {
+    height: 1.3em;
+    overflow: hidden;
+}
 
 
 #main {
@@ -126,11 +144,8 @@ img {
 #main label small {
     display: block;
     font-weight: 200;
-    font-size: 70%;
+    font-size: 85%;
     color: #777;
-}
-#main label small * {
-    font-size: 70%;
 }
 #main label.inline {  font-weight: 200; margin: 4pt; }
 #main label.inline input {  display: inline;  }
@@ -202,6 +217,7 @@ img {
     font-size: 90%;
     color: #444;
     padding-left: 30pt;
+    background: url("img/changes.png") no-repeat 15px 3px;
 }
 #main .release-notes b {
     font-size: 90%;
@@ -212,11 +228,20 @@ img {
     color: #222;
     background: #eee linear-gradient(to bottom,#ddd,#eee);
     border: 1px solid #fff;
-    border-left: 1px dotted #ccc;
-    padding: 3px;
+    border-left: 1px dotted #eee;
+    padding: 2px;
 }
 #main .project .tags a.license {
     background: #e9e3d0 linear-gradient(to bottom,#e3e0c7,#e9e3d0);
+}
+#main .project .trimmed {
+    max-height: 5.55em;
+    overflow: hidden;
+}
+#main .project .trimmed div {
+    box-shadow: inset 0 5pt 5pt 0px #ffeecc;
+    height: 5.55em;
+    overflow: hidden;
 }
 
 #main .project .long-tags span {
@@ -261,6 +286,33 @@ img {
     display: block;
 }
 
+
+#main .links-entry {
+    display: inline-block;
+    width: 200px;
+    min-height: 250px;
+    margin: 10pt;
+    float: left;
+}
+#main .links-entry:nth-child(3n) {
+    clear: both;
+}
+#main .links-entry img {
+    margin-bottom: 3pt;
+    border: 1px solid #f3f3f3;
+    box-shadow: 2px 2px 5px #ccc;
+}
+
+
+.social-share-links a { display: inline-block; opacity: 0.3; border-radius: 4px; padding: 3px; border: 1px solid #ddd; color: #fff !important; box-shadow: 2px 2px 5px 0px #888;}
+.social-share-links a:hover { opacity: 1.0; }
+.social-share-links a[title="google+"] { background: #DD4B39; font-weight: 100; }
+.social-share-links a[title="facebook"] { background: #3B5998; font-weight: 700; }
+.social-share-links a[title="reddit"] { background: #C0D7DF; color: #444 !important; }
+.social-share-links a[title="twitter"] { background: #55ACEE;  }
+.social-share-links a[title="linkedin"] { background: #0e76a8; font-weight: 700; }
+.social-share-links a[title="stumbleupon"] { background: #f74425;  }
+.social-share-links a[title="delicious"] { background: #557CDE;  }
 
 
 #spotlight {
