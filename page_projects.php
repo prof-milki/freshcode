@@ -3,6 +3,8 @@
  * type: page
  * title: Project detail view
  * description: List project entry with all URLs and releases
+ * license: AGPL
+ * version 0.2
  * 
  *
  */
@@ -13,11 +15,8 @@ include("layout_header.php");
 // query projects
 $releases = db("
     SELECT *
-      FROM release
+      FROM release_versions
      WHERE name = ?
-  GROUP BY name, version
-  ORDER BY t_published DESC, t_changed DESC
-     LIMIT 1
 ", $_REQUEST->name["name"]);
 
 // show
@@ -41,13 +40,20 @@ if ($entry = $releases->fetch()) {
          </section>
 
          <section>
+           <h5>Submitted by</h5>
            <a href="/?user=$entry[submitter]">$entry[submitter]</a><br>
          </section>
 
          <section style="font-size:90%">
+           <h5>Manage</h5>
          You can also help out here by:<br>
          <a class=long-links href="/submit/$entry[name]" style="display:inline-block; margin: 3pt 1pt;">&larr; Updating infos</a><br>
          or <a href="/flag/$entry[name]">flagging</a> this entry for moderator attention.
+         </section>
+
+         <section style="font-size:90%">
+           <h5>Share</h5>
+           {$_(social_share_links($entry["name"], $entry["homepage"]))}
          </section>
       </aside>
       <section id=main>
@@ -75,8 +81,8 @@ HTML;
 $releases = db("
     SELECT *
       FROM release
-     WHERE name = ? AND flag < 5
-  GROUP BY name, version
+     WHERE name = ? AND flag < 5 AND NOT deleted
+  GROUP BY version
   ORDER BY t_published DESC, t_changed DESC
 ", $_REQUEST->name["name"]);
 
