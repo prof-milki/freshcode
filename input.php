@@ -523,6 +523,20 @@ class input implements ArrayAccess, Countable, Iterator {
     }
 
     /**
+     * [b]
+     * Removes residual and certain HTML tags.
+     * WARNING: This is no `strip_tags()` substitute, but purposefully leaves
+     * lonesome < angle brackets > alone. Only strips coherent and well-known
+     * presentational markup.
+     *
+     */
+    function _strip_markup($data, $with="") {
+        return preg_replace("/<\s*/?\s*(a|b|i|em|strong|sup|sub|ins|del|br|hr|big|small|font|span|div|table|tr|td|ol|ul|li|dl|dd|dt|abbr|h[1-6])\b".
+               "(?>[^>\"\']+|\"[^\"]*\"|'[^']*')*>/", $with, $data);
+    }
+
+
+    /**
      * [e]
      * Escape all significant special chars.
      *
