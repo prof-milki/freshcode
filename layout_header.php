@@ -3,9 +3,19 @@
 <head> 
     <title>freshcode.club</title>
     <meta charset=UTF-8>
-    <link rel=stylesheet href="/freshcode.css">
-    <base href="http://freshcode/">
+    <link rel=stylesheet href="/freshcode.css?0.5.1">
+    <base href="http://<?= HTTP_HOST ?>/">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script>
+       $(function(){
+          $(".project .trimmed").one("click", function(){  
+              $(this).animate({"max-height": "20em"});
+          });
+          $(".article-links.trimmed").one("click", function(){
+              $(this).toggleClass("trimmed");
+          });
+       });
+    </script>
 </head>
 <body>
 
