@@ -69,7 +69,7 @@ function feed_xfer($row) {
 
 
 #-- something was requested
-if ($name = $_GET->id["name"]) {
+if ($name = $_GET->proj_name["name"]) {
 
     $feed = array(
         "\$feed-origin" => "http://freshcode.club/",
@@ -81,7 +81,7 @@ if ($name = $_GET->id["name"]) {
     if ($name == "xfer") {
         $feed["releases"] = array();
         
-        $r = db("SELECT * FROM release_versions LIMIT 100");
+        $r = db("SELECT * FROM release_versions LIMIT ?", $_GET->int->default…100->range…5…1000["num"]);
         while ( $row = $r->fetch() ) {
             $feed["releases"][] = feed_project($row) + feed_release($row) + feed_xfer($row);
         }
@@ -113,7 +113,7 @@ else {
     <section id=main>
        <h4>Feeds</h4>
        <p>
-          You can get any projects <b>releases.json</b> feed using<br><tt>http://freshcode.org/feed/<i>projectname</i></tt>.
+          You can get any projects <b>releases.json</b> feed using<br><tt>http://freshcode.club/feed/<i>projectname</i></tt>.
        </p>
        <p>
           Whereas using <i>xfer</i> will return the whole recent changes list.
