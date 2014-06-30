@@ -3,6 +3,8 @@
  * api: php
  * title: Session startup
  * description: Avoids session startup until actual login occured
+ * license: MITL
+ * version: 0.3
  *
  * Start $_SESSION only if there's already a session cookie present.
  * (Prevent needless cookies and tracking ids for not logged-in users.)
@@ -25,6 +27,11 @@ if ($_SERVER->has("HTTP_DNT") and $_SERVER->boolean["HTTP_DNT"]) {
 // Check for pre-existant cookie before defaulting to initiate session store
 if ($_COOKIE->has("USER")) {
     session_fresh();
+}
+// just populate placeholders
+else {
+    $_SESSION["openid"] = "";
+    $_SESSION["name"] = "";
 }
 
 
