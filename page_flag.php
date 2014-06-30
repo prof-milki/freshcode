@@ -13,7 +13,7 @@
 include("layout_header.php");
 ?> <section id=main> <?php
 
-$name = $_REQUEST->name["name"];
+$name = $_REQUEST->proj_name["name"];
 
 // submit
 if ($_REQUEST->has("reason", "note", "name")) {

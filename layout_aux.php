@@ -101,7 +101,10 @@ function min_length_100($a) {
     return array_sum(array_map("strlen", $a)) >= 100;
 }
 
-
+// Project names may be alphanumeric, and contain dashes
+function proj_name($s) {
+    return preg_replace("/[^a-z0-9-]+|^[^a-z]+|[^\w]+$|(?<=-)-+/", "", strtolower($s));
+}
 
 
 #-- Template helpers
