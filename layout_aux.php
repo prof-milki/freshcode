@@ -96,10 +96,6 @@ $licenses = array (
 
 #-- Additional input filters
 
-// Length of strings in arrays > 100
-function min_length_100($a) {
-    return array_sum(array_map("strlen", $a)) >= 100;
-}
 
 // Project names may be alphanumeric, and contain dashes
 function proj_name($s) {
@@ -166,6 +162,24 @@ function social_share_links($name, $url) {
 HTML;
 }
 
+
+// CSRF token, only for logged-in users though
+function csrf($probe=false) {
+    $store = & $_SESSION["crsf"];
+    foreach ($store as $id=>$time) {
+        if ($time < time()) { unset($store[$id]); }
+    }
+    if ($probe) {
+        return empty($_SESSION["openid"])
+            or $id = $_REQUEST->id["_ct"] and !empty($_SESSION["crsf"][$id]);
+    }
+    else {
+        // server ENV already contained Apache reqid etc.
+        $id = sha1(serialize($_SERVER->__vars));
+        $_SESSION["crsf"][$id] = time() + 3600;  // timeout
+        return "<input type=hidden name=.ct value=$id>";
+    }
+}
 
 
 

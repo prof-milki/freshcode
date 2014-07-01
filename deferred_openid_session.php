@@ -4,7 +4,7 @@
  * title: Session startup
  * description: Avoids session startup until actual login occured
  * license: MITL
- * version: 0.3
+ * version: 0.3.1
  *
  * Start $_SESSION only if there's already a session cookie present.
  * (Prevent needless cookies and tracking ids for not logged-in users.)
@@ -32,11 +32,12 @@ if ($_COOKIE->has("USER")) {
 else {
     $_SESSION["openid"] = "";
     $_SESSION["name"] = "";
+    $_SESSION["csrf"] = array();
 }
 
 
 // verify incoming OpenID request
-if ($_GET->has("openid_mode")) {
+if ($_GET->has("openid_mode") and empty($_SESSION["openid"])) {
 
     include_once("openid.php");
 
