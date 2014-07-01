@@ -50,6 +50,7 @@ include("layout_header.php");
 
 
 
+
 /**
  * Get project ID from request
  * - only alphanum+dash, lowercase, must be 3 to 33 letters
@@ -96,11 +97,10 @@ and !in_array($_SESSION["openid"], array_merge(p_csv($data["lock"]), $moderator_
  * Then insert into database.
  *
  */
-elseif ($name and $_REQUEST->has("title", "description")) {
-
+elseif ($name and csrf(TRUE) and $_REQUEST->has("title", "description")) {
 
     // Check field lengths
-    if (!$_REQUEST->multi->serialize->length…120…120->strlen["title,description,homepage,changes"]) {
+    if (!$_REQUEST->multi->serialize->length…150…150->strlen["title,description,homepage,changes"]) {
         print("<h3>Submission too short</h3> <p>You didn't fill out crucial information. Please note that our user base expects an enticing set of data points to find your project.</p>");
     }
     // Terms and conditions
@@ -128,10 +128,10 @@ elseif ($name and $_REQUEST->has("title", "description")) {
                  "title"    => $_REQUEST->text               ->length…100["title"],
               "description" => $_REQUEST                    ->length…2000["description"],
                  "license"  => $_REQUEST->words               ->length…30["license"],
-                 "tags"     => $_REQUEST->words              ->length…150["tags"],
+                 "tags"     => $_REQUEST->words->strtolower  ->length…150["tags"],
                  "version"  => $_REQUEST->words               ->length…30["version"],
-                 "state"    => $_REQUEST->words               ->length…30["state"],
-                 "scope"    => $_REQUEST->words               ->length…30["scope"],
+                 "state"    => $_REQUEST->words->strtolower   ->length…30["state"],
+                 "scope"    => $_REQUEST->words->strtolower   ->length…30["scope"],
                  "changes"  => $_REQUEST->text              ->length…2000["changes"],
                 "submitter" => $_REQUEST->words               ->length…30["submitter"],
                  "urls"     => $_REQUEST                    ->length…2000["urls"],
@@ -143,7 +143,7 @@ elseif ($name and $_REQUEST->has("title", "description")) {
              array(
                  "t_changed" => time(),
                  "flag" => 0,
-                 "submitter_openid" => $_SERVER["openid"],
+                 "submitter_openid" => $_SESSION["openid"],
                  "hidden" => intval($_REQUEST->words->stripos…hidden->is_int["scope"]),
              )
         );
@@ -353,6 +353,7 @@ else {
         </p>
         <p>
            <input type=submit value="Submit Project/Release">
+           {$_(csrf())}
         </p>
         <p style=margin-bottom:75pt>
            Thanks for your time and effort!
