@@ -40,7 +40,7 @@ if (empty($_SESSION["openid"])) {
 
     <p>
     <form action="" method=POST class="login box">
-      <input type=text id=login_url name=login_url size=50 value="" placeholder="http://name.openid.xy/">
+      <input type=url id=login_url name=login_url size=50 value="" placeholder="http://name.openid.xy/">
       <br>
       <input type=password style=display:none value=dummy>
       <input type=submit value=Login>

@@ -9,7 +9,7 @@
 <a href="http://fossil.include-once.org/freshcode/wiki/Privacy">Privacy / Policy</a> |
 <a href="http://fossil.include-once.org/freshcode/wiki/Contribute">Contribute</a> |
 <small>
-   <a href="http://fossil.include-once.org/freshcode/wiki/Contribute"><i>optional</i> Login</a>
+   <a href="/login"><i>optional</i> Login</a>
 </small>
 <small style=float:right>
 <?php print social_share_links("freshcode", "http://freshcode.club/"); ?>
