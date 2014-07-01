@@ -106,7 +106,7 @@ function db($sql=NULL, $params="...") {
                             break;
 
                         case ":?":  // and :? name placeholder, transforms list into enumerated params
-                            $replace = implode(",", db_identifier($enum ? $a : array_keys($a)), "`");
+                            $replace = implode(",", db_identifier($enum ? $a : array_keys($a), "`"));
                             $enum = 1;  $a = array();   // do not actually add values
                             break;
 
@@ -165,8 +165,9 @@ if (isset($db->test)) { print json_encode($params2)." => " . trim($sql) . "\n"; 
 }
 
 // This is a restrictive filter function for column/table name identifiers.
+// Can only be foregone if it's ensured that none of the passed named db() $arg keys originated from http/user input.
 function db_identifier($as, $wrap="") {
-    return preg_replace("/[^\w\d_.]/", "_", $wrap.$as.$wrap);  // Can only be foregone if it's ensured that none of the passed named db() $arg keys originated from http/user input.
+    return preg_replace(array("/[^\w\d_.]/", "/^|$/"), array("_", $wrap), $as);
 }
 
 
