@@ -2,8 +2,10 @@
 <html>
 <head> 
     <title>freshcode.club</title>
+    <meta name=version content=0.4.2>
     <meta charset=UTF-8>
-    <link rel=stylesheet href="/freshcode.css?0.5.1">
+    <link rel=stylesheet href="/freshcode.css?0.5.3">
+    <link rel="shortcut icon" href="/img/changes.png">
     <base href="http://<?= HTTP_HOST ?>/">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script>
@@ -16,11 +18,12 @@
           });
        });
     </script>
+<?php if (isset($header_add)) { print $header_add . "\n"; } ?>
 </head>
 <body>
 
 <nav id=topbar>
-Open source community software release tracking.
+Open source community software release tracking. <small style="color:#9c7">[0.4 alpha]</small>
 <span style=float:right>
 <a href="//freshmeat.club/">freshmeat.club</a> |
 <a href="//freecode.club/">freecode.club</a> |
