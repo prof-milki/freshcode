@@ -8,6 +8,12 @@
 
 RewriteEngine On
 
+
+# deny direct invocations
+RewriteRule ^^^freshcode\.db.*$$$ - [F]
+RewriteRule ^\. - [F]
+RewriteRule ^\w+\.php(|/.*)$ - [F,END,NS]
+
 # strip www. prefix
 RewriteCond %{HTTP_HOST} ^ww+\.(\w+\.\w+)\.?$
 RewriteCond %{REQUEST_METHOD} ^GET$
@@ -15,11 +21,6 @@ RewriteRule ^(.*)$ http://%1/$1 [R,QSA,L]
 
 # pages
 RewriteRule ^$ index.php?page=index [L,QSA]
-RewriteRule ^(projects|submit|flag|tags|feed|login|links|admin)/?(\w+(?:-\w+)*)?/?$ index.php?page=$1&name=$2 [L,QSA]
-
-# deny direct invocations
-RewriteRule ^^^freshcode\.db.*$$$ - [F]
-RewriteRule ^\. - [F]
-RewriteRule ^(?!index\.)\w+\.php($$$|/.*)$ - [F]
+RewriteRule ^(projects|submit|flag|tags|feed|login|links|admin)\b/?(\w+(?:[-_]\w+)*)?(?:\.(json|atom|rss))?/?$ index.php?page=$1&name=$2&ext=$3 [END,NS,QSA]
 
 
