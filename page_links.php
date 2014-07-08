@@ -6,19 +6,52 @@
  *
  *
  * ToDo
- *  + http://opensourcelist.org/
- *  + http://www.linuxsoft.cz/en/
- *  + http://www.osalt.com/
  *  + http://www.datamation.com/open-source/open-source-software-the-mega-list-1.html
- *  + http://distrowatch.com/
- *
+ *  + http://opensourcelinux.org/
+ *  + http://www.linuxgames.com/
+ *  + http://www.opensourcescripts.com/
  *
  */
 
 
 include("layout_header.php");
 ?>
- <section id=main style="height:2000pt">
+ <aside id=sidebar class="absolute-float community-web">
+    <section>
+      <h5>Ecosystem</h5>
+      Open Source development is driven by idealism and enthusiasm. While it's foremost about
+      software and coding, the user community has an even larger stake in its progress.
+    </section>
+    <p>The interaction playground is technically comprised of:</p>
+    <section>
+      <b>News sites / Blogs</b>
+      <li> <a href="http://slashdot.org/">slashdot</a>
+      <li> <a href="http://lxer.com/">LXer</a>
+      <li> <a href="http://lwn.net/">LWN</a>
+      <li> <a href="http://osdir.com/">OSdir</a>
+      <li> <a href="http://www.linuxtoday.com/">LinuxToday</a>
+      <li> <a href="http://www.phoronix.com/">Phoronix</a>
+      <li> <a href="http://www.osnews.com/">OSnews</a>
+      <li> <a href="http://www.omgubuntu.co.uk/">OMG!Ubuntu</a>
+      <li> <a href="http://www.webupd8.org/">Web Upd8</a>
+      <li> <a href="http://ostatic.com/">OStatic</a>
+    </section>
+    <section>
+      <b>Boards / Forums</b>
+    </section>
+    <section>
+      <b>Support / Q&amp;A</b>
+      <li> <a href="http://askubuntu.com/">askubuntu.com</a>
+    </section>
+    <section>
+      <b>Wikis / Howtos</b>
+    </section>
+    <section>
+      <b>Chat channels</b>
+    </section>
+    <a href="http://www.datamation.com/osrc/article.php/3925806/Open-Source-Software-Top-59-Sites.htm">...</a>
+ </aside>
+ <section id=main style="height: 2200pt; min-width: 633px;">
 
  <h4>Other FLOSS/Linux software directories</h4>
    <p>
@@ -35,6 +68,21 @@ include("layout_header.php");
       ],
       ["http://directory.fsf.org/", "directory.fsf.org.jpeg", "Free Software directory",
        "is the FSFs Wiki to summarize FLOSS packages and projects."
+      ],
+      ["http://www.opensourcesoftwaredirectory.com/", "opensourcesoftwaredirectory.com.jpeg", "Open Source Software Directory",
+       "Lists only stable and well-known Linux software, as it's intended for end users."
+      ],
+      ["http://opensourcelist.org/", "opensourcelist.org.jpeg", "OpenSourceList.org",
+       "Collection of best-per-category software; also includes MacOS and Windowsware."
+      ],
+      ["http://thechangelog.com/", "thechangelog.com.jpeg", "the changelog",
+       "Is a blog and weekly podcast on open source development and interesting projects."
+      ],
+      ["http://www.linuxalt.com/", "linuxalt.com.jpeg", "Linux Alternatives",
+       "Curates a list of Linux software alternatives for migrating newcomers."
+      ],
+      ["http://www.osalt.com/", "osalt.com.jpeg", "OS as Alternative",
+       "Lists commercial/prioprietary software and the Free or Linux alternatives in usage categories."
       ],
       ["http://sourceforge.net/", "sourceforge.net.jpeg", "Sourceforge.net",
        "The original open source development plattform
@@ -54,59 +102,60 @@ include("layout_header.php");
        "Is the development hub for Ubuntu and also lists a few things that
         haven't made it into the package managers yet."
       ],
-      ["http://www.opensourcesoftwaredirectory.com/", "opensourcesoftwaredirectory.com.jpeg", "Open Source Software Directory",
-       "Lists only stable and well-known Linux software, as it's intended for end users."
-      ],
-      ["http://www.linuxalt.com/", "linuxalt.com.jpeg", "Linux Alternatives",
-       "Curates a list of Linux software alternatives for migrating newcomers."
-      ],
       ["http://www.libe.net/version/index.php", "libe.net.jpeg", "Libe.net",
        "Is an archive and version tracker for various Linux and open source packages."
+      ],
+      ["http://www.linuxsoft.cz/en/", "linuxsoft.cz.jpeg", "LinuxSoft.cz",
+       "Provides a comprehensive and searchable software list divided into categories.",
       ],
       ["http://en.wikipedia.org/wiki/List_of_free_and_open-source_software_packages", "wikipedia.org.jpeg",
        "Wikipedia: List of free and open source software packages",
        "summarizes a few common names."
       ],
+      ["http://distrowatch.com/", "distrowatch.com.jpeg",
+       "DistroWatch",
+       "Does as it says and tracks new and upcoming BSD / Linux / GNU / Solaris distribution releases."
+      ],
       ["http://osliving.com/", "osliving.com.jpeg", "Open Source Living",
        "is an odd outlier, as they expect open source projects to pay for listings;
         thrives on click thru ads, etc."
       ],
-      ["http://www.hotscripts.com/", "hotscripts.com.jpeg", "hotscripts.com",
-       "is a script directory, mixed open source or non-free and commercial listings,
-        many entries somewhat outdated"
-      ],
-      ["http://www.devscripts.com/", "devscripts.com.jpeg", "devscripts.com",
-       "is a script directory, mixed open source or non-free and commercial listings,
-        many entries somewhat outdated"
-      ],
-      ["http://www.developertutorials.com/scripts/", "developertutorials.com.jpeg", "developer&shy;tutorials.com",
-       "is a script directory, mixed open source or non-free and commercial listings,
-        many entries outdated"
-      ],
-      ["http://www.bigresource.com/scripts/", "bigresource.com.jpeg", "bigresource.com",
-       "is a script directory, mixed open source or non-free and commercial listings,
-        many entries somewhat outdated"
-      ],
-      ["http://www.scripts.com/", "scripts.com.jpeg", "scripts.com",
-       "is a script directory, mixed open source or non-free and commercial listings,
-        many entries somewhat outdated"
-      ],
- #     ["http://www.fatscripts.com/", "fatscripts.com.jpeg", "fatscripts.com",
- #      "is a script directory, mixed open source or non-free and commercial listings,
- #       many entries somewhat outdated"
- #     ],
-      ["http://www.scripts20.com/", "scripts20.com.jpeg", "scripts20.com",
-       "is a script directory, mixed open source or non-free and commercial listings,
-        many entries somewhat outdated"
-      ],
-      ["http://www.needscripts.com/", "needscripts.com.jpeg", "needscripts.com",
-       "is a script directory, mixed open source or non-free and commercial listings,
-        many entries somewhat outdated"
-      ],
-      ["http://www.advancescripts.com/", "advancescripts.com.jpeg", "advancescripts.com",
-       "is a script directory, mixed open source or non-free and commercial listings,
-        many entries somewhat outdated"
-      ],
+#      ["http://www.hotscripts.com/", "hotscripts.com.jpeg", "hotscripts.com",
+#       "is a script directory, mixed open source or non-free and commercial listings,
+#        many entries somewhat outdated"
+#      ],
+#      ["http://www.devscripts.com/", "devscripts.com.jpeg", "devscripts.com",
+#       "is a script directory, mixed open source or non-free and commercial listings,
+#        many entries somewhat outdated"
+#      ],
+#      ["http://www.developertutorials.com/scripts/", "developertutorials.com.jpeg", "developer&shy;tutorials.com",
+#       "is a script directory, mixed open source or non-free and commercial listings,
+#        many entries outdated"
+#      ],
+#      ["http://www.bigresource.com/scripts/", "bigresource.com.jpeg", "bigresource.com",
+#       "is a script directory, mixed open source or non-free and commercial listings,
+#        many entries somewhat outdated"
+#      ],
+#      ["http://www.scripts.com/", "scripts.com.jpeg", "scripts.com",
+#       "is a script directory, mixed open source or non-free and commercial listings,
+#        many entries somewhat outdated"
+#      ],
+#      ["http://www.fatscripts.com/", "fatscripts.com.jpeg", "fatscripts.com",
+#       "is a script directory, mixed open source or non-free and commercial listings,
+#        many entries somewhat outdated"
+#      ],
+#      ["http://www.scripts20.com/", "scripts20.com.jpeg", "scripts20.com",
+#       "is a script directory, mixed open source or non-free and commercial listings,
+#        many entries somewhat outdated"
+#      ],
+#      ["http://www.needscripts.com/", "needscripts.com.jpeg", "needscripts.com",
+#       "is a script directory, mixed open source or non-free and commercial listings,
+#        many entries somewhat outdated"
+#      ],
+#      ["http://www.advancescripts.com/", "advancescripts.com.jpeg", "advancescripts.com",
+#       "is a script directory, mixed open source or non-free and commercial listings,
+#        many entries somewhat outdated"
+#      ],
   ];
   
   
