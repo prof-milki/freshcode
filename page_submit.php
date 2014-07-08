@@ -4,7 +4,7 @@
  * type: page
  * title: Submit/edit project or release
  * description: Single-page edit form for projects and their releases
- * version: 0.5.1
+ * version: 0.6.0
  * category: form
  * license: AGPLv3
  * 
@@ -51,42 +51,23 @@ include("layout_header.php");
 
 
 
-/**
- * Get project ID from request
- * - only alphanum+dash, lowercase, must be 3 to 33 letters
- * - will remain empty for invalid values
- *
- */
+// Get project ID from request
 $name = $_REQUEST->proj_name->length…3…33["name"];
 
+// Retrieve existing project data in DB.
+$data = release::latest($name);
+$is_new = empty($data);
 
-/**
- * Check for existing project data in DB.
- *
- */
-if ($data = db("SELECT * FROM release WHERE name = ? ORDER BY t_changed DESC", $name)->fetch()) {
-    $is_new = 0;
-}
-// Else create new empty $data set
-else {
+// Else create empty form value defaults in $data
+if ($is_new) {
     $data = array_combine($form_fields, array_fill(0, count($form_fields), ""));
-    $is_new = 1;
-    // these fields are pre-defined so they appear with the initial form
     $data["name"] = $name;
     $data["submitter"] = $_SESSION["name"];
-    $data["t_published"] = time();
 }
 
 
-/**
- * Project entry can be locked for editing by specific OpenIDs.
- * - `lock` can be a comma-separated list
- * - might also contain password_hash() literals for API auth
- *
- */
-if (!$is_new and $data["lock"]
-and !in_array($_SESSION["openid"], array_merge(p_csv($data["lock"]), $moderator_ids)))
-{
+// Project entry can be locked for editing by specific OpenIDs.
+if (!release::permission($data, $_SESSION["openid"])) {
     print "<h3>Locked</h3> <p>This entry cannot be edited with your current <a href='/login'>login</a>. Its original author registered a different OpenID.</p>";
 }
 
@@ -97,67 +78,36 @@ and !in_array($_SESSION["openid"], array_merge(p_csv($data["lock"]), $moderator_
  * Then insert into database.
  *
  */
-elseif ($name and csrf(TRUE) and $_REQUEST->has("title", "description")) {
+elseif ($name and $_REQUEST->has("title", "description")) {
 
     // Check field lengths
     if (!$_REQUEST->multi->serialize->length…150…150->strlen["title,description,homepage,changes"]) {
         print("<h3>Submission too short</h3> <p>You didn't fill out crucial information. Please note that our user base expects an enticing set of data points to find your project.</p>");
     }
     // Terms and conditions
-    elseif (array_sum($_REQUEST->array->int["req"]) < 3) {
+    elseif (array_sum($_REQUEST->array->int->range…0…1["req"]) < 3) {
         print "<h3>Terms and Conditions</h3> <p>Please go back and assert that your open source project listing is reusable under the CC-BY-SA license.</p>";
+    }
+    elseif (!csrf(TRUE)) {
+        print "<h3>CSRF token invalid</h3> <p>Session timeout, etc.</p>";
     }
     // Passed
     else {
-        $_REQUEST->nocontrol->trim->always();
-
-        /**
-         * Merge input
-         *
-         */
-        $data = array_merge(
-             // any previous/extraneous control data is kept
-             $data,
-             // format constraints on input fields
-             array(
-                 "name"     => $name,
-                 "homepage" => $_REQUEST->ascii->trim->http  ->length…250["homepage"],
-                 "download" => $_REQUEST->ascii->trim->url   ->length…250["download"],
-                 "image"    => $_REQUEST->ascii->trim->http  ->length…250["image"],
-           "autoupdate_url" => $_REQUEST->ascii->trim->http  ->length…250["autoupdate_url"],
-                 "title"    => $_REQUEST->text               ->length…100["title"],
-              "description" => $_REQUEST                    ->length…2000["description"],
-                 "license"  => $_REQUEST->words               ->length…30["license"],
-                 "tags"     => $_REQUEST->words->strtolower  ->length…150["tags"],
-                 "version"  => $_REQUEST->words               ->length…30["version"],
-                 "state"    => $_REQUEST->words->strtolower   ->length…30["state"],
-                 "scope"    => $_REQUEST->words->strtolower   ->length…30["scope"],
-                 "changes"  => $_REQUEST->text              ->length…2000["changes"],
-                "submitter" => $_REQUEST->words               ->length…30["submitter"],
-                 "urls"     => $_REQUEST                    ->length…2000["urls"],
-                 "lock"     => $_REQUEST->raw               ->length…2000["lock"],
-        "autoupdate_module" => $_REQUEST->id                  ->length…30["autoupdate_module"],
-         "autoupdate_regex" => $_REQUEST->raw               ->length…2000["autoupdate_regex"],
-             ),
-             // some automatic system flags
-             array(
-                 "t_changed" => time(),
-                 "flag" => 0,
-                 "submitter_openid" => $_SESSION["openid"],
-                 "hidden" => intval($_REQUEST->words->stripos…hidden->is_int["scope"]),
-             )
+    
+        // Merge new data
+        $release = new release($data);
+        $release->update(
+            $_REQUEST,
+            array(
+                "flag" => 0,   // User flags presumably become obsolete when project gets manually edited
+                "submitter_openid" => $_SESSION["openid"],
+            )
         );
         
-        // Increase associated publishing timestamp if hereunto unknown release
-        if (!project_version_exists($name, $data["version"])) {
-            $data["t_published"] = time();
-        }
-        
         // Update project
-        if (db("INSERT INTO release (:?) VALUES (::)", $data, $data)) {
-
+        if ($release->store()) {
             print "<h2>Submitted</h2> <p>Your project and release informations has been saved.</p>
-                  <p>See the result in <a href='http://freshcode.club/projects/$name'>http://freshcode.club/projects/$name</a>.</p>";
+                  <p>See the result in <a href=\"http://freshcode.club/projects/$name\">http://freshcode.club/projects/$name</a>.</p>";
         }
         else { 
             print "Unspecified error.";
@@ -196,8 +146,9 @@ else {
            <label>
                Project ID
                <input name=name size=20 placeholder=projectname value="$data[name]"
-                      maxlength=33 required>
-               <small>A short moniker which becomes your http://freshcode.club/projects/<b>name</b>.</small>
+                      maxlength=33 required pattern="^\w[-_\w]+\w$">
+               <small>A short moniker which becomes your http://freshcode.club/projects/<b>name</b>.<br>
+               <small>May contain letters, numbers, hyphen or underscore.</small></small>
            </label>
 
            <label>
