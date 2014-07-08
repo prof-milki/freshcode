@@ -26,8 +26,8 @@ $licenses = array (
   "PHPL" => "PHP License 3.0",
   "GNU GPL" => "GNU General Public License 2.0",
   "GNU GPLv3" => "GNU General Public License 3.0",
-  "GNU LPGL" => "GNU Library/Lesser General Public License 2.1",
-  "GNU LPGLv3" => "GNU Library/Lesser General Public License 3.0",
+  "GNU LGPL" => "GNU Library/Lesser General Public License 2.1",
+  "GNU LGPLv3" => "GNU Library/Lesser General Public License 3.0",
   "Affero GPL" => "Affero GNU Public License 2.0",
   "Affero GPLv3" => "GNU Affero General Public License v3",
   "AFL" => "Academic Free License 3.0",
@@ -99,7 +99,7 @@ $licenses = array (
 
 // Project names may be alphanumeric, and contain dashes
 function proj_name($s) {
-    return preg_replace("/[^a-z0-9-]+|^[^a-z]+|[^\w]+$|(?<=-)-+/", "", strtolower($s));
+    return preg_replace("/[^a-z0-9-_]+|^[^a-z]+|[^\w]+$|(?<=[-_])[-_]+/", "", strtolower($s));
 }
 
 
@@ -124,7 +124,7 @@ function date_fmt($time) {
 
 // Substitute `$version` placeholders in URLs
 function versioned_url($url, $version) {
-    return preg_replace("/([\$%])(version|Version|VERSION)\b\\1?/", $version, $url);
+    return preg_replace("/([\$%])(version|Version|VERSION)(\\1?|\b|(?=_))/", $version, $url);
 }
 
 
@@ -164,19 +164,26 @@ HTML;
 
 
 // CSRF token, only for logged-in users though
+// Here they're mainly to prevent remotely initiated requests for other users here, not general form nonces
 function csrf($probe=false) {
-    $store = & $_SESSION["crsf"];
+
+    // Tokens are stored in session, reusable, but only for an hour
+    $store = & $_SESSION[__FUNCTION__];
     foreach ($store as $id=>$time) {
         if ($time < time()) { unset($store[$id]); }
     }
+    
+    // Test presence
     if ($probe) {
         return empty($_SESSION["openid"])
             or $id = $_REQUEST->id["_ct"] and !empty($_SESSION["crsf"][$id]);
     }
+    
+    // Create new entry, output form field for token
     else {
-        // server ENV already contained Apache reqid etc.
+        // server ENV already contained Apache unique request id etc.
         $id = sha1(serialize($_SERVER->__vars));
-        $_SESSION["crsf"][$id] = time() + 3600;  // timeout
+        $_SESSION[__FUNCTION__][$id] = time() + 3600;  // timeout
         return "<input type=hidden name=.ct value=$id>";
     }
 }
@@ -203,14 +210,14 @@ function p_csv($str) {
 function p_key_value($str) {
     preg_match_all(
         "@
-           [[%$]*  (\w+)  []%$]*
+           [[%$]*  ([-\w]+)  []%$]*
               \s*  [:=>]+  \s*
                    (\S+)
            (?<![,.;])
         @imsx",
         $str, $m
     );
-    return array_combine($m[1], $m[2]);
+    return array_change_key_case(array_combine($m[1], $m[2]), CASE_LOWER);
 }
 
 
@@ -231,7 +238,7 @@ function p_key_value_rx($str) {
         @msx",
         $str, $m
     );
-    return array_combine($m[1], $m[2]);
+    return array_change_key_case(array_combine($m[1], $m[2]), CASE_LOWER);
 }
 
 
