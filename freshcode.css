@@ -1,3 +1,17 @@
+/**
+ * api: css
+ * type: stylesheet
+ * title: freshcode.club layout+style
+ * description: Simulates the late freecode.com layout and looks; well mostly.
+ * version: 0.5.3
+ *
+ * Centered two-pane layout. The #main section is usually 33% of the screen width,
+ * while the #sidebar floats at the right. They're repositioned only using padding:
+ * to the outer html,body{}.
+ *
+ */
+
+
 * {
 }
 
@@ -22,6 +36,9 @@ h2 { font-size: 13pt; }
 h3 { font-size: 12pt; }
 h4 { font-size: 11.5pt; }
 h5 { font-size: 11pt; }
+a[href=""] {
+    opacity: 0.20;
+}
 
 
 #topbar {
@@ -91,6 +108,10 @@ h5 { font-size: 11pt; }
     min-height: 400pt;
     background: #fefdfd;
 }
+#sidebar.absolute-float {
+    position: absolute;
+    margin: 25pt 150pt 25pt 67%;
+}
 #sidebar section {
     border: 1.5pt solid #ccc;
     border-radius: 5.75pt;
@@ -113,6 +134,17 @@ h5 { font-size: 11pt; }
 #sidebar section.article-links.trimmed a {
     height: 1.3em;
     overflow: hidden;
+}
+#sidebar.community-web {
+    font-size: 90%;
+}
+#sidebar.community-web li {
+    margin-left: 5pt;
+    list-style: none;
+}
+#sidebar.community-web li:before {
+    content: "→";
+    color: #aaa;
 }
 
 
@@ -195,6 +227,9 @@ h5 { font-size: 11pt; }
 #main .project .links {
     float: right;
 }
+#main .project .links a[href=""] {
+    opacity: 0.15;
+}
 #main .project .published_date {
     font-weight: 200;
     font-size: 65%;
@@ -203,6 +238,7 @@ h5 { font-size: 11pt; }
 #main .project img.preview {
     padding: 3px;
     border: 1px solid #eee;
+    box-shadow: 2px 2px 7px 0px #ccc;
     margin: 3pt;
 }
 #main .project .description {
@@ -265,7 +301,8 @@ h5 { font-size: 11pt; }
     color: #fff;
 }
 #main .project .long-links a:hover {
-    color: red;
+    text-shadow: 0px 0px 5px #fff;
+    color: #eef;
 }
 
 #main .release-list div.release-entry {
