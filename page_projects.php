@@ -4,13 +4,26 @@
  * title: Project detail view
  * description: List project entry with all URLs and releases
  * license: AGPL
- * version 0.2
+ * version 0.3
  * 
+ * Shows:
+ *   → General project description
+ *   → Sidebar with project links, submitter, management links, social share count
+ *   → Release history and changelogs
+ * Adds:
+ *   → RSS/Atom links to header template
  *
  */
 
+// current project id
+$name = $_REQUEST->proj_name["name"];
 
+// inject RSS/Atom links
+$header_add = "<link rel=alternate type=application/rss+xml href=/feed/$name.rss>\n"
+            . "<link rel=alternate type=application/atom+xml href=/feed/$name.atom>\n"
+            . "<link rel=alternate type=json/vnd.freshcode.club href=/feed/$name.json>";
 include("layout_header.php");
+
 
 // fetch most current project/release entry
 $releases = db("
@@ -19,7 +32,7 @@ $releases = db("
      WHERE name = ?
        AND NOT deleted
      LIMIT 1
-", $_REQUEST->proj_name["name"]);
+", $name);
 
 // show
 if ($entry = $releases->fetch()) {
@@ -50,7 +63,7 @@ if ($entry = $releases->fetch()) {
          </section>
 
          <section style="font-size:90%">
-           <h5>Share</h5>
+           <h5>Share project</h5>
            {$_(social_share_links($entry["name"], $entry["homepage"]))}
          </section>
       </aside>
@@ -80,14 +93,14 @@ PROJECT;
 
 // retrieve all released versions
 $releases = db("
-    SELECT *
+    SELECT *, MAX(t_changed)
       FROM release
      WHERE name = ?
        AND flag < 5
        AND NOT deleted
   GROUP BY version
   ORDER BY t_published DESC, t_changed DESC
-", $_REQUEST->name["name"]);
+", $name);
 
 
 // show
