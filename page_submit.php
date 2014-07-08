@@ -28,7 +28,7 @@ $form_fields = array(
 
 
 // Start page output
-include("layout_header.php");
+include("template/header.php");
 ?> 
 <aside id=sidebar>
     <section>
@@ -315,7 +315,7 @@ HTML;
 }
 
 
-include("layout_bottom.php");
+include("template/bottom.php");
 
 
 

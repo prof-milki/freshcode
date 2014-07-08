@@ -14,7 +14,7 @@
  */
 
 
-include("layout_header.php");
+include("template/header.php");
 ?>
  <aside id=sidebar class="absolute-float community-web">
     <section>
@@ -173,7 +173,7 @@ HTML;
 
 
 
-include("layout_bottom.php");
+include("template/bottom.php");
 
 
 ?>

@@ -10,7 +10,7 @@
  */
 
 
-include("layout_header.php");
+include("template/header.php");
 ?> <section id=main> <?php
 
 $name = $_REQUEST->proj_name["name"];
@@ -103,6 +103,6 @@ HTML;
 }
 
 
-include("layout_bottom.php");
+include("template/bottom.php");
 
 ?>

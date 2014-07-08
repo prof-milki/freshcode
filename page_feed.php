@@ -166,7 +166,7 @@ if ($name = $_GET->proj_name["name"]) {
 
 #-- else print an info page
 else {
-    include("layout_header.php");
+    include("template/header.php");
     ?>
     <section id=main>
        <h4>Feeds</h4>
@@ -177,6 +177,6 @@ else {
           Whereas using <i>xfer</i> will return the whole recent changes list.
        </p>
     <?php
-    include("layout_bottom.php");
+    include("template/bottom.php");
 }
 

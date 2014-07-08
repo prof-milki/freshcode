@@ -22,7 +22,7 @@ $name = $_REQUEST->proj_name["name"];
 $header_add = "<link rel=alternate type=application/rss+xml href=/feed/$name.rss>\n"
             . "<link rel=alternate type=application/atom+xml href=/feed/$name.atom>\n"
             . "<link rel=alternate type=json/vnd.freshcode.club href=/feed/$name.json>";
-include("layout_header.php");
+include("template/header.php");
 
 
 // fetch most current project/release entry
@@ -124,7 +124,7 @@ VERSION_ENTRY;
 
 
 // html tail
-include("layout_bottom.php");
+include("template/bottom.php");
 
 
 

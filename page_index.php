@@ -22,8 +22,8 @@
 
 
 $header_add = "<link rel=alternate type=application/rss+xml href=/feed/xfer.rss>\n<link rel=alternate type=application/atom+xml href=/feed/xfer.atom>";
-include("layout_header.php");
-include("layout_index_sidebar.php");
+include("template/header.php");
+include("template/sidebar_index.php");
 ?> <section id=main> <?php
 
 
@@ -65,7 +65,7 @@ HTML;
 
 }
 
-include("layout_bottom.php");
+include("template/bottom.php");
 
 
 

@@ -26,7 +26,7 @@ if ($_POST->has("login_url")) {
 
 
 // else
-include("layout_header.php");
+include("template/header.php");
 ?> <section id=main> <?php
 
 
@@ -78,5 +78,5 @@ else {
     
 }
 
-include("layout_bottom.php");
+include("template/bottom.php");
 ?>
