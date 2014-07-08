@@ -3,18 +3,35 @@
  * api: freshcode
  * title: json feeds
  * description: exchange protocol and per-project feeds
- * version: 1.0
+ * version: 1.1
  * license: CC-BY-SA
- * depends: json, db
+ * depends: php:json, feeder
  *
  * Generates /xfer stream and per-/project release feeds.
- * Both only JSON for now.
- * (No content-negotiation, as for RSS/ATOM a different
- * content summary probably made more sense.)
+ * Returns JSON (interchange format) and RSS or Atom feeds.
  *
- * This is still susceptible to changes. Currently freshcode.club
- * seems the only FM-reimplementation. But obviously the data
- * format should converge to facilitate proper synchronization.
+ * The URL schemes:
+ *    http://freshcode.club/feed/projectname    (.json optional)
+ *    http://freshcode.club/feed/projectname.rss
+ *    http://freshcode.club/feed/projectname.atom
+ * For the complete site update list:
+ *    http://freshcode.club/feed/xfer         (.json/.atom/.rss)
+ *
+ * No Content-Negotiation here, as nobody is even bothering
+ * anymore. The .htaccess dispatching adds the ?ext=rss if an
+ * extension (.json / .atom / .rss) was appended.
+ *
+ *
+ * JSON FORMAT
+ *
+ *   Is still susceptible to changes. Currently freshcode.club
+ *   seems the only FM-reimplementation. But obviously the data
+ *   format should converge to facilitate proper synchronization.
+ *
+ *   /feed/xfer also doesn't provide the raw DB contents. OpenID
+ *   handles are stripped, and personally identifyable infos 
+ *   dropped (e.g. gravatar email).
+ *   Otherwise it's similar to the internal database structure.
  *
  */
 
@@ -34,7 +51,7 @@ function feed_project($row) {
         "license" => $row["license"],
         "tags" => $row["tags"],
         "image" => $row["image"],
-        "submitter" => $row["submitter"],
+        "submitter" => preg_replace(array("/\S+@\S+/", "/^[\s,]+|[\s,]$/"), "", $row["submitter"]),
         "urls" => p_key_value($row["urls"]),
     );
 }
@@ -101,8 +118,49 @@ if ($name = $_GET->proj_name["name"]) {
         }
     }
 
-    header("Content-Type: json/vnd.freshcode.club; charset=UTF-8");
-    exit(json_encode($feed, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES));
+
+    #-- Output JSON
+    if ($ext = $_GET->name->default…json["ext"] == "json") {
+        header("Content-Type: json/vnd.freshcode.club; charset=UTF-8");
+        exit(json_encode($feed, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES));
+    }
+
+    
+    #-- Else convert into RSS or Atom
+    else {
+        include_once("lib/feeder.php");
+        /**
+         * It's obviously super long-winded to restructure the JSON xfer
+         * or per-project data into RSS/Atom snippets here afterwards.
+         *
+         * @todo: restructure
+         *
+         */
+
+        $f = new Feeder();
+        $f->channel()->setfromarray(array(
+            "title"       => "$name",
+            "description" => "Open Source project updates",
+            "author"      => "freshcode.club",
+            "license"     => $feed["\$feed-license"],
+            "icon"        => "http://freshcode.club/img/changes.png",
+            "logo"        => "http://freshcode.club/logo.png",
+        ));
+        
+        foreach ($feed["releases"] as $i=>$row) {
+            $f->entry($i, new FeedEntry(@array(
+                "title"   => ($row["title"] ?: $feed["title"]) . " $row[version]",
+                "updated" => $row["published"],
+                "author"  => $row["submitter"] ?: $feed["submitter"],
+                "content" => $row["changes"],
+                "permalink" => $row["homepage"] ?: $feed["homepage"],
+            )));
+        }
+
+        #-- Output
+        $o = ($ext == "atom") ? new AtomFeed() : new Rss20Feed();
+        $o->output($f);
+    }
 }
 
 
