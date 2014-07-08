@@ -39,7 +39,7 @@ else {
 // verify incoming OpenID request
 if ($_GET->has("openid_mode") and empty($_SESSION["openid"])) {
 
-    include_once("openid.php");
+    include_once("lib/openid.php");
 
     $openid = new LightOpenID(HTTP_HOST);
     if ($openid->mode) {
