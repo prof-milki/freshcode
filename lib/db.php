@@ -160,7 +160,7 @@ class db_wrap {
                             break;
 
                         case "::":  // inject :named,:value,:list
-                            $replace = ":" . implode(",:", db_identifier(array_keys($a)) );
+                            $replace = ":" . implode(",:", $this->db_identifier(array_keys($a)) );
                             break;
 
                         case ":&":  // associative params - becomes "key=:key AND .."
