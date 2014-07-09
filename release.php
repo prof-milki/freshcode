@@ -11,8 +11,8 @@
  * consolidated somewhat. It's used by submission / autoupdate / and API interfaces.
  * It's best not to consider this a WebPMVC "model", but table data gateway.
  *
- *
- *
+ * It can either be instantiated by project $name, fetching the last entry.
+ * Or be populated from a database result array; using db()->into("release")
  *
  *
  *
@@ -36,8 +36,10 @@ class release extends ArrayObject {
      * Can be instanatiated by project name (latest version will be fetched),
      * or from a DB result array.
      *
+     * @return release{}
+     *
      */
-    function __construct($namedata) {
+    function __construct($namedata, $uu=NULL) {
     
         // fetch from DB
         if (is_string($namedata)) {
@@ -51,6 +53,7 @@ class release extends ArrayObject {
 
         // populate ArrayObject
         if (is_array($namedata)) {
+            unset($namedata["_order"]);
             $this->exchangeArray($namedata);
         }
     }
@@ -68,15 +71,11 @@ class release extends ArrayObject {
      * to define flags.
      *
      */
-    function update($newdata, $prefill_flags=array(), $override_flags=array()) {
+    function update($newdata, $prefill_flags=array(), $override_flags=array(), $partial=FALSE) {
 
-
-        // Wrap incoming data into filter object
-        if (!$newdata instanceof input) {
-            $newdata = new input($newdata, "\$newdata");
-        }
-        
-        // format constraints on input fields
+        // Format constraints via input filter
+        $newdata instanceof input  or  $newdata = new input($newdata, "\$newdata");
+        $newkeys = $newdata->keys();
         $newdata->nocontrol->trim->always();
         $newdata = array(
                  "name"     => $newdata->proj_name         ->length…3…33["name"],
@@ -92,7 +91,7 @@ class release extends ArrayObject {
                  "state"    => $newdata->words->strtolower   ->length…30["state"],
                  "scope"    => $newdata->words->strtolower   ->length…30["scope"],
                  "changes"  => $newdata->text              ->length…2000["changes"],
-                "submitter" => $newdata->words               ->length…30["submitter"],
+                "submitter" => $newdata->text               ->length…100["submitter"],
                  "urls"     => $newdata                    ->length…2000["urls"],
                  "lock"     => $newdata->raw               ->length…2000["lock"],
         "autoupdate_module" => $newdata->id                  ->length…30["autoupdate_module"],
@@ -108,7 +107,11 @@ class release extends ArrayObject {
              // Whereas the update timestamp is always adapted
             "t_changed" => time(),
         );
-        
+
+        // Array excerpt if input didn't come from page_submit but Autoupdate or API
+        if ($partial) {
+            $newdata = array_intersect_key($newdata, array_flip($newkeys));
+        }
 
         // Merge and apply input
         $this->exchangeArray(array_merge(
@@ -118,6 +121,9 @@ class release extends ArrayObject {
              $auto_flags,
              $override_flags
         ));
+        
+        // chainable call
+        return $this;
     }
 
     
@@ -178,7 +184,7 @@ class release extends ArrayObject {
         global $moderator_ids;
 
         return empty($data["lock"])
-            or in_array($authid, array_merge(p_csv($data["lock"]), $moderator_ids));
+            or in_array($authwith, array_merge(p_csv($data["lock"]), $moderator_ids));
     }
 
 }
