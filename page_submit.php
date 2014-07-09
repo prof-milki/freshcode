@@ -284,8 +284,8 @@ else {
 
            <label>
                Submitter
-               <input name=submitter size=50 placeholder="Your name" value="$data[submitter]" maxlength=50>
-               <small>Give us your name or nick name here.</small>
+               <input name=submitter size=50 placeholder="Your Name,  optional@example.com" value="$data[submitter]" maxlength=50>
+               <small>Give us your name or nick name here. Optionally list a <a href="//gravatar.com/">gravatar</a> email.</small>
            </label>
 
            <label>

@@ -131,7 +131,11 @@ function versioned_url($url, $version) {
 // Project listing output preparation;
 // HTML context escapaing, versioned urls, formatted date string
 function prepare_output(&$entry) {
+
+    // versioned URLs
     $entry["download"] = versioned_url($entry["download"], $entry["version"]);
+    
+    // project screenshots
     if (TRUE or empty($entry["image"])) {
         if (file_exists("./img/screenshot/$entry[name].jpeg")) {
             $entry["image"] = "/img/screenshot/$entry[name].jpeg";
@@ -140,8 +144,35 @@ function prepare_output(&$entry) {
             $entry["image"] = "/img/nopreview.png";
         }
     }
+    
+    //
     $entry["formatted_date"] = date_fmt($entry["t_published"]);
+    
+    // HTML context
     $entry = array_map("input::_html", $entry);
+
+    // user image
+    $entry["submitter_img"] = submitter_gravatar($entry["submitter"]);
+}
+
+
+/**
+ * Strip email@xyz from submitter name list (else just hash name),
+ * return gravatar or identicon.
+ *
+ */
+function submitter_gravatar(&$user, $size=24) {
+    $rx = "/[^,;\s]+@[^,;\s]+/";
+    $m = array($user);
+    
+    // capture+strip email
+    if (is_int(strpos($user, "@")) and preg_match($rx, $user, $m)) {
+        $user = trim(preg_replace($rx, "", $user), ",; ");
+    }
+    
+    // return html <img> snippet
+    return "<img src=\"//www.gravatar.com/avatar/" . md5(current($m))
+         . "?s=$size&d=identicon&r=pg\" width=$size height=$size class=gravatar>";
 }
 
 

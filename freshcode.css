@@ -3,7 +3,7 @@
  * type: stylesheet
  * title: freshcode.club layout+style
  * description: Simulates the late freecode.com layout and looks; well mostly.
- * version: 0.5.3
+ * version: 0.5.4
  *
  * Centered two-pane layout. The #main section is usually 33% of the screen width,
  * while the #sidebar floats at the right. They're repositioned only using padding:
@@ -12,9 +12,10 @@
  */
 
 
-* {
-}
-
+/**
+ * General HTML rendering presets.
+ *
+ */
 html, body {
     padding: 0;
     margin: 0;
@@ -39,8 +40,15 @@ h5 { font-size: 11pt; }
 a[href=""] {
     opacity: 0.20;
 }
+input, textarea, select {
+    font-size: 107%;
+}
 
 
+/**
+ * Page header, info bar and logo box
+ *
+ */
 #topbar {
     background: #555599;
     padding: 3pt 150pt;
@@ -71,6 +79,10 @@ a[href=""] {
 }
 
 
+/**
+ * Main action link box, hovering halfway over header box.
+ *
+ */
 #tools {
     margin: 0 150pt;
     padding: 4pt;
@@ -99,7 +111,10 @@ a[href=""] {
 }
 
 
-
+/**
+ * Sidebar floats right to #main, usually just a fifth of its width.
+ *
+ */
 #sidebar {
     float: right;
     width: 17%;
@@ -146,8 +161,14 @@ a[href=""] {
     content: "→";
     color: #aaa;
 }
+#sidebar .submitter .gravatar {
+    margin: 2pt 5pt 1pt 2pt;
+}
 
-
+/**
+ * Main content area (project listings, frontpage, articles, etc.)
+ *
+ */
 #main {
     margin: 20pt 150pt;
     width: 50%;
@@ -183,7 +204,10 @@ a[href=""] {
 #main label.inline input {  display: inline;  }
 
 
-
+/**
+ * Login box etc.
+ *
+ */
 #main .box {
     margin: 20pt;
     padding: 50pt;
@@ -214,6 +238,11 @@ a[href=""] {
     padding-left: 33px;
 }
 
+
+/**
+ * Project listing on frontpage and /projects/xyz
+ *
+ */
 #main .project h3 a {
     color: #000;
 }
@@ -280,6 +309,9 @@ a[href=""] {
     overflow: hidden;
 }
 
+/**
+ * Variation for /projects/xyz detail view.
+ */
 #main .project .long-tags span {
     border: 1px solid #ddd;
     background: #eee;
@@ -305,6 +337,9 @@ a[href=""] {
     color: #eef;
 }
 
+/**
+ * List of releases below /projects/xyz
+ */
 #main .release-list div.release-entry {
     margin-bottom: 15pt;
 }
@@ -324,6 +359,10 @@ a[href=""] {
 }
 
 
+/**
+ * Image gallery in /links to other FLOSS directories.
+ *
+ */
 #main .links-entry {
     display: inline-block;
     width: 200px;
@@ -350,6 +389,11 @@ a[href=""] {
 }
 
 
+/**
+ * Colors and block looks for social media share buttons
+ * (per project-homepage and also in freshcode-footer)
+ *
+ */
 .social-share-links a { display: inline-block; opacity: 0.3; border-radius: 4px; padding: 3px; border: 1px solid #ddd; color: #fff !important; box-shadow: 2px 2px 5px 0px #888;}
 .social-share-links a:hover { opacity: 1.0; }
 .social-share-links a[title="google+"] { background: #DD4B39; font-weight: 100; }
@@ -361,6 +405,10 @@ a[href=""] {
 .social-share-links a[title="delicious"] { background: #557CDE;  }
 
 
+/**
+ * Page footer
+ *
+ */
 #spotlight {
     margin-top: 50pt;
     border-top: 3pt solid #B7C0BB;
