@@ -210,7 +210,7 @@ class input implements ArrayAccess, Countable, Iterator {
      *
      */
     function _text($data) {
-        return preg_replace("/[^\w\d\s,._\-+?!;:\"\'\/`´()*=#]+/u", " ", strip_tags($data));
+        return preg_replace("/[^\w\d\s,._\-+?!;:\"\'\/`´()*=#@]+/u", " ", strip_tags($data));
     }
     
     /**
