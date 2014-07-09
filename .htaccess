@@ -9,17 +9,22 @@
 RewriteEngine On
 
 
-# deny direct invocations
+#-- Deny direct invocations
 RewriteRule ^^^freshcode\.db.*$$$ - [F]
 RewriteRule ^\. - [F]
 RewriteRule ^\w+\.php(|/.*)$ - [F,END,NS]
 
-# strip www. prefix
+#-- Strip www. prefix
 RewriteCond %{HTTP_HOST} ^ww+\.(\w+\.\w+)\.?$
 RewriteCond %{REQUEST_METHOD} ^GET$
 RewriteRule ^(.*)$ http://%1/$1 [R,QSA,L]
 
-# pages
+#-- RSS/Atom aliases
+RewriteCond %{QUERY_STRING} ^format=(atom|rss)$
+RewriteRule ^$ /feed/xfer.%1
+RewriteRule ^(?:projects)\.(atom|rss|json)$ /feed/xfer.$1
+
+#-- Dispatch pages
 RewriteRule ^$ index.php?page=index [L,QSA]
 RewriteRule ^(projects|submit|flag|tags|feed|login|links|admin)\b/?(\w+(?:[-_]\w+)*)?(?:\.(json|atom|rss))?/?$ index.php?page=$1&name=$2&ext=$3 [END,NS,QSA]
 
