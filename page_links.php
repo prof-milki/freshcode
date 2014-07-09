@@ -7,9 +7,8 @@
  *
  * ToDo
  *  + http://www.datamation.com/open-source/open-source-software-the-mega-list-1.html
- *  + http://opensourcelinux.org/
- *  + http://www.linuxgames.com/
- *  + http://www.opensourcescripts.com/
+ *  + http://www.datamation.com/osrc/article.php/3925806/Open-Source-Software-Top-59-Sites.htm
+ *  + http://www.reddit.com/r/coolgithubprojects
  *
  */
 
@@ -22,7 +21,9 @@ include("template/header.php");
       Open Source development is driven by idealism and enthusiasm. While it's foremost about
       software and coding, the user community has an even larger stake in its progress.
     </section>
-    <p>The interaction playground is technically comprised of:</p>
+    <p>
+      The interaction playground is technically comprised of:
+    </p>
     <section>
       <b>News sites / Blogs</b>
       <li> <a href="http://slashdot.org/">slashdot</a>
@@ -38,6 +39,8 @@ include("template/header.php");
     </section>
     <section>
       <b>Boards / Forums</b>
+      <li> <a href="http://www.linuxquestions.org/">LinuxQuestions</a>
+      <li> <a href="http://www.linuxforums.org/forum/">LinuxBoards</a>
     </section>
     <section>
       <b>Support / Q&amp;A</b>
@@ -45,11 +48,23 @@ include("template/header.php");
     </section>
     <section>
       <b>Wikis / Howtos</b>
+      <li> <a href="https://wiki.archlinux.org/">Arch Linux Wiki</a>
+      <li> <a href="https://wiki.ubuntu.com/">Ubuntu Wiki</a>
+      <li> <a href="http://www.howtoforge.com/">HowtoForge</a>
     </section>
     <section>
       <b>Chat channels</b>
+      <li> <a href="http://freenode.net/">Freenode</a> / <a href="https://webchat.freenode.net/">FN web chat</a>
     </section>
-    <a href="http://www.datamation.com/osrc/article.php/3925806/Open-Source-Software-Top-59-Sites.htm">...</a>
+    <p>
+      Developer hubs and package repositories
+    </p>
+    <section>
+      <b>By Language</b>
+      <li> <a href="https://pypi.python.org/">PyPI</a> Python
+      <li> <a href="https://packagist.org/explore/">Packagegist</a> PHP
+      <li> ...
+    </section>
  </aside>
  <section id=main style="height: 2200pt; min-width: 633px;">
 
@@ -84,6 +99,9 @@ include("template/header.php");
       ["http://www.osalt.com/", "osalt.com.jpeg", "OS as Alternative",
        "Lists commercial/prioprietary software and the Free or Linux alternatives in usage categories."
       ],
+      ["http://www.linuxgames.com/", "linuxgames.com.jpeg", "Linux Games",
+       "Captures progress and newly released gaming software for Linux.",
+      ],
       ["http://sourceforge.net/", "sourceforge.net.jpeg", "Sourceforge.net",
        "The original open source development plattform
         is still home to and primary notification hub for many projects."
@@ -115,6 +133,18 @@ include("template/header.php");
       ["http://distrowatch.com/", "distrowatch.com.jpeg",
        "DistroWatch",
        "Does as it says and tracks new and upcoming BSD / Linux / GNU / Solaris distribution releases."
+      ],
+#      ["", "", "",
+#       "",
+#      ],
+#      ["", "", "",
+#       "",
+#      ],
+      ["http://www.opensourcescripts.com/", "opensourcescripts.com.jpeg", "Open Source Scripts",
+       "Collects web applications and web service scripts.",
+      ],
+      ["http://opensourcelinux.org/", "opensourcelinux.org.jpeg", "Open Source List",
+       "Provides a summary list of common applications.",
       ],
       ["http://osliving.com/", "osliving.com.jpeg", "Open Source Living",
        "is an odd outlier, as they expect open source projects to pay for listings;
