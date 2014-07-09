@@ -64,7 +64,7 @@ function feed_release($row) {
         "scope" => $row["scope"],
         "changes" => $row["changes"],
         "download" => versioned_url($row["download"], $row["version"]),
-        "published" => date(DateTime::ISO8601, $row["t_published"]),
+        "published" => gmdate(DateTime::ISO8601, $row["t_published"]),
     );
 }
 
@@ -72,7 +72,7 @@ function feed_release($row) {
 function feed_xfer($row) {
     return array(
         "hidden" => $row["hidden"],
-        "changed" => date(DateTime::ISO8601, $row["t_published"]),
+        "changed" => gmdate(DateTime::ISO8601, $row["t_published"]),
         "autoupdate_module" => $row["autoupdate_module"],
         "autoupdate_url" => $row["autoupdate_url"],
         "autoupdate_regex" => $row["autoupdate_regex"],
@@ -171,10 +171,26 @@ else {
     <section id=main>
        <h4>Feeds</h4>
        <p>
-          You can get any projects <b>releases.json</b> feed using<br><tt>http://freshcode.club/feed/<i>projectname</i></tt>.
+          You can get any projects <b>releases.json</b> feed using
+          <ul>
+             <li> <tt>http://freshcode.club/feed/<em>projectname</em><var style="color: #ccc">.json</var></tt>
+          </ul>
+          Alternatively as RSS/Atom feed
+          <ul>
+             <li> <tt>http://freshcode.club/feed/<em>projectname</em>.rss</tt>
+             <li> <tt>http://freshcode.club/feed/<em>projectname</em>.atom</tt>
+          </ul>
        </p>
        <p>
-          Whereas using <i>xfer</i> will return the whole recent changes list.
+          To get all project updates instead use
+          <ul>
+             <li> <tt>http://freshcode.club/feed/<b>xfer</b><var style="color: #ccc">.json</var></tt>
+             <li> <tt>http://freshcode.club/projects.rss</tt>
+             <li> <tt>http://freshcode.club/projects.atom</tt>
+          </ul>
+       </p>
+       <p>
+          JSON feeds are using a post-1.0 MIME type of <em>json/vnd.freshcode.club</em> for now.
        </p>
     <?php
     include("template/bottom.php");
