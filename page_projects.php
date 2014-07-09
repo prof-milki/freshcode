@@ -52,7 +52,7 @@ if ($entry = $releases->fetch()) {
 
          <section>
            <h5>Submitted by</h5>
-           <a href="/?user=$entry[submitter]">$entry[submitter]</a><br>
+           <a class=submitter href="/?user=$entry[submitter]">$entry[submitter_img]$entry[submitter]</a><br>
          </section>
 
          <section style="font-size:90%">
