@@ -192,6 +192,9 @@ function social_share_links($name, $url) {
       </span>
 HTML;
 }
+function social_share_count($num) {
+    return empty($num) ? "" : "<var class=social-share-count>$num</var>";
+}
 
 
 // CSRF token, only for logged-in users though
@@ -207,7 +210,7 @@ function csrf($probe=false) {
     // Test presence
     if ($probe) {
         return empty($_SESSION["openid"])
-            or $id = $_REQUEST->id["_ct"] and !empty($_SESSION["crsf"][$id]);
+            or $id = $_REQUEST->id["_ct"] and !empty($_SESSION[__FUNCTION__][$id]);
     }
     
     // Create new entry, output form field for token
