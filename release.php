@@ -132,8 +132,10 @@ class release extends ArrayObject {
      * Is to be invoked after ->update().
      *
      */
-    function store() {        
-        return db("INSERT INTO release (:?) VALUES (::)", $this->getArrayCopy(), $this->getArrayCopy());
+    function store($INSERT="INSERT") {
+#db()->test = 1;
+        $data = $this->getArrayCopy();
+        return db("$INSERT INTO release (:?) VALUES (::)", $data, $data);
     }
 
 
@@ -161,16 +163,15 @@ class release extends ArrayObject {
      * @return int
      */
     static function exists($name, $version) {
-        return intval(
-            db("SELECT t_published
-                  FROM release
-                 WHERE name=? AND version=?
-                    UNION
-                SELECT 0",
-                $name, $version
-            )
-            ->fetchColumn(0)
+        $r = db("
+            SELECT t_published
+              FROM release
+             WHERE name=? AND version=?",
+            $name, $version
         );
+        $t = $r ? $r->fetchColumn(0) : 0;
+       # print "<b>exists=$t</b>\n";
+        return intval($t);
     }
 
 
