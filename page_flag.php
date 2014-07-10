@@ -40,7 +40,7 @@ if ($_REQUEST->has("reason", "note", "name")) {
        
         // Increase `release`.`flag` column (just the last entry)
         db("UPDATE release SET flag=flag+1
-            WHERE name=?  ORDER BY t_changed DESC  LIMIT 1",
+            WHERE name=?  ORDER BY t_published DESC, t_changed DESC  LIMIT 1",
             $name
         );
 
@@ -82,7 +82,7 @@ else {
              </label>
 
              <label>
-                <input checked type=radio name=reason value=inappropriate> Other (use the note box below in either case).
+                <input checked type=radio name=reason value=other> Other (use the note box below in either case).
              </label>
 
              <label>

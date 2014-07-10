@@ -5,8 +5,10 @@
  * description: Splits out tags from according column in project `release`.
  * version: 0.2
  *
- *
  * Manually update tags table.
+ *   - Splits up comma separated release.tags field
+ *   - Maximum of 7 tags each
+ *   - Populates separate tags table with name=>tag list.
  *
  */
 

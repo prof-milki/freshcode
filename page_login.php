@@ -73,7 +73,7 @@ else {
     
     print isset($login_hint)
         ? "<p>$login_hint</p>"
-        : "<p>You have already associated an OpenID name.
+        : "<p>You have already associated an OpenID name (<var>$_SESSION[openid]</var>).
            <form action='/login/logout' method=POST><button>Logout</button></form></p>";
     
 }

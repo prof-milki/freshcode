@@ -106,7 +106,7 @@ elseif ($name and $_REQUEST->has("title", "description")) {
         
         // Update project
         if ($release->store()) {
-            print "<h2>Submitted</h2> <p>Your project and release informations has been saved.</p>
+            print "<h2>Submitted</h2> <p>Your project and release informations have been saved.</p>
                   <p>See the result in <a href=\"http://freshcode.club/projects/$name\">http://freshcode.club/projects/$name</a>.</p>";
         }
         else { 

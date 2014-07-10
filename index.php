@@ -3,7 +3,7 @@
  * api: php
  * title: Freshcode.club
  * description: FLOSS software release tracking website
- * version: 0.4.2
+ * version: 0.4.5
  * author: mario
  * license: AGPL
  * 
@@ -16,7 +16,6 @@
 #-- init
 include("config.php");
 
-#$_SESSION["openid"] = "http://milki.include-once.org/";
 
 #-- dispatch
 switch ($page = $_GET->id["page"]) {

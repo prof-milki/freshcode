@@ -63,7 +63,7 @@ if ($entry = $releases->fetch()) {
          </section>
 
          <section style="font-size:90%">
-           <h5>Share project</h5>
+           <h5>Share project {$_(social_share_count($entry["social_links"]))}</h5>
            {$_(social_share_links($entry["name"], $entry["homepage"]))}
          </section>
       </aside>

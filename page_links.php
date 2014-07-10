@@ -16,11 +16,11 @@
 include("template/header.php");
 ?>
  <aside id=sidebar class="absolute-float community-web">
-    <section>
-      <h5>Ecosystem</h5>
-      Open Source development is driven by idealism and enthusiasm. While it's foremost about
-      software and coding, the user community has an even larger stake in its progress.
-    </section>
+    <section><h5>Ecosystem</h5></section>
+    <p>
+      Open Source development is more than just software and coding. User enthusiasm
+      and interaction have an even larger stake in its progress.
+    </p>
     <p>
       The interaction playground is technically comprised of:
     </p>
@@ -66,7 +66,7 @@ include("template/header.php");
       <li> ...
     </section>
  </aside>
- <section id=main style="height: 2200pt; min-width: 633px;">
+ <section id=main style="height: 2200pt; min-width: 700px;">
 
  <h4>Other FLOSS/Linux software directories</h4>
    <p>

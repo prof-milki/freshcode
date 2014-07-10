@@ -2,7 +2,7 @@
 <html>
 <head> 
     <title>freshcode.club</title>
-    <meta name=version content=0.4.2>
+    <meta name=version content=0.4.5>
     <meta charset=UTF-8>
     <link rel=stylesheet href="/freshcode.css?0.5.3">
     <link rel="shortcut icon" href="/img/changes.png">
@@ -23,7 +23,7 @@
 <body>
 
 <nav id=topbar>
-Open source community software release tracking. <small style="color:#9c7">[0.4 alpha]</small>
+Open source community software release tracking. <small style="color:#9c7">[0.4.5 alpha]</small>
 <span style=float:right>
 <a href="//freshmeat.club/">freshmeat.club</a> |
 <a href="//freecode.club/">freecode.club</a> |

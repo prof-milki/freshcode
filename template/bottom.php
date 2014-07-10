@@ -12,7 +12,8 @@
    <a href="/login"><i>optional</i> Login</a>
 </small>
 <small style=float:right>
-<?php print social_share_links("freshcode", "http://freshcode.club/"); ?>
+<span style="display:inline-block; vertical-align:middle;">bookmark<br>freshcode</span>
+&nbsp;on&nbsp; <?php print social_share_links("freshcode", "http://freshcode.club/"); ?>
 </small>
 <br>
 <small style="font-size:90%">
