@@ -4,13 +4,6 @@
  * description: Queries a few online resources for article links
  * version: 0.1
  *
- * Currently populates:
- *   → ./template/feed.linuxcom.htm
- *   → ./template/feed.reddit.htm
- *
- * Both are just copied by template/sidebar_index.php for the
- * frontpage.
- *
  */
 
 
@@ -30,7 +23,9 @@ foreach ($feeds as $name=>$url) {
 
     // data
     $html = "";
-    $x = simplexml_load_file($url);
+    $x = file_get_contents($url);
+    $x = preg_replace("/[^\x20-\x7F\s]/", "", $x);
+    $x = simplexml_load_string($x);
     
     // append
     foreach ($x->channel->item as $item) {
