@@ -28,13 +28,15 @@ include("template/sidebar_index.php");
 
 
 // query projects
+$page_no = $_GET->int->range…1…100["n"];
 $releases = db("
     SELECT *
       FROM release_versions
      WHERE flag < 5
-     LIMIT 50
-    OFFSET ?
-", $_GET->int->max…0['n']);
+     LIMIT 40
+    OFFSET 40*?
+", $page_no - 1);
+
 
 // show
 foreach ($releases as $entry) {
@@ -64,6 +66,15 @@ foreach ($releases as $entry) {
 HTML;
 
 }
+
+
+// add pseudo pagination (do not actually count available entries)
+print "<p class=pagination-links> »";
+foreach (range($page_no-2, $page_no+9) as $n) if ($n > 0) {
+    print " <a " . ($n==$page_no ? "class=current " : ""). "href=\"?n=$n\">$n</a> ";
+}
+print "« </p>";
+
 
 include("template/bottom.php");
 

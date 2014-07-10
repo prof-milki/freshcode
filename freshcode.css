@@ -3,7 +3,7 @@
  * type: stylesheet
  * title: freshcode.club layout+style
  * description: Simulates the late freecode.com layout and looks; well mostly.
- * version: 0.5.4
+ * version: 0.5.5
  *
  * Centered two-pane layout. The #main section is usually 33% of the screen width,
  * while the #sidebar floats at the right. They're repositioned only using padding:
@@ -117,7 +117,7 @@ input, textarea, select {
  */
 #sidebar {
     float: right;
-    width: 17%;
+    width: 15%;
     margin: 25pt 150pt 25pt 25pt;
     min-width: 175pt;
     min-height: 400pt;
@@ -125,7 +125,7 @@ input, textarea, select {
 }
 #sidebar.absolute-float {
     position: absolute;
-    margin: 25pt 150pt 25pt 67%;
+    margin: 25pt 150pt 25pt 68%;
 }
 #sidebar section {
     border: 1.5pt solid #ccc;
@@ -172,7 +172,7 @@ input, textarea, select {
 #main {
     margin: 20pt 150pt;
     width: 50%;
-    min-height: 400pt;
+    min-height: 700pt;
 }
 
 #main h2, #main h3, #main h4 {
@@ -403,6 +403,43 @@ input, textarea, select {
 .social-share-links a[title="linkedin"] { background: #0e76a8; font-weight: 700; }
 .social-share-links a[title="stumbleupon"] { background: #f74425;  }
 .social-share-links a[title="delicious"] { background: #557CDE;  }
+.social-share-count {
+    font-style: normal;
+    font-weight: 300;
+    font-size: 85%;
+    border: 1px solid #eee;
+    box-shadow: #999 0px 0px 4px;
+    background: linear-gradient(45deg, #fff, #f7f7f7);
+    border-radius: 2pt;
+    padding: 1pt;
+}
+.social-share-count:before {
+    content: "★";
+    color: #779;
+    font-size: 150%;
+    position: relative;
+    top: 1pt;
+}
+
+/* */
+.pagination-links {
+    margin-top: 35pt;
+    border: 1px solid #e7e7e7;
+    background: #f0f0f0;
+    text-align: center;
+    padding: 1pt;
+}
+.pagination-links a {
+    background: #d9d9d9;
+    border-radius: 4pt;
+    padding: 0pt 2pt;
+    margin: 0pt 7pt;
+    color: #333;
+    font-size: 80%;
+}
+.pagination-links a.current {
+    background: #999;
+}
 
 
 /**
