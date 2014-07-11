@@ -1,10 +1,10 @@
 <?php
 /**
- * title: database
- * description: basic db() interface for parameterized SQL and result folding
+ * title: PDO wrapper
+ * description: Hybrid db() interface for extended SQL parameterization and result folding
  * api: php
  * type: database
- * version: 0.9.1
+ * version: 0.9.2
  * depends: pdo
  * license: Public Domain
  * author: Mario Salzer
@@ -21,12 +21,12 @@
  *
  * Extended placeholder syntax:
  *
- *      ??    Interpolation of indexed arrays, useful for IN clauses.
+ *      ??    Interpolation of indexed arrays - useful for IN clauses.
  *      ::    Turns associative arrays into a :named, :value, :list.
- *      :?    Interpolates key names (doesn't add values).
- *      :&    Becomes a name=:value list, joined by AND; for WHERE clauses.
- *      :|    Becomes a name=:value list, joined by OR; for WHERE clauses.
- *      :,    Becomes a name=:value list, joined by , commas; for UPDATEs.
+ *      :?    Interpolates key names (ignores values).
+ *      :&    Becomes a `name`=:value list, joined by AND - for WHERE clauses.
+ *      :|    Becomes a `name`=:value list, joined by OR - for WHERE clauses.
+ *      :,    Becomes a `name`=:value list, joined by , commas - for UPDATEs.
  *
  * Configurable {TOKENS} from db()->tokens[] are also substituted..
  *
@@ -38,7 +38,7 @@
  *       $result->column
  *       $result["column"]
  *
- * Or just traversed row-wise normally by iterationg with
+ * Or just traversed row-wise as usual by iteration
  *
  *       foreach (db("...") as $row)
  *
@@ -47,7 +47,7 @@
  *
  *       foreach ($result->into("ArrayObject") as $row)
  *
- * And all PDO ->fetch() methods are still available for use on the result obj.
+ * Yet all PDO ->fetch() methods are still available for use on the result obj.
  *
  *
  * CONNECT  
@@ -143,7 +143,7 @@ class db_wrap {
         #-- flattening sub-arrays (works for ? enumarated and :named params)
         foreach ($args as $i=>$a) {
             if (is_array($a)) {
-                $enum = is_int(end(array_keys($a)));
+                $enum = array_keys($a) === range(0, count($a) - 1);
 
                 // subarray corresponds to special syntax placeholder?
                 if (preg_match("/\?\?|:\?|::|:&|:,|&\|/", $sql, $uu, PREG_OFFSET_CAPTURE)) {
@@ -191,17 +191,13 @@ class db_wrap {
         }
 
         #-- placeholders
-        if (empty(!$this->tokens) && strpos($sql, "{")) {
-            $sql = preg_replace_callback("/\{(\w+)(.*?)\}/e", function($m) use ($db) {
-                return isset($this->token["$m[1]"]) ? $this->token["$m[1]"]."$m[2]" : $this->token["$m[1]$m[2]"];
-            }, $sql);
+        if (!empty($this->tokens) && strpos($sql, "{")) {
+            $sql = preg_replace_callback("/\{(\w+)(.*?)\}/", array($this, "token"), $sql);
         }
         
-        #-- SQL incompliance workarounds
+        #-- older SQLite workaround
         if (!empty($this->in_clause) && strpos($sql, " IN (")) { // only for ?,?,?,? enum params
-            $sql = preg_replace_calback("/(\S+)\s+IN\s+\(([?,]+)\)/", function($m) {
-               return "($m[1]=" . implode("OR $m[1]=", array_fill(0, 1+strlen("$m[2]")/2, "? ")) . ")";
-            }, $sql);
+            $sql = preg_replace_callback("/(\S+)\s+IN\s+\(([?,]+)\)/", array($this, "in_clause"), $sql);
         }
 
         #-- just debug
@@ -218,10 +214,23 @@ class db_wrap {
         return $s && $r ? new db_result($s) : $s;
     }
 
+
     // This is a restrictive filter function for column/table name identifiers.
     // Can only be foregone if it's ensured that none of the passed named db() $arg keys originated from http/user input.
     function db_identifier($as, $wrap="") {
         return preg_replace(array("/[^\w\d_.]/", "/^|$/"), array("_", $wrap), $as);
+    }
+
+    
+    // Regex callbacks
+    function token($m) {
+        list($m, $tok, $ext) = $m;
+        return isset($this->token[$tok]) ? $this->token[$tok].$ext : $this->token["$tok$ext"];
+    }
+    function in_clause($m) {
+        list($m, $key, $vals) = $m;
+        $num = substr_count($vals, "?");
+        return "($key=" . implode("OR $key=", array_fill(0, $num, "? ")) . ")";
     }
 
 }
