@@ -256,25 +256,6 @@ function p_key_value($str) {
 
 
 
-/**
- *  Extracts key = /regex/ list.  Regex delimiters are always required,
- *  but keys may be in multiple formats (version=, [version]=>, $version:=..)
- *
- */
-function p_key_value_rx($str) {
-    preg_match_all(
-        "@
-           [[%$]*  (\w+)  []%$]*
-              \s*  [:=>]+  \s*
-           (
-              ([^\s\w])  (?> (?!\\3|\\\\). |  \\\\. )+  \\3 [umixUs]* [*]?
-           )
-        @msx",
-        $str, $m
-    );
-    return array_change_key_case(array_combine($m[1], $m[2]), CASE_LOWER);
-}
-
 
 #-- database check
 function project_version_exists($name, $version) {
