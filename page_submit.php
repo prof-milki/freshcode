@@ -85,7 +85,7 @@ elseif ($name and $_REQUEST->has("title", "description")) {
         print("<h3>Submission too short</h3> <p>You didn't fill out crucial information. Please note that our user base expects an enticing set of data points to find your project.</p>");
     }
     // Terms and conditions
-    elseif (array_sum($_REQUEST->array->int->range…0…1["req"]) < 3) {
+    elseif (array_sum($_REQUEST->array->int->range…0…1["req"]) < 2) {
         print "<h3>Terms and Conditions</h3> <p>Please go back and assert that your open source project listing is reusable under the CC-BY-SA license.</p>";
     }
     elseif (!csrf(TRUE)) {
@@ -147,7 +147,7 @@ else {
                Project ID
                <input name=name size=20 placeholder=projectname value="$data[name]"
                       maxlength=33 required pattern="^\w[-_\w]+\w$">
-               <small>A short moniker which becomes your http://freshcode.club/projects/<b>name</b>.<br>
+               <small>A short moniker which becomes your http://freshcode.club/projects/<var>name</var>.<br>
                <small>May contain letters, numbers, hyphen or underscore.</small></small>
            </label>
 
@@ -165,7 +165,7 @@ else {
 
            <label>
                Description
-               <textarea cols=50 rows=8 name=description
+               <textarea cols=60 rows=9 name=description
                          maxlength=1500 required>$data[description]</textarea>
                <small>Please give a concise roundup of what this software does, what specific features
                it provides, the intended target audience, or how it compares to similar apps.</small>
@@ -224,7 +224,7 @@ else {
 
            <label>
                Changes
-               <textarea cols=50 rows=7 name=changes maxlength=2000>$data[changes]</textarea>
+               <textarea cols=60 rows=8 name=changes maxlength=2000>$data[changes]</textarea>
                <small>Summarize the changes in this release. Documentation additions are as
                crucial as new features or fixed issues.</small>
            </label>
@@ -232,15 +232,16 @@ else {
            <label>
                Download URL
                <input name=download size=50 type=url placeholder="http://project.example.org/" value="$data[download]" maxlength=250>
-               <small>In particular for the download link one could utilize the <b>\$version</b> placeholder.</small>
+               <small>In particular for the download link one could utilize the <b><kbd>\$version</kbd></b> placeholder.</small>
            </label>
 
            <label>
                Other URLs
-               <textarea cols=50 rows=3 name=urls maxlength=2000>$data[urls]</textarea>
-               <small>You can add more project URLs using a comma/newline-separated list
-               like <tt>src=http://, deb=http://</tt>.
-               Common link types include src=, rpm=, deb=, txz=, dvcs=, forum=, changelog=, etc.</small>
+               <textarea cols=60 rows=5 name=urls maxlength=2000>$data[urls]</textarea>
+               <small>A list of comma or newline-separated project URLs
+               like <code>src = http://foo, deb = http://bar</code>.
+               Common link types include src / rpm / deb / txz / dvcs / release-notes / forum, etc.
+               Either may contain a <b>\$version</b> placeholder again.</small>
            </label>
         </p>
 
@@ -272,7 +273,7 @@ else {
                <textarea cols=50 rows=3 name=autoupdate_regex placeholder="version = /-(\d+\.\d+\.\d+)\.txz/" maxlength=2500>$data[autoupdate_regex]</textarea>
                <small>
                <a href="http://fossil.include-once.org/freshcode/wiki/AutoupdateRegex">Regex automated updates</a>
-               expect a list of field=/regex/ names, like version=, changes=, download=, state=.
+               expect a list of <code>field=/regex/</code> names, like version=, changes=, download=, state=.
                Associatively-named "Other URLs" are also used for extraction.</small>
            </label>
 
@@ -284,7 +285,7 @@ else {
 
            <label>
                Submitter
-               <input name=submitter size=50 placeholder="Your Name,  optional@example.com" value="$data[submitter]" maxlength=50>
+               <input name=submitter size=50 placeholder="Your Name,  optional@example.com" value="$data[submitter]" maxlength=100>
                <small>Give us your name or nick name here. Optionally list a <a href="//gravatar.com/">gravatar</a> email.</small>
            </label>
 
@@ -300,7 +301,6 @@ else {
            <b>Terms and Conditions</b>
            <label class=inline><input type=checkbox name="req[os]" value=1 required> It's open source / libre / Free software or pertains BSD/Linux.</label>
            <label class=inline><input type=checkbox name="req[cc]" value=1 required> Your entry is shareable under the <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA</a> license.</label>
-           <label class=inline><input type=checkbox name="req[sp]" value=1> And it's not spam.</label>
         </p>
         <p>
            <input type=submit value="Submit Project/Release">
