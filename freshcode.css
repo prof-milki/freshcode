@@ -3,7 +3,7 @@
  * type: stylesheet
  * title: freshcode.club layout+style
  * description: Simulates the late freecode.com layout and looks; well mostly.
- * version: 0.5.5
+ * version: 0.5.6
  *
  * Centered two-pane layout. The #main section is usually 33% of the screen width,
  * while the #sidebar floats at the right. They're repositioned only using padding:
@@ -43,7 +43,14 @@ a[href=""] {
 input, textarea, select {
     font-size: 107%;
 }
-
+code, var, kbd {
+    background: linear-gradient(90deg,#fafafa,#fafaff);
+    box-shadow: 0 0 3px 2px #ccf;
+    border-radius: 3px;
+    margin: 1px;
+}
+var { box-shadow: 0 0 3px 2px #fdd; }
+kbd { box-shadow: 0 0 3px 2px #dfd; }
 
 /**
  * Page header, info bar and logo box
@@ -312,13 +319,16 @@ input, textarea, select {
 /**
  * Variation for /projects/xyz detail view.
  */
-#main .project .long-tags span {
+#main .project .long-tags th {
     border: 1px solid #ddd;
     background: #eee;
-    padding: 1pt 8pt;
+    padding: 1pt 12pt;
     border-radius: 4pt;
-    margin-right: 30pt;
     font-size: 80%;
+    text-align: right;
+}
+#main .project .long-tags {
+    border-spacing: 5pt;
 }
 #main .project .long-tags a {
     padding: 2pt 5pt;

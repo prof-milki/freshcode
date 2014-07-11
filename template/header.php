@@ -4,7 +4,7 @@
     <title>freshcode.club</title>
     <meta name=version content=0.4.5>
     <meta charset=UTF-8>
-    <link rel=stylesheet href="/freshcode.css?0.5.3">
+    <link rel=stylesheet href="/freshcode.css?0.5.6">
     <link rel="shortcut icon" href="/img/changes.png">
     <base href="http://<?= HTTP_HOST ?>/">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
