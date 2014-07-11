@@ -6,24 +6,15 @@
     <meta charset=UTF-8>
     <link rel=stylesheet href="/freshcode.css?0.5.6">
     <link rel="shortcut icon" href="/img/changes.png">
-    <base href="http://<?= HTTP_HOST ?>/">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script>
-       $(function(){
-          $(".project .trimmed").one("click", function(){  
-              $(this).animate({"max-height": "20em"});
-          });
-          $(".article-links.trimmed").one("click", function(){
-              $(this).toggleClass("trimmed");
-          });
-       });
-    </script>
+    <base href="//<?= HTTP_HOST ?>/">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="/gimmicks.js"></script>
 <?php if (isset($header_add)) { print $header_add . "\n"; } ?>
 </head>
 <body>
 
 <nav id=topbar>
-Open source community software release tracking. <small style="color:#9c7">[0.4.5 alpha]</small>
+Open source community software release tracking. <small style="color:#9c7">[0.4.7 alpha]</small>
 <span style=float:right>
 <a href="//freshmeat.club/">freshmeat.club</a> |
 <a href="//freecode.club/">freecode.club</a> |
