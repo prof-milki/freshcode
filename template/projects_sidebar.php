@@ -4,6 +4,7 @@
  * type: template
  * title: Sidebar links for project
  * description: Shows project URLs, submitter, submit/ and flag/ link, social bookmarks
+ * depends: proj_links, social_share_count, social_share_links
  *
  * Creates #sidebar with four <section>s:
  *   → Project links (homepage, download, other URLs)
@@ -13,6 +14,7 @@
  *
  */
 
+$_ = "trim";
 
 print <<<SIDEBAR
       <aside id=sidebar>

@@ -8,11 +8,10 @@
  * category: form
  * license: AGPLv3
  * 
+ * Prepares the submission form. On POST checks a few constraints,
+ * but UPDATE itself is handled by release::update() and ::store().
  *
- * Prepares the submission form,
- * handles database preparation
- * and merges in previous release entries.
- *
+ * Tags: http://aehlke.github.io/tag-it/
  *
  */
 
@@ -60,7 +59,7 @@ $is_new = empty($data);
 
 // Else create empty form value defaults in $data
 if ($is_new) {
-    $data = array_combine($form_fields, array_fill(0, count($form_fields), ""));
+    $data = array_fill_keys($form_fields, "");
     $data["name"] = $name;
     $data["submitter"] = $_SESSION["name"];
 }

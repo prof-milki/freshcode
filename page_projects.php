@@ -38,10 +38,7 @@ $releases = db("
 
 // Show sidebar + long project description
 if ($entry = $releases->fetch()) {
-    
-    // Output
     prepare_output($entry);
-    $_ = "trim";
     include("template/projects_sidebar.php");
     include("template/projects_description.php");
 }
@@ -59,10 +56,8 @@ $releases = db("
   ORDER BY t_published DESC, t_changed DESC
 ", $name);
 
-?> <article class=release-list>  <h3>Recent Releases</h3> <?php
+?> <article class=release-list>  <h4>Recent Releases</h4> <?php
 while ($entry = $releases->fetch()) {
-    
-    // Output
     prepare_output($entry);
     include("template/projects_release_entry.php");
 }

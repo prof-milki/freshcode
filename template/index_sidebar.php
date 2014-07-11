@@ -1,4 +1,16 @@
+<?php
+/**
+ * type: template
+ * title: frontpage feeds
+ * description: Outputs #sidebar on frontage, containing template/feed.*.htm
+ *
+ * The feed.*.htm files are regularily updated
+ * by cron.daily/newsfeeeds. Thus does not need
+ * further processing here.
+ *
+ */
 
+?>
 
  <aside id=sidebar>
 
@@ -13,3 +25,4 @@
     </section>
 
  </aside>
+

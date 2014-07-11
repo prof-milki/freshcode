@@ -197,6 +197,22 @@ function social_share_count($num) {
 }
 
 
+
+/**
+ * Write out pseudo pagination links.
+ * This is just appended no matter the actually available entries.
+ * The db() queries themselves handle the LIMIT/OFFSET, depending on a page param.
+ *
+ */
+function pagination($page_no, $GET_param="n") {
+    print "<p class=pagination-links> »";
+    foreach (range($page_no-2, $page_no+9) as $n) if ($n > 0) {
+        print " <a " . ($n==$page_no ? "class=current " : ""). "href=\"?n=$n\">$n</a> ";
+    }
+    print "« </p>";
+}
+
+
 // CSRF token, only for logged-in users though
 // Here they're mainly to prevent remotely initiated requests for other users here, not general form nonces
 function csrf($probe=false) {

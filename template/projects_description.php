@@ -4,6 +4,7 @@
  * type: template
  * title: Project description
  * description: Displays title, version, description, tags, homepage + download button
+ * depends: wrap_tags
  *
  * Each projects/ page description contains
  *
@@ -15,6 +16,8 @@
  *
  */
 
+
+$_ = "trim";
 
 print <<<PROJECT
       <article class=project>

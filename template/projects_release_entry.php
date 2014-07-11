@@ -4,6 +4,7 @@
  * type: template
  * title: Project version entry
  * description: Displays a release, with scope and changes
+ * depends: strftime
  *
  * Shows versioning history of projects/
  *   → Date and Version

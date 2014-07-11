@@ -4,7 +4,7 @@
   * title: Input $_REQUEST wrappers
   * type: interface
   * description: Encapsulates input variable superglobals for easy sanitization access
-  * version: 2.7
+  * version: 2.8
   * revision: $Id$
   * license: Public Domain
   * depends: php:filter, php >5.0, html_purifier
@@ -106,6 +106,18 @@
 
 
 /**
+ * Project-specific identifiers.
+ *
+ * Since `input` is an overly generic name, one might wish to wrap it up if
+ * there's an identifier conflict. (Remember; namespaces aren't taxonomies.)
+ *
+ */
+#namespace filter;
+#use \ArrayObject, \Countable, \Iterator, \OutOfBoundsException;
+#use \HTMLPurifier;
+
+
+/**
  * Handler name for direct $_REQUEST["array"] access.
  *
  *   "raw" = reports with warning,
@@ -156,7 +168,9 @@ class input implements ArrayAccess, Countable, Iterator {
 
     
     /**
-     * [w]
+     * @type    cast
+     * @sample  22
+     *
      * Integer.
      *
      */
@@ -165,7 +179,9 @@ class input implements ArrayAccess, Countable, Iterator {
     }
 
     /**
-     * [w]
+     * @type    cast
+     * @sample  3.14159
+     *
      * Float.
      *
      */
@@ -174,7 +190,9 @@ class input implements ArrayAccess, Countable, Iterator {
     }
     
     /**
-     * [w]
+     * @type    white, strip
+     * @sample  "_foo123"
+     *
      * Alphanumeric strings.
      * (e.g. var names, letters and numbers, may contain international letters)
      *
@@ -184,19 +202,34 @@ class input implements ArrayAccess, Countable, Iterator {
     }
 
     /**
-     * [w]
+     * @type    white, strip
+     * @sample  "xvar.1_2.x"
+     *
      * Identifiers with underscores and dots,
-     * like "xvar.1_2.x"
      *
      */
     function _id($data) {
         return preg_replace("#(^[^a-z_]+)|[^\w\d_.]+|([^\w_]$)#i", "", $data);
     }
+
+    /**
+     * @type    white, strip
+     * @sample  "tag-name-123"
+     *
+     * Alphanumeric strings with dashes. Commonly used for slugs.
+     * Consecutive dashes and underscores are compacted.
+     *
+     */
+    function _slug($data) {
+        return preg_replace("/[^\w-]+|^[^a-z]+|[^\w]+$|(?<=[-_])[-_]+/", "", strtolower($s));
+    }
     
     /**
-     * [w]
+     * @type    white, strip
+     * @sample  "Hello - World. Foo + 3, Bar."
+     * 
      * Flow text with whitespace,
-     * minimal interpunction allowed.
+     * with minimal interpunction allowed (optional parameter).
      *
      */
     function _words($data, $extra="") {
