@@ -27,18 +27,17 @@ if ($_GET->words["name"]) {
     print "<h2>Projects with tags: {$_GET->words->html['name']}</h2><p><dl>";
 
     $result = db("
-        SELECT release.name, SUBSTR(description,1,222) AS description, version, MAX(t_changed)
+        SELECT release.name, SUBSTR(description,1,222) AS description, version, MAX(t_changed),
+               image, homepage, download, title, t_published
         FROM release
         LEFT JOIN tags ON release.name = tags.name
         WHERE tags.tag IN (??)
         GROUP BY release.name LIMIT 50",
         $_GET->words->p_csv["name"]
     );
-    foreach ($result->into() as $p) {
-        print<<<HTML
-           <dt><a href="/projects/$p->name">$p->name</a> <em>$p->version</em></dt>
-           <dd>$p->description</dd>
-HTML;
+    foreach ($result as $entry) {
+        prepare_output($entry);
+        include("template/search_entry.php");
     }
 }
 
@@ -72,7 +71,7 @@ else {
             $q = sprintf("%.1f", $q * 100);
 
             // output
-            print " <a href=\"/tags/$t[tag]\" class=tag style=\"font-size: $q%;\"> $t[tag]</a> ";
+            print " <a href=\"/search?tag=$t[tag]\" class=tag style=\"font-size: $q%;\"> $t[tag]</a> ";
         }
 
     }

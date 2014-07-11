@@ -31,6 +31,7 @@ Open source community software release tracking. <small style="color:#9c7">[0.4.
    <a href="/">Home</a>
    <a href="/submit" class=submit>Submit</a>
    <a href="/tags">Browse Projects by Tag</a>
+   <a href="/search">Search</a>
    <a href="http://fossil.include-once.org/freshcode/wiki/About">About</a>
    <a href="/links">Links</a>
    <a href="http://www.opensourcestore.org/">Forum</a>

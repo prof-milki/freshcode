@@ -109,7 +109,7 @@ function proj_name($s) {
 function wrap_tags($tags, $r="") {
     foreach (str_getcsv($tags) as $id) {
         $id = trim($id);
-        $r .= "<a href=\"/tags/$id\">$id</a>";
+        $r .= "<a href=\"/search?tag=$id\">$id</a>";
     }
     return $r;    
 }
