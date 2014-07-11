@@ -213,6 +213,17 @@ function pagination($page_no, $GET_param="n") {
 }
 
 
+// Output a list of select <option>s
+function form_select_options($names, $value, $r="") {
+    $map = is_string($names) ? array_combine($names = str_getcsv($names), $names) : $names;
+    if ($value and !isset($map[$value])) { $map[$value] = $map[$value]; }
+    foreach ($map as $id=>$title) {
+        $r .= "<option" . ($id == $value ? " selected" : "") . " value=\"$id\" title=\"$title\">$id</option>";
+    }
+    return $r;
+}
+
+
 // CSRF token, only for logged-in users though
 // Here they're mainly to prevent remotely initiated requests for other users here, not general form nonces
 function csrf($probe=false) {
