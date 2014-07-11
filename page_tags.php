@@ -25,7 +25,7 @@ include("template/header.php");
 if ($_GET->words["name"]) {
 
     print "<h2>Projects with tags: {$_GET->words->html['name']}</h2><p><dl>";
-    
+
     $result = db("
         SELECT release.name, SUBSTR(description,1,222) AS description, version, MAX(t_changed)
         FROM release
@@ -34,7 +34,7 @@ if ($_GET->words["name"]) {
         GROUP BY release.name LIMIT 50",
         $_GET->words->p_csv["name"]
     );
-    foreach ($result as $p) {
+    foreach ($result->into() as $p) {
         print<<<HTML
            <dt><a href="/projects/$p->name">$p->name</a> <em>$p->version</em></dt>
            <dd>$p->description</dd>
