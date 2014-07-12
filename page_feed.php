@@ -150,7 +150,7 @@ if ($name = $_GET->proj_name["name"]) {
         foreach ($feed["releases"] as $i=>$row) {
             $f->entry($i, new FeedEntry(@array(
                 "title"   => ($row["title"] ?: $feed["title"]) . " $row[version]",
-                "updated" => $row["published"],
+                "published" => $row["published"],
                 "author"  => $row["submitter"] ?: $feed["submitter"],
                 "content" => $row["changes"],
                 "permalink" => $row["homepage"] ?: $feed["homepage"],

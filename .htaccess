@@ -2,8 +2,8 @@
 # api: apache
 # title: RewriteRules
 # description: Map paths onto dispatcher script
-#
-#
+# version: 1.0
+# depends: mod_rewrite
 
 
 RewriteEngine On
@@ -23,8 +23,8 @@ RewriteRule  ^$ /feed/xfer.%1
 RewriteRule ^(?:projects)\.(atom|rss|json)$  /feed/xfer.$1
 
 #-- Page dispatching
-RewriteRule  ^$                 index.php?page=index    [L,NS,QSA,E=END:1]
-RewriteRule  ^(projects|submit|search|flag|tags|feed|login|links|admin)\b/?(\w+(?:[-_]\w+)*)?(?:\.(json|atom|rss))?/?$   index.php?page=$1&name=$2&ext=$3   [L,NS,QSA,E=END:1]
+RewriteRule  ^$                 index.php?page=index    [L,NS,QSA]
+RewriteRule  ^(projects|submit|search|flag|tags|feed|login|links|admin)\b/?(\w+(?:[-_]\w+)*)?(?:\.(json|atom|rss))?/?$   index.php?page=$1&name=$2&ext=$3   [L,NS,QSA]
 
 #-- Deny direct invocations
 RewriteRule  ^freshcode\.db.*$  -                       [F]
