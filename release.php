@@ -3,7 +3,7 @@
  * api: freshcode
  * title: release/project data wrapper
  * description: Database scheme / versioned model abstraction for project releases
- * version: 0.2
+ * version: 0.3
  * depends: db
  * license: MITL
  * 
@@ -86,7 +86,7 @@ class release extends ArrayObject {
                  "title"    => $newdata->text               ->length…100["title"],
               "description" => $newdata                    ->length…2000["description"],
                  "license"  => $newdata->words               ->length…30["license"],
-                 "tags"     => $newdata->words->strtolower  ->length…150["tags"],
+                 "tags"     => $newdata->words->f_tags      ->length…150["tags"],
                  "version"  => $newdata->words               ->length…30["version"],
                  "state"    => $newdata->words->strtolower   ->length…30["state"],
                  "scope"    => $newdata->words->strtolower   ->length…30["scope"],

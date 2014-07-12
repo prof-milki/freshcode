@@ -3,7 +3,7 @@
  * api: freshmeat
  * title: template auxiliary code
  * description: A few utility functions and data for the templates
- * version: 0.2
+ * version: 0.5
  * license: AGPL
  *
  * This function asortment prepares some common output.
@@ -100,6 +100,16 @@ $licenses = array (
 // Project names may be alphanumeric, and contain dashes
 function proj_name($s) {
     return preg_replace("/[^a-z0-9-_]+|^[^a-z]+|[^\w]+$|(?<=[-_])[-_]+/", "", strtolower($s));
+}
+
+// Tags is a comma-separated list, yet sometimes delimited with something else; normalize..
+function f_tags($s) {
+    return
+        preg_replace(     # exception for "c++"
+            ["/[-_.:]+/", "/(c\+\+(?=[\s,-]))?\+*/", "/[,;|]+/", "/[^a-z0-9,+\s-]+/", "/[,\s]+/", "/^\W+|\W+$/"],
+            [  "-",           "$1",                    ",",             " ",            ", "    ,      ""      ],
+            strtolower($s)
+        );
 }
 
 

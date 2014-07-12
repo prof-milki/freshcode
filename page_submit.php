@@ -4,7 +4,7 @@
  * type: page
  * title: Submit/edit project or release
  * description: Single-page edit form for projects and their releases
- * version: 0.6.0
+ * version: 0.6.5
  * category: form
  * license: AGPLv3
  * 
@@ -181,7 +181,7 @@ else {
            <label>
                Tags
                <input name=tags size=50 placeholder="game, desktop, gtk, python" value="$data[tags]"
-                      maxlength=150 pattern="^\s*(\w+(-\w+)*(\s*,\s*|\s+)?){0,10}\s*$">
+                      maxlength=150 pattern="^\s*((c\+\+|\w+([-.]\w+)*(\[,;\s]+)?){0,10}\s*$">
                <small>Categorize your project. Tags can be made up of letters, numbers and dashes. 
                This can include usage context, application type, programming languages, related projects,
                etc.</small>
