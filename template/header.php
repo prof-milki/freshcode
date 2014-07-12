@@ -14,7 +14,8 @@
 <body>
 
 <nav id=topbar>
-Open source community software release tracking. <small style="color:#9c7">[0.4.7 alpha]</small>
+Open source community software release tracking.
+<?= is_int(strpos(HTTP_HOST, ".")) ? '<small style="color:#9c7">[0.4.7 alpha]</small>' : '<b style="color:#c54">[local dev]</b>'; ?>
 <span style=float:right>
 <a href="//freshmeat.club/">freshmeat.club</a> |
 <a href="//freecode.club/">freecode.club</a> |

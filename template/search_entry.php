@@ -10,11 +10,11 @@
 
 if (!function_exists("smallify")) {
     function smallify($text, $r="") {
-        $text = explode("\n", wordwrap(input::spaces($text), 20));
+        $text = explode("\n", wordwrap(input::spaces($text), 15));
         foreach ($text as $i=>$line) {
             $q = 100 - $i;
-            $h = $q * 0.5;
-            $r .= "<span style=\"font: normal $q%/$h% Arial\">"
+            $o = (100 - 1.9*$i) / 100;
+            $r .= "<span style=\"font-size: $q%; opacity: $o;\">"
                 . $line . "</span> ";
         }
         return $r;

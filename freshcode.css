@@ -323,7 +323,7 @@ kbd { box-shadow: 0 0 3px 2px #dfd; }
  */
 #main .project.search {
     clear: both;
-    margin-bottom: 7pt;
+    margin-bottom: 15pt;
 }
 #main .project.search h3 {
     display: inline;

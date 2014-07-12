@@ -15,9 +15,6 @@
  */
 
 
-// Bypass hybrid db() function to directly invoke $db{} wrapper with list of params
-global $db;
-
 
 include("template/header.php");
 ?> <section id=main> <?php
@@ -39,7 +36,7 @@ else {
 
     // List from ?tags[]= or single ?tag=
     if ($tags = array_filter(array_merge($_GET->array->words["tags"], $_GET->words->p_csv["tag"]))) {
-        $WHERE .= " AND tags.tag IN (??)";
+        $WHERE .= " AND name IN (SELECT name FROM tags WHERE tag IN (??))";
         $params[] = $tags;
     }
     // Select specific ?user=
@@ -61,15 +58,15 @@ else {
 
     // Run SQL
     #db()->test = 1;
-    $result = $db("
+    $db_arg = db(); // Bypass hybrid db() function to directly invoke $db{} wrapper with list of params
+    $result = $db_arg("
         SELECT release.name AS name, title, SUBSTR(description,1,500) AS description,
                version, image, homepage, download, submitter, release.tags AS tags,
                license, state, t_published, flag, hidden, deleted, MAX(t_changed)
           FROM release
-     LEFT JOIN tags ON release.name = tags.name
          WHERE NOT deleted AND flag < 5
-               $WHERE
       GROUP BY release.name
+        HAVING 1=1 $WHERE
       ORDER BY t_published DESC, t_changed DESC
          LIMIT 100
     ", $params);

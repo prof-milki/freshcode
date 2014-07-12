@@ -56,6 +56,8 @@
  * initialized with:
  *
  *       db(new PDO(...));
+ *
+ * It's wrapped PDO handle can also be retrieved with just $pdo = db(); then.
  * 
  *
  * RECORD WRAPPER
@@ -77,7 +79,7 @@
 function db($sql=NULL, $params=NULL) {
 
     #-- shared PDO handle
-    $db = & $GLOBALS["db"];
+    $db = & $GLOBALS["db"];   // Alternatively could be just static to hide it behind db()
     
     #-- open database
     if (is_object($sql)) {
