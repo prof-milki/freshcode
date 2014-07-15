@@ -101,7 +101,7 @@ class release extends ArrayObject {
         // Declare some automatic system flags
         $auto_flags = array(
             // Hidden releases are either tagged that way, or have too short of a `changes:` summary
-            "hidden" => intval(stripos($newdata["scope"], "hidden")),
+            "hidden" => intval(is_int(stripos($newdata["scope"], "hidden")) or !empty($prefill_flags["hidden"])),
             // Increase associated publishing timestamp if hereunto unknown release
             "t_published" => $this->exists($newdata["name"], $newdata["version"]) ?: time(),
              // Whereas the update timestamp is always adapted
