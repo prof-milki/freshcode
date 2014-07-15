@@ -33,6 +33,7 @@ $releases = db("
     SELECT *
       FROM release_versions
      WHERE flag < 5
+       AND NOT hidden
      LIMIT 40
     OFFSET 40*?
 ", $page_no - 1);
