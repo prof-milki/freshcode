@@ -564,8 +564,8 @@ class input implements ArrayAccess, Countable, Iterator {
      *
      */
     function _strip_markup($data, $with="") {
-        return preg_replace("/<\s*/?\s*(a|b|i|em|strong|sup|sub|ins|del|br|hr|big|small|font|span|div|table|tr|td|ol|ul|li|dl|dd|dt|abbr|h[1-6])\b".
-               "(?>[^>\"\']+|\"[^\"]*\"|'[^']*')*>/", $with, $data);
+        return preg_replace("~<\s*/?\s*(a|b|i|em|strong|sup|sub|ins|del|br|hr|big|small|font|span|div|table|tr|td|ol|ul|li|dl|dd|dt|abbr|h[1-6])\b".
+               "(?>[^>\"\']+|\"[^\"]*\"|'[^']*')*>~", $with, $data);
     }
 
 
