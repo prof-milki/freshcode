@@ -23,6 +23,7 @@ $name = $_REQUEST->proj_name["name"];
 $header_add = "<link rel=alternate type=application/rss+xml href=/feed/$name.rss>\n"
             . "<link rel=alternate type=application/atom+xml href=/feed/$name.atom>\n"
             . "<link rel=alternate type=json/vnd.freshcode.club href=/feed/$name.json>";
+$title = "$name - freshcode.club";
 include("template/header.php");
 
 
