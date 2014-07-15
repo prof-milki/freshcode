@@ -132,10 +132,36 @@ function date_fmt($time) {
 
 
 
-// Substitute `$version` placeholders in URLs
+/**
+ * Substitute `$version` placeholders in URLs.
+ *
+ * Supported syntax variations:
+ *    →  $version and $version$
+ *    →  %version and %version%
+ *
+ * And for substituting $version-number dots:
+ *    →  $-$version  for which 1.2.3 becomes 1-2-3
+ *    →  $_$version  for which 2.3.4 becomes 2_3_4
+ *
+ */
 function versioned_url($url, $version) {
-    return preg_replace("/([\$%])(version|Version|VERSION)(\\1?|\b|(?=_))/", $version, $url);
+    $rx = "/
+        ([ \$ % ])                  # var syntax
+        (?: (.) \\1 )?              # substitution prefix
+        (version|Version|VERSION)   # 'version'
+        (?= \\1 | \b | _ )          # followed by var syntax, wordbreak, or underscore
+    /x";
+    // Check for '$version'
+    if (preg_match($rx, $url, $m)) {
+        // Optionally replace dots in version string
+        if ($m[2]) {
+            $version = strtr($version, ".", $m[2]);
+        }
+        $url = preg_replace($rx, $version, $url);
+    }
+    return $url;
 }
+
 
 
 // Project listing output preparation;
@@ -147,8 +173,8 @@ function prepare_output(&$entry) {
     
     // project screenshots
     if (TRUE or empty($entry["image"])) {
-        if (file_exists("./img/screenshot/$entry[name].jpeg")) {
-            $entry["image"] = "/img/screenshot/$entry[name].jpeg";
+        if (file_exists($fn = "img/screenshot/$entry[name].jpeg")) {
+            $entry["image"] = "/$fn?" . filemtime($fn);
         }
         else {
             $entry["image"] = "/img/nopreview.png";
