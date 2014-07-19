@@ -119,7 +119,7 @@ function f_tags($s) {
 function wrap_tags($tags, $r="") {
     foreach (str_getcsv($tags) as $id) {
         $id = trim($id);
-        $r .= "<a href=\"/search?tag=$id\">$id</a>";
+        $r .= "<a href=\"/search?tag=$id\">$id </a>";
     }
     return $r;    
 }
@@ -147,7 +147,7 @@ function date_fmt($time) {
 function versioned_url($url, $version) {
     $rx = "/
         ([ \$ % ])                  # var syntax
-        (?: (.) \\1 )?              # substitution prefix
+        (?: (.?) \\1 )?              # substitution prefix
         (version|Version|VERSION)   # 'version'
         (?= \\1 | \b | _ )          # followed by var syntax, wordbreak, or underscore
     /x";
@@ -261,26 +261,31 @@ function form_select_options($names, $value, $r="") {
 
 
 // CSRF token, only for logged-in users though
-// Here they're mainly to prevent remotely initiated requests for other users here, not general form nonces
+// Here they're mainly to prevent remotely initiated requests against other users, not general form nonces
 function csrf($probe=false) {
 
     // Tokens are stored in session, reusable, but only for an hour
-    $store = & $_SESSION[__FUNCTION__];
+    $store = & $_SESSION["csrf"];
     foreach ($store as $id=>$time) {
         if ($time < time()) { unset($store[$id]); }
     }
     
     // Test presence
     if ($probe) {
-        return empty($_SESSION["openid"])
-            or $id = $_REQUEST->id["_ct"] and !empty($_SESSION[__FUNCTION__][$id]);
+        if (empty($_SESSION["openid"])) {
+            return TRUE;
+        }
+        if ($id = $_REQUEST->name["_ct"]) {
+            #var_dump($id, $store, isset($store[$id]));
+            return isset($store[$id]);
+        }
     }
     
     // Create new entry, output form field for token
     else {
         // server ENV already contained Apache unique request id etc.
         $id = sha1(serialize($_SERVER->__vars));
-        $_SESSION[__FUNCTION__][$id] = time() + 3600;  // timeout
+        $store[$id] = time() + 3600;  // timeout
         return "<input type=hidden name=.ct value=$id>";
     }
 }
