@@ -303,8 +303,8 @@ class db_result_iter implements Iterator {
     protected $row = NULL;
     public function current()
     {
-        list($class, $arg2) = $this->into;
-        return new $class($this->row, $arg2);
+        list($class, $a2, $a3, $a4, $a5) = array_merge($this->into, [NULL, NULL, NULL, NULL]);
+        return new $class($this->row, $a2, $a3, $a4, $a5);
     }
     function valid() {
         return !empty($this->row = $this->results->fetch());
