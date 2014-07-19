@@ -73,6 +73,7 @@ class curl {
              ->httpget(1)
              ->http200aliases(array(200,201,202,203))
              ->header(0)
+             ->UserAgent("freshcode/0.5 (U) +http://freshcode.club/")
              ->followlocation(!ini_get("safe_mode"));
              
         // option is just URL string
