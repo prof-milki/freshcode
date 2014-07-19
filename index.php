@@ -3,7 +3,7 @@
  * api: php
  * title: Freshcode.club
  * description: FLOSS software release tracking website
- * version: 0.4.7
+ * version: 0.4.9
  * author: mario
  * license: AGPL
  * 
@@ -23,6 +23,7 @@ switch ($page = $_GET->id["page"]) {
     case "index":
     case "projects":
     case "feed":
+    case "forum":
     case "links":
     case "tags":
     case "search":
