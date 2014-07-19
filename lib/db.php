@@ -4,7 +4,7 @@
  * description: Hybrid db() interface for extended SQL parameterization and result folding
  * api: php
  * type: database
- * version: 0.9.2
+ * version: 0.9.9
  * depends: pdo
  * license: Public Domain
  * author: Mario Salzer
@@ -24,9 +24,14 @@
  *      ??    Interpolation of indexed arrays - useful for IN clauses.
  *      ::    Turns associative arrays into a :named, :value, :list.
  *      :?    Interpolates key names (ignores values).
+ *
  *      :&    Becomes a `name`=:value list, joined by AND - for WHERE clauses.
  *      :|    Becomes a `name`=:value list, joined by OR - for WHERE clauses.
  *      :,    Becomes a `name`=:value list, joined by , commas - for UPDATEs.
+ *
+ *      :*    Expression placeholder, where the associated argument should
+ *            contain an array ["AND foo IN (??)", $params] - which only
+ *            interpolates if $params contains any value.  Can be nested.
  *
  * Configurable {TOKENS} from db()->tokens[] are also substituted..
  *
@@ -119,102 +124,182 @@ function db($sql=NULL, $params=NULL) {
 class db_wrap {
 
 
+    /**
+     * Keep PDO handle.
+     *
+     */
+    public $pdo = NULL;
     function __construct($pdo) {
         $this->pdo = $pdo;
     }
 
+
+    /**
+     * Chain to plain PDO if any other method invoked.
+     *
+     */
     function __call($func, $args) {
         return call_user_func_array(array($this->pdo, $func), $args);
     }
 
+
     /**
-     * Handles extended placeholders and parameter unpacking.
+     * Prepares and executes query after extended placeholders and parameter unpacking.
      *
      */
     function __invoke($sql, $args=array()) {
 
-        #-- reject SQL
+        // $sql may contain associative SQL parts and parameters
+        if (is_array($sql)) {
+            list($sql, $args) = $this->join($sql);
+        }
+
+        // reject plain strings in SQL
         if (strpos($sql, "'")) {
             trigger_error("SQL query contained raw data. DO NOT WANT", E_USER_WARNING);
             return NULL;
         }
-        
-        #-- get $params
-        $params2 = array();
 
+        // flatten array arguments and extended placeholders
+        list($sql, $args) = $this->fold($sql, $args);
+        
+        // placeholders
+        if (!empty($this->tokens) && strpos($sql, "{")) {
+            $sql = preg_replace_callback("/\{(\w+)(.*?)\}/", array($this, "token"), $sql);
+        }
+        // older SQLite workaround
+        if (!empty($this->in_clause) && strpos($sql, " IN (")) { // only for ?,?,?,? enum params
+            $sql = preg_replace_callback("/(\S+)\s+IN\s+\(([?,]+)\)/", array($this, "in_clause"), $sql);
+        }
+        // just debug output
+        if (!empty($this->test)) { 
+            print json_encode($args)." => " . trim($sql) . "\n"; return;
+        }
+    
+        // run
+        $s = $this->prepare($sql)
+        and
+        $r = $s->execute($args);
+
+        // wrap        
+        return $s && $r ? new db_result($s) : $s;
+    }
+
+
+    /**
+     * Expands the extended placeholders and flattens arrays from parameter list.
+     *
+     */
+    function fold($sql, $args) {
+    
+        // output parameter list
+        $params2 = array();
+        
         #-- flattening sub-arrays (works for ? enumarated and :named params)
         foreach ($args as $i=>$a) {
+
+            // subarray that corresponds to special syntax placeholder?
+            if (is_array($a)
+            and preg_match("/  \?\?  |  : [?:*  &,|]  /x", $sql, $capture, PREG_OFFSET_CAPTURE))
+            {
+                list($token, $pos) = current($capture);
+
+                // placeholder substitution, possibly changing $a params
+                $replace = $this->{self::$expand[$token]}($a);
+
+                // update SQL string
+                $sql = substr($sql, 0, $pos) . $replace . substr($sql, $pos + strlen($token));
+            }
+
+            // unfold into plain parameter list
             if (is_array($a)) {
-                $enum = array_keys($a) === range(0, count($a) - 1);
-
-                // subarray corresponds to special syntax placeholder?
-                if (preg_match("/\?\?|:\?|::|:&|:,|&\|/", $sql, $uu, PREG_OFFSET_CAPTURE)) {
-                    list($token, $pos) = $uu[0];
-                    switch ($token) {
-
-                        case "??":  // replace ?? array placeholders
-                            $replace = implode(",", array_fill(0, count($a), "?"));
-                            break;
-
-                        case ":?":  // and :? name placeholder, transforms list into enumerated params
-                            $replace = implode(",", $this->db_identifier($enum ? $a : array_keys($a), "`"));
-                            $enum = 1;  $a = array();   // do not actually add values
-                            break;
-
-                        case "::":  // inject :named,:value,:list
-                            $replace = ":" . implode(",:", $this->db_identifier(array_keys($a)) );
-                            break;
-
-                        case ":&":  // associative params - becomes "key=:key AND .."
-                        case ":,":  // COMMA-separated
-                        case ":|":  // OR-separated
-                            $fill = array(":&"=>" AND ", ":,"=>" , ", ":|"=>" OR ");
-                            $replace = array();
-                            foreach ($this->db_identifier(array_keys($a)) as $key) {
-                                $replace[] = "`$key`=:$key";
-                            }
-                            $replace = implode($fill[$token], $replace);
-
-                    }
-                    // update SQL string
-                    $sql = substr($sql, 0, $pos) . $replace . substr($sql, $pos + strlen($token));
-                }
-
-                // unfold
-                if ($enum) {
-                   $params2 = array_merge($params2, $a);
-                } else {
-                   $params2 = array_merge($params2, $a);
-                }
+                $params2 = array_merge($params2, $a);
             }
             else {
                 $params2[] = $a;
             }
         }
-
-        #-- placeholders
-        if (!empty($this->tokens) && strpos($sql, "{")) {
-            $sql = preg_replace_callback("/\{(\w+)(.*?)\}/", array($this, "token"), $sql);
-        }
         
-        #-- older SQLite workaround
-        if (!empty($this->in_clause) && strpos($sql, " IN (")) { // only for ?,?,?,? enum params
-            $sql = preg_replace_callback("/(\S+)\s+IN\s+\(([?,]+)\)/", array($this, "in_clause"), $sql);
-        }
-
-        #-- just debug
-        if (!empty($this->test)) { 
-            print json_encode($params2)." => " . trim($sql) . "\n"; return;
-        }
-    
-        #-- run
-        $s = $this->prepare($sql)
-        and
-        $r = $s->execute($params2);
-
-        #-- wrap        
-        return $s && $r ? new db_result($s) : $s;
+        return array($sql, $params2);
     }
+
+
+    /**
+     * Syntax expansion callbacks
+     *
+     */
+    static $expand = array(
+        "??" => "expand_list",
+        ":?" => "expand_keys",
+        "::" => "expand_named",
+        ":," => "expand_assoc_comma",
+        ":&" => "expand_assoc_and",
+        ":|" => "expand_assoc_or",
+        ":*" => "expand_expr",
+    );
+
+    // ?? array placeholders
+    function expand_list($a) {
+        return implode(",", array_fill(0, count($a), "?"));
+    }
+
+    // :? name placeholders, transforms list into enumerated params
+    function expand_keys(&$a) {
+        $enum = array_keys($a) === range(0, count($a) - 1);
+        $r = implode(",", $this->db_identifier($enum ? $a : array_keys($a), "`"));
+        $a = array();
+        return $r;
+    }
+
+    // :: becomes :named,:value,:list
+    function expand_named($a) {
+        return ":" . implode(",:", $this->db_identifier(array_keys($a)) );
+    }
+
+    // for :, expand COMMA-separated key=:key,bar=:bar associative array
+    function expand_assoc_comma($a, $fill = " , ", $replace=array()) {
+        foreach ($this->db_identifier(array_keys($a), "`") as $key) {
+            $replace[] = "$key = :$key";
+        }
+        return implode($fill, $replace);
+    }
+    // for :& AND-chained assoc foo=:foo AND bar=:bar
+    function expand_assoc_and($a) {
+        return $this->expand_assoc_comma($a, " AND ");
+    }
+    // for :| OR-chained assoc foo=:foo OR bar=:bar
+    function expand_assoc_or($a) {
+        return $this->expand_assoc_comma($a, " OR ");
+    }
+
+    // while :* holds an optional expression and subvalue list
+    function expand_expr(&$a) {
+        foreach (array_chunk($a, 2) as $pair) if (list($sql, $args) = $pair) {
+            // substitute subexpression as if it were a regular SQL string
+            if (is_array($args) && count($args)) {
+                list ($replace, $a) = $this->fold($sql, array($args));
+                return $replace;
+            }
+        }
+        $a = array();  // else replace with nothing and omit current data for flattened $params2
+    }
+
+    
+    
+    /**
+     * For readability the SQL may come as list.
+     *   ["sql" => $args, ..]
+     * Which is separated here into keys as $sql string and $args from values.
+     *
+     */
+    function join($sql_args, $sql="", $args=array()) {
+        foreach ($sql_args as $s=>$a) {
+            $sql .= $s . "\n  ";
+            $args[] = $a;
+        }
+        return array($sql, $args);
+    }
+
 
 
     // This is a restrictive filter function for column/table name identifiers.
