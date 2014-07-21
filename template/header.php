@@ -37,7 +37,7 @@ Open source community software release tracking.
 </nav>
 
 <footer id=logo>
-<a href="/" title="freshcode.club"><img src=logo.png width=200 height=110 alt=freshcode border=0></a>
+<a href="/" title="freshcode.club"><img src="img/logo.png" width=200 height=110 alt=freshcode border=0></a>
 <div class=empty-box>&nbsp;</div>
 </footer>
 
