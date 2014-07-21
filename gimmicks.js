@@ -11,7 +11,7 @@
 
 
 // DOM ready
-$(function(){
+$(document).ready(function(){
 
     // Make frontpage #main .project descriptions expandable, by undoing .trimmed; animatedly
     $(".project .trimmed").one("click", function(){  
@@ -21,6 +21,11 @@ $(function(){
     // Likewise for compacted news feeds in #sidebar
     $(".article-links.trimmed").one("click", function(){
         $(this).toggleClass("trimmed");
+    });
+
+    // Likewise for compacted news feeds in #sidebar
+    $(".forum .entry").one("click", function(){
+        $(this).find(".excerpt, .content, .funcs").toggleClass("trimmed");
     });
 
 });
