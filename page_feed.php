@@ -128,7 +128,7 @@ if ($name = $_GET->proj_name["name"]) {
     
     #-- Else convert into RSS or Atom
     else {
-        include_once("lib/feeder.php");
+
         /**
          * It's obviously super long-winded to restructure the JSON xfer
          * or per-project data into RSS/Atom snippets here afterwards.
