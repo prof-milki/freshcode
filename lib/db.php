@@ -5,7 +5,7 @@
  * api: php
  * type: database
  * version: 0.9.9
- * depends: pdo
+ * depends: php:pdo
  * license: Public Domain
  * author: Mario Salzer
  * doc: http://fossil.include-once.org/hybrid7/wiki/db
@@ -193,7 +193,7 @@ class db_wrap {
     function fold($sql, $args) {
     
         // output parameter list
-        $params2 = array();
+        $flat_params = array();
         
         #-- flattening sub-arrays (works for ? enumarated and :named params)
         foreach ($args as $i=>$a) {
@@ -213,14 +213,14 @@ class db_wrap {
 
             // unfold into plain parameter list
             if (is_array($a)) {
-                $params2 = array_merge($params2, $a);
+                $flat_params = array_merge($flat_params, $a);
             }
             else {
-                $params2[] = $a;
+                $flat_params[] = $a;
             }
         }
         
-        return array($sql, $params2);
+        return array($sql, $flat_params);
     }
 
 
@@ -257,9 +257,9 @@ class db_wrap {
     }
 
     // for :, expand COMMA-separated key=:key,bar=:bar associative array
-    function expand_assoc_comma($a, $fill = " , ", $replace=array()) {
-        foreach ($this->db_identifier(array_keys($a), "`") as $key) {
-            $replace[] = "$key = :$key";
+    function expand_assoc_comma($a, $fill = ", ", $replace=array()) {
+        foreach ($this->db_identifier(array_keys($a)) as $key) {
+            $replace[] = "`$key` = :$key";
         }
         return implode($fill, $replace);
     }
@@ -287,8 +287,11 @@ class db_wrap {
     
     
     /**
-     * For readability the SQL may come as list.
-     *   ["sql" => $args, ..]
+     * For readability input SQL may come as associative clause => params list.
+     *   ["SELECT ?" => $num,
+     *    "FROM :?"  => [$tbl],
+     *    "WHERE :&" => $match
+     *   ]
      * Which is separated here into keys as $sql string and $args from values.
      *
      */
