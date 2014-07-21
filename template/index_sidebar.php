@@ -15,13 +15,23 @@
  <aside id=sidebar>
 
     <section class="article-links untrimmed">
-        <h5>linux.com Software</h5>
+        <h5>Linux.com Software</h5>
         <?php  include("template/feed.linuxcom.htm");  ?>
     </section>
 
     <section class="article-links trimmed">
-        <h5>reddit /r/linux</h5>
+        <h5>reddit<em>/r/linux</em></h5>
         <?php  include("template/feed.reddit.htm");  ?>
+    </section>
+
+    <section class="article-links trimmed">
+        <h5>LinuxGames</h5>
+        <?php  include("template/feed.linuxgames.htm");  ?>
+    </section>
+
+    <section class="article-links trimmed">
+        <h5>Sourceforge Files</h5>
+        <?php  include("template/feed.sourceforge.htm");  ?>
     </section>
 
  </aside>
