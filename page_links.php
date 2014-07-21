@@ -9,6 +9,9 @@
  *  + http://www.datamation.com/open-source/open-source-software-the-mega-list-1.html
  *  + http://www.datamation.com/osrc/article.php/3925806/Open-Source-Software-Top-59-Sites.htm
  *  + http://www.reddit.com/r/coolgithubprojects
+ *  + http://sourceforge.net/directory/release_feed/
+ *  + http://sourceforge.net/new/
+ *  + http://openfontlibrary.org/
  *
  */
 
@@ -134,9 +137,9 @@ include("template/header.php");
        "DistroWatch",
        "Does as it says and tracks new and upcoming BSD / Linux / GNU / Solaris distribution releases."
       ],
-#      ["", "", "",
-#       "",
-#      ],
+      ["http://openfontlibrary.org/", "openfontlibrary.org.jpeg", "Open Font Library",
+       "Helps to easily uncover new and nicely categorized true or open type fonts.",
+      ],
 #      ["", "", "",
 #       "",
 #      ],
