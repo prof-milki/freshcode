@@ -99,7 +99,7 @@ $licenses = array (
 
 // Project names may be alphanumeric, and contain dashes
 function proj_name($s) {
-    return preg_replace("/[^a-z0-9-_]+|^[^a-z]+|[^\w]+$|(?<=[-_])[-_]+/", "", strtolower($s));
+    return preg_replace("/[^a-z0-9-_]+|^[^a-z0-9]+|[^\w]+$|(?<=[-_])[-_]+/", "", strtolower($s));
 }
 
 // Tags is a comma-separated list, yet sometimes delimited with something else; normalize..
