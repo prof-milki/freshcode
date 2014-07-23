@@ -2,22 +2,32 @@
 /**
  * title: Links to other directories
  * description: Collection/overview of other software tracking / link lists.
- * version: 0.1
+ * version: 0.3
  *
  *
  * ToDo
  *  + http://www.datamation.com/open-source/open-source-software-the-mega-list-1.html
  *  + http://www.datamation.com/osrc/article.php/3925806/Open-Source-Software-Top-59-Sites.htm
  *  + http://www.reddit.com/r/coolgithubprojects
- *  + http://sourceforge.net/directory/release_feed/
  *  + http://sourceforge.net/new/
- *  + http://openfontlibrary.org/
+ *  + http://freeopensourcesoftware.org/
  *
  */
+
+#-- preferred languages
+header("Vary: Accept-Language");
+preg_match_all("/\b(\w\w)([-,\s;]\w*|$)/", $_SERVER->text["HTTP_ACCEPT_LANGUAGE"], $langs)
+and $langs = $langs[1];
 
 
 include("template/header.php");
 ?>
+
+ <style>
+    #sidebar dl, #sidebar dl dd, #sidebar ul { margin: 0; padding: 0; }
+    #sidebar dl dt { font-weight: 700; }
+ </style>
+
  <aside id=sidebar class="absolute-float community-web">
     <section><h5>Ecosystem</h5></section>
     <p>
@@ -47,7 +57,8 @@ include("template/header.php");
     </section>
     <section>
       <b>Support / Q&amp;A</b>
-      <li> <a href="http://askubuntu.com/">askubuntu.com</a>
+      <li> <a onclick="return confirm('If you want to find something specific, don\'t be vague. Instead of asking for \'best\' software, provide a constrained set of feature requirements.');" href="http://softwarerecs.stackexchange.com/">Software Recommendations</a>
+      <li> <a onclick="return confirm('AskUbuntu is for technical questions, not a Google substitute for finding software.');" href="http://askubuntu.com/">askubuntu.com</a>
     </section>
     <section>
       <b>Wikis / Howtos</b>
@@ -57,17 +68,43 @@ include("template/header.php");
     </section>
     <section>
       <b>Chat channels</b>
-      <li> <a href="http://freenode.net/">Freenode</a> / <a href="https://webchat.freenode.net/">FN web chat</a>
+      <li> <a href="http://freenode.net/">Freenode</a><br> &nbsp;&nbsp; and its <a href="https://webchat.freenode.net/">web chat</a>
     </section>
     <p>
-      Developer hubs and package repositories
+      Programming-language specific developer hubs and package repositories
+      often allow uncovering new software as well.
     </p>
     <section>
-      <b>By Language</b>
-      <li> <a href="https://pypi.python.org/">PyPI</a> Python
-      <li> <a href="https://packagist.org/explore/">Packagegist</a> PHP
-      <li> ...
+      <dl>
+        <dt>Python</dt>
+        <dd>
+          <li> <a href="https://pypi.python.org/" title="Python Package Index">PyPI</a>
+        </dd>
+        <dt>PHP
+        <dd>
+          <li> <a href="https://packagist.org/explore/">Packagegist</a>
+          <li> <a href="http://phptrends.com/">PHP Trends</a>
+        </dd>
+        <dt>Vala
+        <dd>
+          <li> <a href="https://bbs.archlinux.org/viewtopic.php?id=173563" title="Arch Linux Bulletin Board about Vala projects">Arch BBS</a>
+        </dd>
+      </dl>
     </section>
+
+    <?php  if (in_array("de", $langs)): ?>
+    <p>Local websites</p>
+    <section>
+      <b>.de</b>
+      <li> <a href="http://www.pro-linux.de/">Pro Linux</a>
+      <li> <a href="http://www.linux-magazin.de/">Linux Magazin</a>
+      <li> <a href="http://www.heise.de/open/">Heise Open</a>
+      <li> <a href="http://www.linux-community.de/">Linux Community</a>
+      <li> <a href="http://wiki.ubuntuusers.de/Software">Ubuntu Users: Software</a>
+      <li> <a href="http://ubuntunews.de/">Ubuntu News</a>
+    </section>
+    <?php endif; ?>
+    
  </aside>
  <section id=main style="height: 2200pt; min-width: 700px;">
 
