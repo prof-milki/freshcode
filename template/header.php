@@ -15,9 +15,9 @@
 <html>
 <head> 
     <title><?= isset($title) ? $title : "freshcode.club" ?></title>
-    <meta name=version content=0.4.8>
+    <meta name=version content=0.5.0>
     <meta charset=UTF-8>
-    <link rel=stylesheet href="/freshcode.css?0.5.6">
+    <link rel=stylesheet href="/freshcode.css?0.5.9">
     <link rel="shortcut icon" href="/img/changes.png">
     <base href="//<?= HTTP_HOST ?>/">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>

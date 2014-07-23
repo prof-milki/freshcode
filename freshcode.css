@@ -3,7 +3,7 @@
  * type: stylesheet
  * title: freshcode.club layout+style
  * description: Simulates the late freecode.com layout and looks; well mostly.
- * version: 0.5.7
+ * version: 0.5.9
  *
  * Centered two-pane layout. The #main section is usually 33% of the screen width,
  * while the #sidebar floats at the right. They're repositioned only using padding:
@@ -189,19 +189,19 @@ kbd { box-shadow: 0 0 3px 2px #dfd; }
     padding: 3.5pt 5pt;
     margin-top: 25pt;
 }
-#main label {
+#main label, #sidebar label {
     display: block;
     margin: 10pt 0;
     font-weight: 700;
 }
-#main label input, #main label textarea {
+#main label input, #sidebar label input, #main label textarea {
     display: block;
     font-weight: 400;
 }
 #main label input[type=radio] {
     display: inline;
 }
-#main label small {
+#main label small, #sidebar label small {
     display: block;
     font-weight: 200;
     font-size: 85%;

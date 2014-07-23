@@ -3,7 +3,7 @@
  * api: php
  * title: Freshcode.club
  * description: FLOSS software release tracking website
- * version: 0.4.9
+ * version: 0.5.0
  * author: mario
  * license: AGPL
  * 

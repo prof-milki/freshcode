@@ -9,7 +9,7 @@
  */
 
 $select = "form_select_options";
-$licenses = array_merge(array(""=>"*Any*"), $licenses);
+$licenses = array_merge(array(""=>"*Any*"), tags::$licenses);
 
 ?>
 
