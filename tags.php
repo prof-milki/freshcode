@@ -145,12 +145,24 @@ class Tags {
             return $id;
         }
         
-        // partial matches
-        if (preg_match_all("/\d+.\d+|\w+/", $id, $p)  and  ($p = $p[0])
-        and (preg_grep("/$p[0].+$p[1]/", tags::$licenses, $match)
-          or preg_grep("/$p[0]/", tags::$licenses, $match)))
-        {
-            return key($match);
+        // extract moniker and optional version or number
+        if (preg_match_all("/\b[\d.]+\b|\b(?!GNU)\w+\b/", "$id xyDummy", $p)) {
+
+            list($name, $ver) = @array($p[0][0], $p[0][1]);
+
+            // close or approximated license description match
+            if ($match = preg_grep("/$name.+?$ver/i", tags::$licenses)
+            or  $match = preg_grep("/$name/i", tags::$licenses))
+            {
+                return key($match);
+            }
+            
+            // or just abbreviation keys
+            if ($match = preg_grep("/{$name}[Lv-]*{$ver[0]}/i", array_keys(tags::$licenses))
+            or  $match = preg_grep("/$name/i", array_keys(tags::$licenses)))
+            {
+                return reset($match);
+            }
         }
     }
 
@@ -158,14 +170,19 @@ class Tags {
      * Get leaves from Trove categories
      *
      */
-    function trove_to_tags($array, $tags="") {
-        foreach (preg_grep("/^Topic :: .+ :: \w+$/", $array) as $trove) {
-            $tags .= ", " . trim(strrchr($trove, ":"), ": ");
+    function trove_to_tags($array, $tags=array()) {
+        preg_match_all("~^Topic :: .+ :: (\w[\w\s/-]+)$~m", implode("\n", (array)$array), $uu);
+        foreach ($uu[1] as $trove) {
+            $tags[] =
+                strtolower(
+                    strtr($trove, " /.", "--_")
+                );
         }
-        return $tags;
+        return implode(", ", $tags);
     }
 
 }
+
 
 
 
