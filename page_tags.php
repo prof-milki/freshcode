@@ -71,7 +71,8 @@ else {
             $q = sprintf("%.1f", $q * 100);
 
             // output
-            print " <a href=\"/search?tag=$t[tag]\" class=tag style=\"font-size: $q%;\"> $t[tag]</a> ";
+            print " <a href=\"/search?tag=" . urlencode($t["tag"])
+                . "\" class=tag style=\"font-size: $q%;\"> $t[tag]</a> ";
         }
 
     }
