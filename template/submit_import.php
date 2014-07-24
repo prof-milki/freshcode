@@ -41,8 +41,9 @@
            <input type=submit value="Import and Edit">
         </p>
         <p><small>
-           But please don't perform mass-imports. It's imperative to reasonably update
-           any significant project description to satisfy the CC-BY-SA license for freshcode.club/
+           But please don't perform mass-imports. 
+           When copying from freecode/sourceforge try to bring the description
+           up to date. Edits ensure their reusability under the CC-BY-SA license.
         </small></p>
         </a>
     </section>
