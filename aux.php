@@ -168,19 +168,45 @@ function pagination($page_no, $GET_param="n") {
 }
 
 
-// Output a list of select <option>s
+/**
+ * Output a list of select <option>s
+ *
+ * - Either accepts a option,value,field list.
+ * - Or an associative array.
+ *
+ */
 function form_select_options($names, $value, $r="") {
+
+    // Transform comma-separated string into array
     $map = is_string($names) ? array_combine($names = str_getcsv($names), $names) : $names;
-    if ($value and !isset($map[$value])) { $map[$value] = $map[$value]; }
+    
+    // Add currently active value if missing
+    if ($value and !isset($map[$value])) {
+        $map[$value] = $map[$value];
+    }
+    
+    // Output <option> fields
     foreach ($map as $id=>$title) {
-        $r .= "<option" . ($id == $value ? " selected" : "") . " value=\"$id\" title=\"$title\">$id</option>";
+        // optgroup
+        if (is_array($title)) {
+            $r .= "<optgroup label=\"$id\">" . form_select_options($title, $value) . "</optgroup>";
+        }
+        // plain value field
+        else {
+            $r .= "<option" . ($id == $value ? " selected" : "")
+                . " value=\"$id\" title=\"$title\">$id</option>";
+        }
     }
     return $r;
 }
 
 
-// CSRF token, only for logged-in users though
-// Here they're mainly to prevent remotely initiated requests against other users, not general form nonces
+/**
+ * CSRF token generation/verification.
+ *
+ * Is only used for logged-in users though. Here they're mainly to prevent
+ * remotely initiated requests against other users, not general form nonces.
+ */
 function csrf($probe=false) {
 
     // Tokens are stored in session, reusable, but only for an hour
