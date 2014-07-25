@@ -6,6 +6,7 @@
 # depends: mod_rewrite
 
 
+Options -MultiViews
 RewriteEngine On
 
 #-- Simulate [END] flag
@@ -24,7 +25,7 @@ RewriteRule ^(?:projects)\.(atom|rss|json)$  /feed/xfer.$1
 
 #-- Page dispatching
 RewriteRule  ^$                 index.php?page=index    [L,NS,QSA]
-RewriteRule  ^(projects|submit|search|flag|tags|feed|login|links|forum|admin)\b/?(\w+(?:[-_]\w+)*)?(?:\.(json|atom|rss))?/?$   index.php?page=$1&name=$2&ext=$3   [L,NS,QSA]
+RewriteRule  ^(projects|submit|search|flag|tags?|feed|login|links|forum|admin)\b/?(\w+(?:[-_]\w+)*)?(?:\.(json|atom|rss))?/?$   index.php?page=$1&name=$2&ext=$3   [L,NS,QSA]
 
 #-- Deny direct invocations
 RewriteRule  ^freshcode\.db.*$  -                       [F]

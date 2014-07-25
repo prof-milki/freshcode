@@ -15,9 +15,9 @@
 <html>
 <head> 
     <title><?= isset($title) ? $title : "freshcode.club" ?></title>
-    <meta name=version content=0.5.0>
+    <meta name=version content=0.5.1>
     <meta charset=UTF-8>
-    <link rel=stylesheet href="/freshcode.css?0.5.9">
+    <link rel=stylesheet href="/freshcode.css?0.6.0">
     <link rel="shortcut icon" href="/img/changes.png">
     <base href="//<?= HTTP_HOST ?>/">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -28,7 +28,7 @@
 
 <nav id=topbar>
 Open source community software release tracking.
-<?= is_int(strpos(HTTP_HOST, ".")) ? '<small style="color:#9c7">[0.4.8 alpha]</small>' : '<b style="color:#c54">[local dev]</b>'; ?>
+<?= is_int(strpos(HTTP_HOST, ".")) ? '<small style="color:#9c7">[0.5.1 alpha]</small>' : '<b style="color:#c54">[local dev]</b>'; ?>
 <span style=float:right>
 <a href="//freshmeat.club/">freshmeat.club</a> |
 <a href="//freecode.club/">freecode.club</a> |

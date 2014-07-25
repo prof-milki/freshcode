@@ -58,7 +58,7 @@ print <<<HTML
 
            <label>
                Description
-               <textarea cols=60 rows=9 name=description
+               <textarea cols=55 rows=9 name=description
                          maxlength=1500 required>$data[description]</textarea>
                <small>Please give a concise roundup of what this software does, what specific features
                it provides, the intended target audience, or how it compares to similar apps.</small>
@@ -73,10 +73,15 @@ print <<<HTML
            </label>
 
            <label>
-               Tags
-               <input name=tags size=50 placeholder="game, desktop, gtk, python" value="$data[tags]"
-                      maxlength=150 pattern="^\s*((c\+\+|\w+([-.]\w+)*(\[,;\s]+)?){0,10}\s*$">
-               <small>Categorize your project. Tags can be made up of letters, numbers and dashes. 
+               Tags<br>
+                  <input id=tags name=tags size=50 placeholder="game, desktop, gtk, python" value="$data[tags]"
+                         maxlength=150 pattern="^\s*((c\+\+|\w+([-.]\w+)*(\[,;\s]+)?){0,10}\s*$"
+                         style="display:inline-block">
+                  <span style="inline-block; height: 0px; overflow: visible; position: absolute;">
+                      <img src=img/addtrove.png with=100 height=150 style="position:relative;top:-140px;">
+                      <span id=trove_tags>{$_(tags::trove_select(tags::$tree))}</span>
+                  </span>
+               <small style="width:60%">Categorize your project. Tags can be made up of letters, numbers and dashes. 
                This can include usage context, application type, programming languages, related projects,
                etc.</small>
            </label>
@@ -151,7 +156,7 @@ print <<<HTML
            <label>
                Via
                <select name=autoupdate_module>
-                   {$select("none,release.json,changelog,regex,github,sourceforge", $data["autoupdate_module"])}
+                   {$select(array("none"=>"none", "method"=>array("release.json"=>"release.json","changelog"=>"changelog","regex"=>"regex"), "service"=>array("github"=>"github","sourceforge"=>"sourceforge")), $data["autoupdate_module"])}
                </select>
            </label>
 

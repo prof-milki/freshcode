@@ -27,6 +27,14 @@ $(document).ready(function(){
     $(".forum .entry").one("click", function(){
         $(this).find(".excerpt, .content, .funcs").toggleClass("trimmed");
     });
+    
+    
+    // Trove tags select box
+    $("#trove_tags .option").click(function(){
+        var $tags = $("#tags");
+        var tags = $tags.val();
+        $tags.val(tags + (tags.length ? ", " : "") + $(this).data("tag"));
+    });
 
 });
 

@@ -129,7 +129,598 @@ class Tags {
      * Tag tree.
      *
      */
-    static public $tree = [
+    static public $tree =
+    [
+        "Topic" => [
+            "Adaptive Technologies",
+            "Artistic Software",
+            "Communication",
+            "Communication" => [
+                "BBS",
+                "Chat",
+                "Chat" => [
+                    "AOL Instant Messenger",
+                    "ICQ",
+                    "Internet Relay Chat",
+                    "Unix Talk"
+                ],
+                "Conferencing",
+                "Email",
+                "Email" => [
+                    "Address Book",
+                    "Email Client",
+                    "Filters",
+                    "Mailing List Server",
+                    "Mail Transport Agent",
+                    "IMAP",
+                    "POP3"
+                ],
+                "Fax",
+                "FIDO",
+                "File Sharing",
+                "Ham Radio",
+                "Internet Phone",
+                "Telephony",
+                "Usenet"
+            ],
+            "Database",
+            "Database" => [
+                "Database-server",
+                "Front-End"
+            ],
+            "Desktop",
+            "Desktop" => [
+                "File Manager",
+                "Gnome",
+                "GNUstep",
+                "KDE",
+                "PicoGUI",
+                "Screen Savers",
+                "Window Manager",
+                "Window Manager" => [
+                    "Afterstep",
+                    "Applets",
+                    "Blackbox",
+                    "CTWM",
+                    "Enlightenment",
+                    "Fluxbox",
+                    "FVWM",
+                    "IceWM",
+                    "MetaCity",
+                    "Openbox",
+                    "Oroborus",
+                    "Sawfish",
+                    "Waimea",
+                    "Window Maker",
+                    "XFCE"
+                ]
+            ],
+            "Documentation",
+            "Education",
+            "Education" => [
+                "Computer Aided Instruction",
+                "Testing"
+            ],
+            "Game",
+            "Game" => [
+                "Arcade",
+                "Board Game",
+                "First Person Shooter",
+                "Fortune Cookies",
+                "Multi-User Dungeons",
+                "Puzzle",
+                "Real Time Strategy",
+                "Role-Playing",
+                "Side-Scrolling",
+                "Simulation",
+                "Turn Based Strategy"
+            ],
+            "Home Automation",
+            "Internet",
+            "Internet" => [
+                "FTP",
+                "Finger",
+                "Log Analysis",
+                "DNS",
+                "Proxy Server",
+                "WAP",
+                "WWW",
+                "WWW" => [
+                    "Browsers",
+                    "Dynamic Content",
+                    "Dynamic Content" => [
+                        "CGI Tools/Libraries",
+                        "Message Boards",
+                        "News/Diary",
+                        "Page Counters"
+                    ],
+                    "HTTP Servers",
+                    "Indexing/Search",
+                    "Session",
+                    "Site Management",
+                    "Site Management" => [
+                        "Link Checking"
+                    ],
+                    "WSGI"
+                ]
+            ],
+            "Multimedia",
+            "Multimedia" => [
+                "Graphics",
+                "Graphics" => [
+                    "3D Modeling",
+                    "3D Rendering",
+                    "Capture",
+                    "Capture" => [
+                        "Digital Camera",
+                        "Scanners",
+                        "Screen Capture"
+                    ],
+                    "Editor",
+                    "Editor" => [
+                        "Raster-Based",
+                        "Vector-Based"
+                    ],
+                    "Graphics Conversion",
+                    "Presentation",
+                    "Viewer"
+                ],
+                "Audio",
+                "Audio" => [
+                    "Analysis",
+                    "Recording",
+                    "CD Audio",
+                    "CD Audio" => [
+                        "CD Playing",
+                        "CD Ripping",
+                        "CD Writing"
+                    ],
+                    "Conversion",
+                    "Editors",
+                    "MIDI",
+                    "Mixers",
+                    "Player",
+                    "Player" => [
+                        "MP3"
+                    ],
+                    "Sound Synthesis",
+                    "Speech"
+                ],
+                "Video",
+                "Video" => [
+                    "Capture",
+                    "Conversion",
+                    "Display",
+                    "Non-Linear Editor"
+                ]
+            ],
+            "Office",
+            "Office" => [
+                "Financial",
+                "Financial" => [
+                    "Accounting",
+                    "Investment",
+                    "Point-Of-Sale",
+                    "Spreadsheet"
+                ],
+                "Groupware",
+                "News/Diary",
+                "Office Suite",
+                "Scheduling"
+            ],
+            "Printing",
+            "Religion",
+            "Scientific",
+            "Scientific" => [
+                "Artificial Intelligence",
+                "Artificial Life",
+                "Astronomy",
+                "Atmospheric Science",
+                "Bio-Informatics",
+                "Chemistry",
+                "Electronic Design Automation",
+                "GIS",
+                "Human Machine Interfaces",
+                "Image Recognition",
+                "Information Analysis",
+                "Interface Engine",
+                "Mathematics",
+                "Medical Science",
+                "Physics",
+                "Visualization"
+            ],
+            "Security",
+            "Security" => [
+                "Cryptography"
+            ],
+            "Sociology",
+            "Sociology" => [
+                "Genealogy",
+                "History"
+            ],
+            "Software Development",
+            "Software Development" => [
+                "Assemblers",
+                "Bug Tracking",
+                "Build Tool",
+                "Code Generator",
+                "Compiler",
+                "Debugger",
+                "Disassembler",
+                "Documentation",
+                "Embedded Systems",
+                "Internationalization",
+                "Interpreter",
+                "Library",
+                "Library" => [
+                    "Application Framework",
+                    "Java Library",
+                    "Perl Module",
+                    "PHP Class",
+                    "Pike Module",
+                    "pygame",
+                    "Python Module",
+                    "Ruby Modules",
+                    "Tcl Extension"
+                ],
+                "Localization",
+                "Object Brokering",
+                "Object Brokering" => [
+                    "CORBA"
+                ],
+                "Pre-processor",
+                "Quality Assurance",
+                "Testing",
+                "Testing" => [
+                    "Traffic Generation"
+                ],
+                "User Interfaces",
+                "Version Control",
+                "Widget Set"
+            ],
+            "System",
+            "System" => [
+                "Archiving",
+                "Archiving" => [
+                    "Backup",
+                    "Compression",
+                    "Mirroring",
+                    "Packaging"
+                ],
+                "Benchmark",
+                "Boot",
+                "Boot" => [
+                    "Init"
+                ],
+                "Clustering",
+                "Console Font",
+                "Distributed Computing",
+                "Emulator",
+                "Filesystems",
+                "Hardware",
+                "Hardware" => [
+                    "Hardware Driver",
+                    "Mainframes",
+                    "Symmetric Multi-processing"
+                ],
+                "Installation",
+                "Logging",
+                "Monitoring",
+                "Networking",
+                "Networking" => [
+                    "Firewalls",
+                    "Monitoring",
+                    "Monitoring" => [
+                        "Hardware Watchdog"
+                    ],
+                    "Time Synchronization"
+                ],
+                "Operating System",
+                "Kernel",
+                "Power (UPS)",
+                "Recovery Tool",
+                "Shells",
+                "Software Distribution",
+                "Systems Administration",
+                "Systems Administration" => [
+                    "Authentication/Directory",
+                    "Authentication/Directory" => [
+                        "LDAP",
+                        "NIS"
+                    ]
+                ]
+            ],
+            "Shell",
+            "Terminal",
+            "Terminal" => [
+                "Serial",
+                "Telnet",
+                "Terminal Emulator"
+            ],
+            "Text Editor",
+            "Text Editor" => [
+                "Documentation",
+                "Emacs",
+                "IDE",
+                "Text Processing",
+                "Word Processor"
+            ],
+            "Text Processing",
+            "Text Processing" => [
+                "Filter",
+                "Font",
+                "General",
+                "Indexing",
+                "Linguistic",
+                "Markup",
+                "Markup" => [
+                    "DocBook",
+                    "HTML",
+                    "LaTeX",
+                    "Markdown",
+                    "ReStructuredText",
+                    "SGML",
+                    "VRML",
+                    "Wiki",
+                    "XML"
+                ]
+            ],
+            "Utilities"
+        ],
+        "Programming Language" => [
+            "Ada",
+            "APL",
+            "ASP",
+            "Assembly",
+            "Awk",
+            "Basic",
+            "C",
+            "C#",
+            "C++",
+            "Cold Fusion",
+            "Cython",
+            "Delphi",
+            "Dylan",
+            "Eiffel",
+            "Emacs-Lisp",
+            "Erlang",
+            "Euler",
+            "Euphoria",
+            "Forth",
+            "Fortran",
+            "Go",
+            "Groovy",
+            "Haskell",
+            "Java",
+            "JavaScript",
+            "Lisp",
+            "Logo",
+            "ML",
+            "Modula",
+            "Objective C",
+            "Object Pascal",
+            "OCaml",
+            "Pascal",
+            "Perl",
+            "PHP",
+            "Pike",
+            "Pliant",
+            "PL/SQL",
+            "PROGRESS",
+            "Prolog",
+            "Python",
+            "Python" => [
+                "CPython",
+                "IronPython",
+                "Jython",
+                "PyPy",
+                "Stackless"
+            ],
+            "REBOL",
+            "Regex",
+            "Rexx",
+            "Ruby",
+            "Scala",
+            "Scheme",
+            "Simula",
+            "Smalltalk",
+            "SQL",
+            "Tcl",
+            "Unix Shell",
+            "YACC",
+            "Zope"
+        ],
+        "Environment" => [
+            "Console",
+            "Console" => [
+                "Curses",
+                "Framebuffer",
+                "Newt",
+                "svgalib"
+            ],
+            "Mobile",
+            "MacOS X",
+            "MacOS X" => [
+                "Aqua",
+                "Carbon",
+                "Cocoa"
+            ],
+            "Daemon",
+            "OpenStack",
+            "Plugin",
+            "Web Environment",
+            "Web Environment" => [
+                "Buffet",
+                "Mozilla",
+                "ToscaWidgets"
+            ],
+            "Win32",
+            "X11",
+            "X11" => [
+                "Gnome",
+                "GTK",
+                "KDE",
+                "Qt",
+                "Tk"
+            ],
+            "Wayland"
+        ],
+        "Framework" => [
+            "C++" => [
+                "Boost"
+            ],
+            "Groovy" => [
+                "Grails"
+            ],
+            "Java" => [
+                "Spring",
+                "Sinatra",
+                "Struts",
+                "OpenXava"
+            ],
+            "JavaScript" => [
+                "AngularJS",
+                "extJS",
+                "jQuery",
+                "MooTools",
+                "Prototype",
+                "qooxdoo"
+            ],
+            "Perl" => [
+                "Mason",
+                "Catalyst"
+            ],
+            "Python" => [
+                "BFG",
+                "Bob",
+                "Bottle",
+                "Buildout",
+                "Chandler",
+                "CherryPy",
+                "CubicWeb",
+                "Django",
+                "Flask",
+                "IDLE",
+                "IPython",
+                "Opps",
+                "Paste",
+                "Plone",
+                "py2web",
+                "Pylons",
+                "Pyramid",
+                "Review Board",
+                "Setuptools Plugin",
+                "Trac",
+                "Tryton",
+                "TurboGears",
+                "Twisted",
+                "ZODB",
+                "Zope2",
+                "Zope3"
+            ],
+            "PHP" => [
+                "CakePHP",
+                "Laravel",
+                "Symfony",
+                "Yii",
+                "Zend Framework"
+            ],
+            "Ruby" => [
+                "Rails"
+            ]
+        ],
+        "Operating System" => [
+            "BeOS",
+            "MacOS",
+            "MS-DOS",
+            "Windows",
+            "OS2",
+            "Cross-plattform",
+            "PalmOS",
+            "PDA Systems",
+            "POSIX",
+            "AIX",
+            "FreeBSD",
+            "NetBSD",
+            "OpenBSD",
+            "Hurd",
+            "HP-UX",
+            "IRIX",
+            "Linux",
+            "SCO",
+            "Solaris",
+            "Unix"
+        ],
+        "Audience" => [
+            "Customer Service",
+            "Developers",
+            "Education",
+            "End Users",
+            "Financial and Insurance Industry",
+            "Healthcare Industry",
+            "Information Technology",
+            "Legal Industry",
+            "Manufacturing",
+            "Religion",
+            "Science/Research",
+            "System Administrators",
+            "Telecommunications Industry"
+        ],
+        "Natural" => [
+            "Afrikaans",
+            "Arabic",
+            "Bengali",
+            "Bosnian",
+            "Bulgarian",
+            "Catalan",
+            "Chinese",
+            "Traditional-Chinese",
+            "Croatian",
+            "Czech",
+            "Danish",
+            "Dutch",
+            "English",
+            "Esperanto",
+            "Finnish",
+            "French",
+            "Galician",
+            "German",
+            "Greek",
+            "Hebrew",
+            "Hindi",
+            "Hungarian",
+            "Icelandic",
+            "Indonesian",
+            "Italian",
+            "Japanese",
+            "Javanese",
+            "Korean",
+            "Latin",
+            "Latvian",
+            "Macedonian",
+            "Malay",
+            "Marathi",
+            "Norwegian",
+            "Panjabi",
+            "Persian",
+            "Polish",
+            "Portuguese",
+            "Brazilian-Portuguese",
+            "Romanian",
+            "Russian",
+            "Serbian",
+            "Slovak",
+            "Slovenian",
+            "Spanish",
+            "Swedish",
+            "Tamil",
+            "Telugu",
+            "Thai",
+            "Turkish",
+            "Ukranian",
+            "Urdu",
+            "Vietnamese"
+        ]
     ];
 
 
@@ -166,8 +757,11 @@ class Tags {
         }
     }
 
+
+
     /**
-     * Get leaves from Trove categories
+     * Guess leaves from standard Trove categories
+     * (Does not utilize self::$tree yet!)
      *
      */
     function trove_to_tags($array, $tags=array()) {
@@ -180,6 +774,49 @@ class Tags {
         }
         return implode(", ", $tags);
     }
+
+
+
+    /**
+     * HTML output list of Trove tags.
+     *
+     * Is used in page_submit within the <div class=select id=trove_tags>
+     *
+     * Here everything just wrapped in <span>s, because <select> optgroups
+     * can't be nested, and <ul> breaks out of inline flow text DOM
+     * structure.
+     *
+     */
+    function trove_select($trove, $level=0, $html="") {
+
+        // loop through one level
+        foreach ($trove as $key=>$value) {
+        
+            // normalize title into tag-key
+            $tag = is_numeric($key) ? $value : $key;
+            $tag = strtr(strtolower($tag), " /.:-", "-----");
+            $style = "style='margin-left: {$level}px;'";
+        
+            // descend into groups
+            if (is_array($value)) {
+                $html .= "<span class=optgroup><b class=option data-tag=$tag>$key</b>";
+                $html .= self::trove_select($value, $level + 10);
+                $html .= "</span>";
+            }
+            // skip if entry repeated as subgroup
+            elseif (isset($trove[$value])) {
+                #..
+            }
+            // single tag entry
+            else {
+                $html .= "<span data-tag=$tag class=option>$value</span>";
+            }
+        }
+        
+        return $html;
+    }
+
+
 
 }
 
