@@ -20,8 +20,8 @@ RewriteRule  ^(.*)$             http://%1/$1            [R,QSA,L]
 
 #-- RSS/Atom aliases
 RewriteCond  %{QUERY_STRING}    ^format=(atom|rss)$
-RewriteRule  ^$ /feed/xfer.%1
-RewriteRule ^(?:projects)\.(atom|rss|json)$  /feed/xfer.$1
+RewriteRule  ^$ feed/xfer.%1
+RewriteRule ^(?:projects)\.(atom|rss|json)$  feed/xfer.$1
 
 #-- Page dispatching
 RewriteRule  ^$                 index.php?page=index    [L,NS,QSA]
