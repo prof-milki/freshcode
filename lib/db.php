@@ -277,7 +277,8 @@ class db_wrap {
         foreach (array_chunk($a, 2) as $pair) if (list($sql, $args) = $pair) {
             // substitute subexpression as if it were a regular SQL string
             if (is_array($args) && count($args)) {
-                list ($replace, $a) = $this->fold($sql, array($args));
+                $args = array_sum(array_map("is_array", $args)) ? $args : array($args);
+                list ($replace, $a) = $this->fold($sql, $args);
                 return $replace;
             }
         }

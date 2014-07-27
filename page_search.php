@@ -4,11 +4,12 @@
  * title: Search function
  * description: Scans packages for description, tags, license, user names
  * license: AGPL
- * version 0.1
+ * version 0.2
  * 
  * Builds a search query from multiple input params:
  *   → ?user=
  *   → ?tags[]= or ?tag=
+ *   → ?trove[]= for ANDed tags
  *   → ?license=
  *   → ?q= for actual text search
  *
@@ -21,7 +22,7 @@ include("template/header.php");
 
 
 // Display form
-if ($_GET->no("tag,tags,user,license,q")) {
+if ($_GET->no("tag,tags,trove,user,license,q")) {
 
     include("template/search_form.php");
 
@@ -30,46 +31,36 @@ if ($_GET->no("tag,tags,user,license,q")) {
 // Actual search request
 else {
 
-    #-- Collect search terms
-    $WHERE = "";
-    $params = array();
-
-    // List from ?tags[]= or single ?tag=
-    if ($tags = array_filter(array_merge($_GET->array->words["tags"], $_GET->words->p_csv["tag"]))) {
-        $WHERE .= " AND name IN (SELECT name FROM tags WHERE tag IN (??))";
-        $params[] = $tags;
-    }
-    // Select specific ?user=
-    if ($user = $_GET->words["user"]) {
-        $WHERE .= " AND submitter LIKE ?";
-        $params[] = "$user%";
-    }
-    // Only ?license= results
-    if ($license = $_GET->words["license"]) {
-        $WHERE .= " AND license = ?";
-        $params[] = $license;
-    }
-    // And finally the actual ?q= search string // Note switch to FTS
-    if ($q = $_GET->text["q"]) {
-        $WHERE .= " AND description LIKE ?";
-        $params[] = "%$q%";
-    }
-
+    // Wrap search params into arrays
+    $tags = array_filter(array_merge($_GET->array->words["tags"], $_GET->words->p_csv["tag"]));
+    $trove = $_GET->array->words["trove"];
+#    $trove = $_GET->array->words["trove"] and $cnt_trove = count($trove);
+    $user = $_GET->words["user"] and $user = ["$user%"];
+    $license = $_GET->words["license"] and $license = [$license];
+    $search = $_GET->text["q"] and $search = ["%$search%"];
 
     // Run SQL
-    #db()->test = 1;
-    $db_arg = db(); // Bypass hybrid db() function to directly invoke $db{} wrapper with list of params
-    $result = $db_arg("
+#    db()->in_clause = 0;
+#   db()->test = 1;
+    $result = db("
         SELECT release.name AS name, title, SUBSTR(description,1,500) AS description,
                version, image, homepage, download, submitter, release.tags AS tags,
                license, state, t_published, flag, hidden, deleted, MAX(t_changed)
           FROM release
          WHERE NOT deleted AND flag < 5
       GROUP BY release.name
-        HAVING 1=1 $WHERE
+        HAVING 1=1
+               :*  :*  :*  :*  :*
       ORDER BY t_published DESC, t_changed DESC
-         LIMIT 100
-    ", $params);
+         LIMIT 100 ",
+            // expr :* placeholders only get inserted when inner array contains params
+            [" AND description LIKE ? ",  $search],
+            [" AND submitter LIKE ? ", $user],
+            [" AND license = ? ",   $license],
+            [" AND name IN (SELECT name FROM tags WHERE tag IN (??)) ", $tags],
+            [" AND name IN (SELECT name FROM tags WHERE tag IN (??)
+               GROUP BY name HAVING COUNT(tag) = ".COUNT($trove).") ", $trove]
+    );
 
 
 
