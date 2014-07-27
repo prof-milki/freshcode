@@ -12,17 +12,15 @@
 ?>
 
     <style>
-       .submit-import.trimmed { opacity: 0.2; margin-top: 30pt; }
-       .submit-import.trimmed:hover, .submit-import.trimmed:focus { opacity: 1.0; }
+       .submit-import.trimmed { display: none; }
     </style>
 
     <form action="/submit" method=POST enctype="multipart/form-data" class="submit-import trimmed">
-    <!-- <a onclick="$('.submit-import').toggleClass('trimmed'); $(this).hide();">Import project..</a> -->
     <section>
         <a>
         <h5>Import</h5>
         <p>
-           Alternatively you can import basic project information.
+           Automatically fill in basic project description
            <label>
               From
               <select name=import_via style="font-size: 125%"><option title="releases.json, common.js, package.json, bower.json, composer.json">JSON<option title="Description of a Project XML">DOAP<option title="Python Package Info">PKG-INFO<option title="Freecode.com project listing">freecode<option title="Sourceforge.net project homepage">sourceforge</select>

@@ -3,7 +3,7 @@
  * API: freshcode
  * title: Tags and Trove
  * description: Provides categorization backend for tree-mapped tags and Trove grouping.
- * version: 0.1
+ * version: 0.2
  * type: library
  * category: taxonomy
  * doc: http://fossil.include-once.org/freshcode/wiki/Trove+map
@@ -57,6 +57,7 @@ class Tags {
         "APL" => "Adaptive Public License",
         "APSL" => "Apple Public Source License",
         "AAL" => "Attribution Assurance Licenses",
+        "BSDL-4" => "BSD 4-Clause 'Old' License",
         "BSL" => "Boost Software License",
         "CECILL" => "CeCILL License 2.1",
         "CATOSL" => "Computer Associates Trusted Open Source License 1.1",
@@ -78,8 +79,7 @@ class Tags {
         "LPPL" => "LaTeX Project Public License 1.3c",
         "LPL" => "Lucent Public License Version 1.02",
         "MirOS" => "MirOS Licence",
-        "MS" => "Microsoft Reciprocal License",
-        "MIT" => "MIT license",
+        "MS-RL" => "Microsoft Reciprocal License",
         "Motosoto" => "Motosoto License",
         "Multics" => "Multics License",
         "NASA" => "NASA Open Source Agreement 1.3",
@@ -130,7 +130,7 @@ class Tags {
      *
      */
     static public $tree =
-    [
+        [
         "Topic" => [
             "Adaptive Technologies",
             "Artistic Software",
@@ -139,17 +139,18 @@ class Tags {
                 "BBS",
                 "Chat",
                 "Chat" => [
-                    "AOL Instant Messenger",
                     "ICQ",
                     "Internet Relay Chat",
-                    "Unix Talk"
+                    "Skype",
+                    "Unix Talk",
+                    "XMPP"
                 ],
                 "Conferencing",
                 "Email",
                 "Email" => [
                     "Address Book",
                     "Email Client",
-                    "Filters",
+                    "Email Filter",
                     "Mailing List Server",
                     "Mail Transport Agent",
                     "IMAP",
@@ -179,7 +180,7 @@ class Tags {
                 "Window Manager",
                 "Window Manager" => [
                     "Afterstep",
-                    "Applets",
+                    "Applet",
                     "Blackbox",
                     "CTWM",
                     "Enlightenment",
@@ -226,15 +227,15 @@ class Tags {
                 "WAP",
                 "WWW",
                 "WWW" => [
-                    "Browsers",
+                    "Browser",
                     "Dynamic Content",
                     "Dynamic Content" => [
-                        "CGI Tools/Libraries",
-                        "Message Boards",
+                        "CGI Library",
+                        "Message Board",
                         "News/Diary",
-                        "Page Counters"
+                        "Page Counter"
                     ],
-                    "HTTP Servers",
+                    "HTTP Server",
                     "Indexing/Search",
                     "Session",
                     "Site Management",
@@ -253,7 +254,7 @@ class Tags {
                     "Capture",
                     "Capture" => [
                         "Digital Camera",
-                        "Scanners",
+                        "Scanner",
                         "Screen Capture"
                     ],
                     "Editor",
@@ -340,7 +341,7 @@ class Tags {
             ],
             "Software Development",
             "Software Development" => [
-                "Assemblers",
+                "Assembler",
                 "Bug Tracking",
                 "Build Tool",
                 "Code Generator",
@@ -366,7 +367,9 @@ class Tags {
                 "Localization",
                 "Object Brokering",
                 "Object Brokering" => [
-                    "CORBA"
+                    "CORBA",
+                    "D-Bus",
+                    "SOAP"
                 ],
                 "Pre-processor",
                 "Quality Assurance",
@@ -396,7 +399,7 @@ class Tags {
                 "Console Font",
                 "Distributed Computing",
                 "Emulator",
-                "Filesystems",
+                "Filesystem",
                 "Hardware",
                 "Hardware" => [
                     "Hardware Driver",
@@ -473,38 +476,48 @@ class Tags {
             "ASP",
             "Assembly",
             "Awk",
+            "Bash",
             "Basic",
             "C",
             "C#",
             "C++",
+            "Clojure",
             "Cold Fusion",
             "Cython",
+            "D",
             "Delphi",
             "Dylan",
             "Eiffel",
             "Emacs-Lisp",
             "Erlang",
             "Euler",
-            "Euphoria",
             "Forth",
             "Fortran",
             "Go",
             "Groovy",
             "Haskell",
+            "Haxe",
             "Java",
             "JavaScript",
+            "Lua",
             "Lisp",
             "Logo",
+            "Matlab",
             "ML",
             "Modula",
+            "Oberon",
             "Objective C",
             "Object Pascal",
             "OCaml",
+            "Parrot",
             "Pascal",
             "Perl",
             "PHP",
+            "PHP" => [
+                "HHVM",
+                "Quercus"
+            ],
             "Pike",
-            "Pliant",
             "PL/SQL",
             "PROGRESS",
             "Prolog",
@@ -517,6 +530,7 @@ class Tags {
                 "Stackless"
             ],
             "REBOL",
+            "R",
             "Regex",
             "Rexx",
             "Ruby",
@@ -527,6 +541,7 @@ class Tags {
             "SQL",
             "Tcl",
             "Unix Shell",
+            "Vala",
             "YACC",
             "Zope"
         ],
@@ -573,6 +588,7 @@ class Tags {
                 "Grails"
             ],
             "Java" => [
+                "Hibernate",
                 "Spring",
                 "Sinatra",
                 "Struts",
@@ -631,6 +647,7 @@ class Tags {
         ],
         "Operating System" => [
             "BeOS",
+            "Darwin",
             "MacOS",
             "MS-DOS",
             "Windows",
@@ -640,15 +657,19 @@ class Tags {
             "PDA Systems",
             "POSIX",
             "AIX",
-            "FreeBSD",
-            "NetBSD",
-            "OpenBSD",
+            "BSD",
+            "BSD" => [
+                "FreeBSD",
+                "NetBSD",
+                "OpenBSD"
+            ],
             "Hurd",
             "HP-UX",
             "IRIX",
             "Linux",
             "SCO",
             "Solaris",
+            "QNX",
             "Unix"
         ],
         "Audience" => [
@@ -666,61 +687,6 @@ class Tags {
             "System Administrators",
             "Telecommunications Industry"
         ],
-        "Natural" => [
-            "Afrikaans",
-            "Arabic",
-            "Bengali",
-            "Bosnian",
-            "Bulgarian",
-            "Catalan",
-            "Chinese",
-            "Traditional-Chinese",
-            "Croatian",
-            "Czech",
-            "Danish",
-            "Dutch",
-            "English",
-            "Esperanto",
-            "Finnish",
-            "French",
-            "Galician",
-            "German",
-            "Greek",
-            "Hebrew",
-            "Hindi",
-            "Hungarian",
-            "Icelandic",
-            "Indonesian",
-            "Italian",
-            "Japanese",
-            "Javanese",
-            "Korean",
-            "Latin",
-            "Latvian",
-            "Macedonian",
-            "Malay",
-            "Marathi",
-            "Norwegian",
-            "Panjabi",
-            "Persian",
-            "Polish",
-            "Portuguese",
-            "Brazilian-Portuguese",
-            "Romanian",
-            "Russian",
-            "Serbian",
-            "Slovak",
-            "Slovenian",
-            "Spanish",
-            "Swedish",
-            "Tamil",
-            "Telugu",
-            "Thai",
-            "Turkish",
-            "Ukranian",
-            "Urdu",
-            "Vietnamese"
-        ]
     ];
 
 
@@ -817,6 +783,14 @@ class Tags {
     }
 
 
+
+    /**
+     * Returns just leaves from trove $tree.
+     *
+     */
+    function leaves() {
+        return iterator_to_array(new RecursiveIteratorIterator(new RecursiveArrayIterator(self::$tree)));
+    }
 
 }
 

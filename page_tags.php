@@ -16,68 +16,55 @@
 
 
 include("template/header.php");
-?> <section id=main> <?php
+
+
+#-- sidebar with Trove list
+?><aside id=sidebar>
+<div id=trove_tags class=pick-tags>
+<?php
+print tags::trove_select(tags::$tree);
+?>
+</div>
+</aside><?php
 
 
 
+#-- print tag cloud
+?>
+<section id=main>
+<h2>Tags</h2>
+<p id=tag_cloud>
+<?php
 
-#-- search by tags
-if ($_GET->words["name"]) {
+// Query `tags` table to generate a cloud
+$tags = db("SELECT COUNT(name) AS cnt, tag FROM tags GROUP BY tag")->fetchAll();
+$count = array_column($tags, "cnt");
+if ($count) {
+    $avg = count($count) / array_sum($count);
 
-    print "<h2>Projects with tags: {$_GET->words->html['name']}</h2><p><dl>";
+    // Print tag cloud
+    foreach ($tags as $t) {
 
-    $result = db("
-        SELECT release.name, SUBSTR(description,1,222) AS description, version, MAX(t_changed),
-               image, homepage, download, title, t_published
-        FROM release
-        LEFT JOIN tags ON release.name = tags.name
-        WHERE tags.tag IN (??)
-        GROUP BY release.name LIMIT 50",
-        $_GET->words->p_csv["name"]
-    );
-    foreach ($result as $entry) {
-        prepare_output($entry);
-        include("template/search_entry.php");
+        // average
+        $n = 
+        $q = 1.0*$t["cnt"] / 1.0*$avg;
+        
+        /**
+         * Qantify
+         * - Values 0.1 - 20.0 are transitioned into the range 0.3 - 2.0
+         */
+        $q = atan($q * 0.75 + 0.1) * 1.55;
+        
+        // font size
+        $q = sprintf("%.1f", $q * 100);
+
+        // output
+        print " <a href=\"/search?tag=" . urlencode($t["tag"])
+            . "\" class=tag style=\"font-size: $q%;\"> $t[tag]</a> ";
     }
+
 }
-
-
-#-- print tag cloude
-else {
-
-    print "<h2>Tags</h2>
-    <p>";
-
-    // Query `tags` table to generate a cloud
-    $tags = db("SELECT COUNT(name) AS cnt, tag FROM tags GROUP BY tag")->fetchAll();
-    $count = array_column($tags, "cnt");
-    if ($count) {
-        $avg = count($count) / array_sum($count);
-
-        // Print tag cloud
-        foreach ($tags as $t) {
-
-            // average
-            $n = 
-            $q = 1.0*$t["cnt"] / 1.0*$avg;
-            
-            /**
-             * Qantify
-             * - Values 0.1 - 20.0 are transitioned into the range 0.3 - 2.0
-             */
-            $q = atan($q * 0.75 + 0.1) * 1.55;
-            
-            // font size
-            $q = sprintf("%.1f", $q * 100);
-
-            // output
-            print " <a href=\"/search?tag=" . urlencode($t["tag"])
-                . "\" class=tag style=\"font-size: $q%;\"> $t[tag]</a> ";
-        }
-
-    }
-    print "</p>";
-}
+?></p><?php
 
 
 include("template/bottom.php");

@@ -64,7 +64,7 @@ print var_export54(array(
     "Framework" => $TREE["Framework"],
     "Operating System" => $TREE["Operating System"],
     "Audience" => $TREE["Audience"],
-    "Natural" => $TREE["Natural"],
+#    "Natural" => $TREE["Natural"],
 ));
 
 // save mapping onto py-trove

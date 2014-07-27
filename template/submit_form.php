@@ -78,8 +78,8 @@ print <<<HTML
                          maxlength=150 pattern="^\s*((c\+\+|\w+([-.]\w+)*(\[,;\s]+)?){0,10}\s*$"
                          style="display:inline-block">
                   <span style="inline-block; height: 0px; overflow: visible; position: absolute;">
-                      <img src=img/addtrove.png with=100 height=150 style="position:relative;top:-140px;">
-                      <span id=trove_tags>{$_(tags::trove_select(tags::$tree))}</span>
+                      <img src=img/addtrove.png with=100 height=150 style="position:relative;top:-150px;">
+                      <span id=trove_tags class=add-tags>{$_(tags::trove_select(tags::$tree))}</span>
                   </span>
                <small style="width:60%">Categorize your project. Tags can be made up of letters, numbers and dashes. 
                This can include usage context, application type, programming languages, related projects,
@@ -89,8 +89,8 @@ print <<<HTML
            <label>
                Image
                <input type=url name=image size=50 placeholder="http://i.imgur.com/xyzbar.png" value="$data[image]" maxlength=250>
-               <small>Provide a preview image of up to 120x90 px.
-               It will be fetched and displayed later. (Else a homepage screenshot will appear.)</small>
+               <small>Previews will be 120x90 px large. Alternatively a homepage screenshot
+               will appear later.</small>
            </label>
         </p>
 
@@ -130,7 +130,8 @@ print <<<HTML
            <label>
                Download URL
                <input name=download size=50 type=url placeholder="http://project.example.org/" value="$data[download]" maxlength=250>
-               <small>In particular for the download link one could utilize the <b><kbd>\$version</kbd></b> placeholder.</small>
+               <small>In particular for the download link one could apply the
+               <a class="action version-placeholder"><b><kbd>\$version</kbd></b> placeholder</a>.</small>
            </label>
 
            <label>
@@ -139,7 +140,8 @@ print <<<HTML
                <small>A list of comma or newline-separated project URLs
                like <code>src = http://foo, deb = http://bar</code>.
                Common link types include src / rpm / deb / txz / dvcs / release-notes / forum, etc.
-               Either may contain a <b>\$version</b> placeholder again.</small>
+               Either may contain a <a class="action version-placeholder">\$version placeholder</a>
+               again.</small>
            </label>
         </p>
 
@@ -185,15 +187,16 @@ print <<<HTML
            <label>
                Submitter
                <input name=submitter size=50 placeholder="Your Name,  optional@example.com" value="$data[submitter]" maxlength=100>
-               <small>Give us your name or nick name here. Optionally list a <a href="//gravatar.com/">gravatar</a> email.</small>
+               <small>List your name or nick name here. Optionally add a gravatar email.</small>
            </label>
 
            <label>
                Lock Entry
                <input name=lock size=50 placeholder="$_SESSION[openid]" value="$data[lock]" maxlength=250>
                <small>Normally all projects can be edited by everyone (WikiStyle).
-               If you commit to yours, you can however lock this submission against an OpenID
-               handle. (Or even provide a comma-separated list here for multiple contributors.)</small>
+               If you commit to yours, you can however <a class="action lock-entry"><b>lock</b> this project</a>
+               against one or multiple OpenID handles (comma-separated, take care to use exact URLs).
+               Or add a password hash for using the submit API.
            </label>
         </p>
         <p>

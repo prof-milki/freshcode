@@ -51,10 +51,9 @@ if ($entry = $releases->fetch()) {
     #-- Display all other released versions
     ?> <article class=release-list>  <h4>Recent Releases</h4> <?php
     do {
-        prepare_output($entry);
         include("template/projects_release_entry.php");
     }
-    while ($entry = $releases->fetch());
+    while ($entry = $releases->fetch() and prepare_output($entry) + 1);
     ?> </article> <?php
 
     // html tail

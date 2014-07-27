@@ -4,7 +4,7 @@
  * type: template
  * title: HTML page header
  * description: Starts <html> and <head>, outputs top bar / menus etc.
- * version: 0.5
+ * version: 0.5.2
  *
  * Optionally injects a `$header_add` list, or allows to override the
  * page $title.
@@ -15,12 +15,13 @@
 <html>
 <head> 
     <title><?= isset($title) ? $title : "freshcode.club" ?></title>
-    <meta name=version content=0.5.1>
+    <meta name=version content=0.5.2>
     <meta charset=UTF-8>
-    <link rel=stylesheet href="/freshcode.css?0.6.0">
+    <link rel=stylesheet href="/freshcode.css?0.6.1">
     <link rel="shortcut icon" href="/img/changes.png">
     <base href="//<?= HTTP_HOST ?>/">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script><![endif]-->
     <script src="/gimmicks.js"></script>
     <?php if (isset($header_add)) { print $header_add . "\n"; } ?>
 </head>

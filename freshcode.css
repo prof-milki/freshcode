@@ -3,7 +3,7 @@
  * type: stylesheet
  * title: freshcode.club layout+style
  * description: Simulates the late freecode.com layout and looks; well mostly.
- * version: 0.6.0
+ * version: 0.6.1
  *
  * Centered two-pane layout. The #main section is usually 33% of the screen width,
  * while the #sidebar floats at the right. They're repositioned only using padding:
@@ -210,6 +210,10 @@ kbd { box-shadow: 0 0 3px 2px #dfd; }
 #main label.inline {  font-weight: 200; margin: 4pt; }
 #main label.inline input {  display: inline;  }
 
+.action {
+    color: #697;
+    border-bottom: 1px dashed #5d7;
+}
 
 /**
  * Login box etc.
@@ -485,13 +489,20 @@ kbd { box-shadow: 0 0 3px 2px #dfd; }
     margin: 0; padding: 0;
     display: inline-block;
     position: relative;
-    top: -60px;
+    top: -70px;
     width: 175px;
     height: 170px;
     overflow-y: scroll;
     overflow-x: hidden;
     border: 1px solid #ccc;
     font-size: 85%;
+}
+#trove_tags.pick-tags {
+    width: 220px;
+    height: 950px;
+    top: 0px;
+    border: none;
+    font-size: 92%;
 }
 #trove_tags span {
     display: block;
@@ -510,6 +521,9 @@ kbd { box-shadow: 0 0 3px 2px #dfd; }
 }
 #trove_tags span > span.option:hover, #trove_tags span.optgroup > b:hover {
     background: #ccf;
+}
+#trove_tags .option.selected, #tag_cloud a.selected {
+    background: #fba;
 }
 
 

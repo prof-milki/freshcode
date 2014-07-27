@@ -18,15 +18,15 @@
 
 // Project names may be alphanumeric, and contain dashes
 function proj_name($s) {
-    return preg_replace("/[^a-z0-9-_]+|^[^a-z0-9]+|[^\w]+$|(?<=[-_])[-_]+/", "", strtolower($s));
+    return preg_replace("/[^a-z0-9-_]+|^[^a-z0-9]+|\W+$|(?<=[-_])[-_]+/", "", strtolower($s));
 }
 
 // Tags is a comma-separated list, yet sometimes delimited with something else; normalize..
 function f_tags($s) {
     return
-        preg_replace(     # exception for "c++"
-            ["/[-_.:]+/", "/(c\+\+(?=[\s,-]))?\+*/", "/[,;|]+/", "/[^a-z0-9,+\s-]+/", "/[,\s]+/", "/^\W+|\W+$/"],
-            [  "-",           "$1",                    ",",             " ",            ", "    ,      ""      ],
+        preg_replace(     # exception for "c++" and "c#"
+            ["~[-_.:/]+~", "/(([cflje]#|c\+\+)(?=[\s,-]))?[+#]*/", "/[,;|]+/", "/[^a-z0-9,+#\s-]+/", "/[,\s]+/", "/^\W+|\W+$/"],
+            [  "-",            "$1",                               ",",             " ",             ", "    ,      ""      ],
             strtolower($s)
         );
 }
