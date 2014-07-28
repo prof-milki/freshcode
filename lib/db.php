@@ -272,11 +272,21 @@ class db_wrap {
         return $this->expand_assoc_comma($a, " OR ");
     }
 
-    // while :* holds an optional expression and subvalue list
+    /**
+     * While :* holds an optional expression and subvalue list. Which only gets
+     * interpolated if the params list is non-empty.
+     * which may be provided as alternative pairs ["AND :&", $and, "OR :|", $or].
+     * 
+     * While each value list should be a list itself, it's common to just pass
+     * one array param for a single ::/?? extended placeholder. (Which then will
+     * be auto-wrapped.)
+     *
+     */
     function expand_expr(&$a) {
         foreach (array_chunk($a, 2) as $pair) if (list($sql, $args) = $pair) {
             // substitute subexpression as if it were a regular SQL string
             if (is_array($args) && count($args)) {
+                // rewrap simple value lists into param-args list
                 $args = array_sum(array_map("is_array", $args)) ? $args : array($args);
                 list ($replace, $a) = $this->fold($sql, $args);
                 return $replace;
@@ -297,9 +307,22 @@ class db_wrap {
      *
      */
     function join($sql_args, $sql="", $args=array()) {
-        foreach ($sql_args as $s=>$a) {
-            $sql .= $s . "\n  ";
-            $args[] = $a;
+        foreach ($sql_args as $key=>$val) {
+            // Key itself is not an SQL part
+            if (is_int($key)) {
+                // Value then can be an SQL string, or a param
+                if (is_string($val)) {
+                    $sql .= $val;
+                }
+                else {
+                    $args[] = $val;
+                }
+            }
+            // Plain SQL => Value
+            else {
+                $sql .= $key . "\n  ";
+                $args[] = $val;
+            }
         }
         return array($sql, $args);
     }
@@ -347,7 +370,7 @@ class db_result extends ArrayObject implements IteratorAggregate {
     }
 
     // Single column access
-    function __get($name) {
+    function offsetGet($name) {
     
         // get first result, transfuse into $this
         if (is_object($this->results)) {
@@ -356,7 +379,7 @@ class db_result extends ArrayObject implements IteratorAggregate {
         }
         
         // suffice __get
-        return $this[$name];
+        return parent::offsetGet($name);
     }
 
     // Just let PDOStatement handle the Traversable
