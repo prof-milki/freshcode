@@ -765,7 +765,7 @@ class Tags {
         
             // descend into groups
             if (is_array($value)) {
-                $html .= "<span class=optgroup><b class=option data-tag=$tag>$key</b>";
+                $html .= "<span class=optgroup data-tag=$tag><b class=option data-tag=$tag>$key</b>";
                 $html .= self::trove_select($value, $level + 10);
                 $html .= "</span>";
             }
