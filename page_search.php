@@ -33,14 +33,12 @@ else {
 
     // Wrap search params into arrays
     $tags = array_filter(array_merge($_GET->array->words["tags"], $_GET->words->p_csv["tag"]));
-    $trove = $_GET->array->words["trove"];
-#    $trove = $_GET->array->words["trove"] and $cnt_trove = count($trove);
+    $trove = $_GET->array->words["trove"] and $trove = [$trove, count($trove)];
     $user = $_GET->words["user"] and $user = ["$user%"];
     $license = $_GET->words["license"] and $license = [$license];
     $search = $_GET->text["q"] and $search = ["%$search%"];
 
     // Run SQL
-#    db()->in_clause = 0;
 #   db()->test = 1;
     $result = db("
         SELECT release.name AS name, title, SUBSTR(description,1,500) AS description,
@@ -53,13 +51,13 @@ else {
                :*  :*  :*  :*  :*
       ORDER BY t_published DESC, t_changed DESC
          LIMIT 100 ",
-            // expr :* placeholders only get inserted when inner array contains params
+            // expr :* placeholders only interpolate when inner array contains params
             [" AND description LIKE ? ",  $search],
             [" AND submitter LIKE ? ", $user],
             [" AND license = ? ",   $license],
             [" AND name IN (SELECT name FROM tags WHERE tag IN (??)) ", $tags],
             [" AND name IN (SELECT name FROM tags WHERE tag IN (??)
-               GROUP BY name HAVING COUNT(tag) = ".COUNT($trove).") ", $trove]
+               GROUP BY name HAVING COUNT(tag) = 1*?) ", $trove]
     );
 
 
