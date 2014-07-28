@@ -3,7 +3,7 @@
  * type: stylesheet
  * title: freshcode.club layout+style
  * description: Simulates the late freecode.com layout and looks; well mostly.
- * version: 0.6.1
+ * version: 0.6.2
  *
  * Centered two-pane layout. The #main section is usually 33% of the screen width,
  * while the #sidebar floats at the right. They're repositioned only using padding:
@@ -516,8 +516,9 @@ kbd { box-shadow: 0 0 3px 2px #dfd; }
 #trove_tags span > span {
     background: url("img/dotleader.png") no-repeat;
 }
-#trove_tags span.optgroup {
+#trove_tags span.optgroup b {
     font-weight: 900;
+    display: block;
 }
 #trove_tags span > span.option:hover, #trove_tags span.optgroup > b:hover {
     background: #ccf;
@@ -525,6 +526,19 @@ kbd { box-shadow: 0 0 3px 2px #dfd; }
 #trove_tags .option.selected, #tag_cloud a.selected {
     background: #fba;
 }
+
+#trove_tags .optgroup[data-tag='topic']   { background: #f3f4f7; }
+#trove_tags .optgroup[data-tag='topic'] * { background: #f7f7f9; }
+#trove_tags .optgroup[data-tag='programming-language']   { background: #d7dcf0; }
+#trove_tags .optgroup[data-tag='programming-language'] * { background: #ecf0fa; }
+#trove_tags .optgroup[data-tag='environment']   { background: #f3f0e0; }
+#trove_tags .optgroup[data-tag='environment'] * { background: #f7f5eb; }
+#trove_tags .optgroup[data-tag='framework']   { background: #f0e0f0; }
+#trove_tags .optgroup[data-tag='framework'] * { background: #f7e7f7; }
+#trove_tags .optgroup[data-tag='operating-system']   { background: #ffe5e0; }
+#trove_tags .optgroup[data-tag='operating-system'] * { background: #fce9e7; }
+#trove_tags .optgroup[data-tag='audience']   { background: #e7f7ec; }
+#trove_tags .optgroup[data-tag='audience'] * { background: #f0fff3; }
 
 
 /**
