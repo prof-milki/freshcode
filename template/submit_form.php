@@ -158,7 +158,7 @@ print <<<HTML
            <label>
                Via
                <select name=autoupdate_module>
-                   {$select(array("none"=>"none", "method"=>array("release.json"=>"release.json","changelog"=>"changelog","regex"=>"regex"), "service"=>array("github"=>"github","sourceforge"=>"sourceforge")), $data["autoupdate_module"])}
+                   {$select("none,release.json,changelog,regex,github,sourceforge", $data["autoupdate_module"])}
                </select>
            </label>
 
