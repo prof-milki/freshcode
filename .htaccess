@@ -21,7 +21,21 @@ RewriteRule  ^(.*)$             http://%1/$1            [R,QSA,L]
 #-- RSS/Atom aliases
 RewriteCond  %{QUERY_STRING}    ^format=(atom|rss)$
 RewriteRule  ^$ feed/xfer.%1
-RewriteRule ^(?:projects)\.(atom|rss|json)$  feed/xfer.$1
+RewriteRule  ^(?:projects)\.(atom|rss|json)$  feed/xfer.$1
+
+#-- Freecode API mapping
+RewriteCond  %{QUERY_STRING}    auth_code
+RewriteCond  %{REQUEST_METHOD}  ^GET$
+RewriteRule  ^projects/([\w-_]+)\.json$  index.php?page=api&name=$1&api=query [L,NS,QSA]
+RewriteCond  %{REQUEST_METHOD}  ^PUT$
+RewriteRule  ^projects/([\w-_]+)\.json$  index.php?page=api&name=$1&api=publish [L,NS,QSA]
+RewriteCond  %{REQUEST_METHOD}  ^POST$
+RewriteRule  ^projects/([\w-_]+)/releases\.json$  index.php?page=api&name=$1&api=update_core [L,NS,QSA]
+RewriteCond  %{REQUEST_METHOD}  ^(GET|DELETE)$
+RewriteRule  ^projects/([\w-_]+)/releases/(\w+)\.json$  index.php?page=api&name=$1&api=version_%1 [L,NS,QSA]
+RewriteCond  %{REQUEST_METHOD}  ^(PUT|POST|DELETE)$
+RewriteRule  ^projects/([\w-_]+)/urls(?:/([\w-/._\s]+))?\.json$  index.php?page=api&name=$1&api=urls&label=$2 [L,NS,QSA] 
+
 
 #-- Page dispatching
 RewriteRule  ^$                 index.php?page=index    [L,NS,QSA]

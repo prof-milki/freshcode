@@ -3,7 +3,7 @@
  * api: php
  * title: Freshcode.club
  * description: FLOSS software release tracking website
- * version: 0.5.2
+ * version: 0.5.3
  * author: mario
  * license: AGPL
  * 
@@ -37,6 +37,11 @@ switch ($page = $_GET->id["page"]) {
             exit(include("page_login.php"));
         }
         include("page_$page.php");
+        break;
+
+    case "api":
+        $api = new FreeCode_API();
+        $api->dispatch();
         break;
 
     case "admin":
