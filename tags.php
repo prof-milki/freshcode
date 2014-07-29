@@ -792,6 +792,25 @@ class Tags {
         return iterator_to_array(new RecursiveIteratorIterator(new RecursiveArrayIterator(self::$tree)));
     }
 
+
+    /**
+     * Extract typical release tags.
+     *
+     */
+    function scope_tags($s) {
+        preg_match_all("/major|minor|bugfix|feature|security|documentation|hidden|cleanup/i", strtolower($s), $uu);
+        return join(" ", $uu[0]);
+    }
+
+    /**
+     * Extract typical release tags.
+     *
+     */
+    function state_tag($s) {
+        preg_match_all("/initial|alpha|beta|development|prerelease|stable|mature|historic/i", strtolower($s), $uu);
+        return isset($uu[0][0]) ? $uu[0][0] : "";
+    }
+
 }
 
 
