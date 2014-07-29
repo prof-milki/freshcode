@@ -62,7 +62,7 @@ class FreecodeSessionException(Exception):
 
 class FreecodeSession:
     "Encapsulate the state of a Freecode API session."
-    server = "https://freecode.com/"
+    server = "https://%s.freshcode.club/" % "api"
 
     def __init__(self, auth=None, verbose=0, emit_enable=True):
         "Initialize Freecode session credentials."
@@ -83,9 +83,9 @@ class FreecodeSession:
             except IOError, e:
                 raise FreecodeSessionException(("missing .netrc file %s" % \
                                                  str(e).split()[-1]))
-            ret = credentials.authenticators("freecode")
+            ret = credentials.authenticators("freshcode")
             if not ret:
-                raise FreecodeSessionException("no credentials for Freecode")
+                raise FreecodeSessionException("no credentials for Freshcode")
             _login, self.auth, _password = ret
 
     def on_project(self, name):
@@ -173,30 +173,12 @@ class FreecodeSession:
                 % (self.permalink, self.auth)
         handle = urllib2.urlopen(uquery)
         content = json.loads(handle.read())
-        permadict = {}
-        for item in content:
-            inner = item['url']
-            permadict[inner['label']] = inner['permalink']
-        # OK, now run through the update list...
-        for (label, url) in urlassoc:
-            if label in permadict:
-                # updating where we need to
-                self.edit_request("projects/%s/urls/%s.json"
-                                  % (self.permalink, permadict[label]),
-                                  "PUT",
-                                  {"url" : {"label": label, "location" : url}})
-            else:
-                # and adding where we don't.
-                self.edit_request("projects/%s/urls.json"
-                                  % (self.permalink,),
-                                  "POST",
-                                  {"url" : {"label": label, "location" : url}})
-        # Delete URLs that weren't in the update list
-        remove = set(permadict.keys()) - set(map(lambda x: x[0], urlassoc))
-        for label in remove:
-            self.edit_request("projects/%s/urls/%s.json?auth_code=%s"
-                                  % (self.permalink, permadict[label], self.auth),
-                                  "DELETE", {})
+        permadict = content['urls']
+        # Just send the new dict over
+        self.edit_request("projects/%s/urls.json" % (self.permalink),
+                          "PUSH",
+                          {"urls" : dict(urlassoc)})
+
 class FreecodeMetadataFactory:
     "Factory class for producing Freecode records in JSON."
     freecode_field_map = (
