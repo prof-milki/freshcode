@@ -72,7 +72,7 @@ class release extends ArrayObject {
      *
      */
     function update($newdata, $prefill_flags=array(), $override_flags=array(), $partial=FALSE) {
-
+    
         // Format constraints via input filter
         $newdata instanceof input  or  $newdata = new input($newdata, "\$newdata");
         $newkeys = $newdata->keys();
@@ -98,12 +98,16 @@ class release extends ArrayObject {
          "autoupdate_regex" => $newdata->raw               ->length…2000["autoupdate_regex"],
         );
 
+        // Base data for version/t_published lookup, in case we only got partial $newdata
+        $name = $newdata["name"] ?: $this["name"];
+        $version = in_array("version", $newkeys) ? $newdata["version"] : $this["version"];
+
         // Declare some automatic system flags
         $auto_flags = array(
             // Hidden releases are either tagged that way, or have too short of a `changes:` summary
             "hidden" => intval(is_int(stripos($newdata["scope"], "hidden")) or !empty($prefill_flags["hidden"])),
             // Increase associated publishing timestamp if hereunto unknown release
-            "t_published" => $this->exists($newdata["name"], $newdata["version"]) ?: time(),
+            "t_published" => $this->exists($name, $version) ?: time(),
              // Whereas the update timestamp is always adapted
             "t_changed" => time(),
         );
