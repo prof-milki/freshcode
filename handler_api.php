@@ -390,15 +390,20 @@ class FreeCode_API {
             $urls = new input($this->body["urls"], "urls");
             $urls = $urls->list->url[$urls->keys()];
 
-            // Join into text
-            $text = "";
+            // Extract homepage and download specifically
+            $urls = array_change_key_case($urls, CASE_LOWER);
+            $new  = array_intersect_key($urls, array_flip(str_getcsv("homepage,download")));
+            $urls = array_diff_key($urls, $new);
+
+            // Join rest into key=value format
+            $new["urls"] = "";
             foreach ($urls as $label => $url) {
-                $label = trim(preg_replace("/\W+/", "-", strtolower($label)), "-");
-                $text .= "$label = $url\r\n";
+                $label = trim(preg_replace("/\W+/", "-", $label), "-");
+                $new["urls"] .= "$label = $url\r\n";
             }
 
             // Update DB
-            $this->insert($project, array("urls" => $text));
+            $this->insert($project, $new);
         }
     }
 
@@ -417,10 +422,8 @@ class FreeCode_API {
         $project = $this->with_permission($project);
 
         // Add new fields to $project
-#        $new = array_merge($project->getArrayCopy(), $new);
         $project->update(array_filter($new, "strlen"), $flags, [], TRUE);
-#print_r($project);
-#exit;
+
         // Store or return JSON API error.
         return $project->store() and (header("Status: 201 Created") + 1)
              ? $this->OK
@@ -453,7 +456,7 @@ class FreeCode_API {
     function with_permission($data) {
         return $this->is_authorized($data)
              ? $data
-             : $this->error(NULL, "401 Unauthorized", "API password hash does not match. Add a crypt(3) password in your freshcode.club project entries `lock` field, comma-delimited to your OpenID handle.");
+             : $this->error(NULL, "401 Unauthorized", "No matching API auth_token hash. Add a crypt(3) password in your freshcode.club project entries `lock` field, comma-delimited to your OpenID handle. See http://fossil.include-once.org/freshcode/wiki/Freecode+JSON+API");
     }
 
 
@@ -468,8 +471,7 @@ class FreeCode_API {
      *
      */
     function is_authorized($data) {
-return 1+2+3;
-        foreach (preg_grep("/\$/", p_csv($data["lock"])) as $hash) {
+        foreach (preg_grep("/^[^:]+$/", p_csv($data["lock"])) as $hash) {
             if (password_verify($this->auth_code, $hash)) {
                 return TRUE;
             }
