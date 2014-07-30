@@ -2,18 +2,23 @@
  * api: jquery
  * title: UI behaviour
  * description: Well, just client-side interface features
- * version: 0.3
+ * version: 0.4
  * depends: jquery, jquery-ui
  *
  * Collects a few event callbacks to toggle and trigger all the things.
+ *
  *  → Compacted entries (.trimmed class)
+ *
  *  → Trove tags
  *      → Injection to submit_form input box
  *      → Or appending to links on page_tags cloud
- *  → Action links (green dotted underline)
+ *
+ *  → Action links (green dashed underline)
  *      → Lock entry in submit_form
  *      → Injecting $version placeholder in URLs
  *      → Sidebar box for submit_imports
+ *
+ *  → Forum action links
  *
  */
 
@@ -36,6 +41,11 @@ $(document).ready(function(){
         $(this).find(".excerpt, .content, .funcs").toggleClass("trimmed");
     });
     
+    
+    /**
+     * Trove map and tag cloud.
+     *
+     */
     
     // Trove tags add to input#tags field
     $("#trove_tags.add-tags .option").click(function(){
@@ -68,7 +78,12 @@ $(document).ready(function(){
             this.href += "&trove[]=" + tags.join("&trove[]=");
         }
     });
+ 
     
+    /**
+     * Action links are marked up using <a class="action func-name">
+     *
+     */
     
     // submit_form: lock entry
     $(".action.lock-entry").click(function(){
@@ -89,9 +104,48 @@ $(document).ready(function(){
 
     // submit_form: apply $version placeholder in URLs
     $(".action.submit-import").click(function(){
-        $("#sidebar section").eq(0).hide();
-        $("#sidebar .submit-import").fadeToggle("trimmed");
+        $("#sidebar section").eq(0).toggle("medium");
+        $("#sidebar .submit-import").fadeToggle("slow");
     });
+
+
+
+    /**
+     * Forum actions.
+     *
+     */
+     
+    // Post submit button
+    $(".forum").delegate(".action", "click", function(){
+
+        // entry/post id
+        var id = $(this).data("id");
+        var func = this.classList[1];
+        var $target = $(this).closest(".entry");
+
+        // new
+        if (func == "forum-new") {
+            $target.load("/forum/post", { "pid": id }).fadeIn();
+        }
+        // reply
+        if (func == "forum-reply") {
+            $target.append("<ul><li></li></ul>");
+            $target.find("ul li").load("/forum/post", { "pid": id }).fadeIn();
+        }
+        // editing
+        if (func == "forum-edit") {
+            $target.load("/forum/edit", { "id": id });
+        }
+        // submit
+        if (func == "forum-submit"){
+            $target = $target.parent();
+            $.post("/forum/submit", $target.serialize(), function(html){
+                $target.html(html);
+            });
+        }
+        event.preventDefault();
+    });
+
 
 });
 

@@ -134,12 +134,14 @@ class release extends ArrayObject {
     /**
      * Store current data bag into `release` table.
      * Is to be invoked after ->update().
+     * 
+     * Automatically hides previous version-less entries.
      *
      */
     function store($INSERT="INSERT") {
-#db()->test = 1;
         $data = $this->getArrayCopy();
-        return db("$INSERT INTO release (:?) VALUES (::)", $data, $data);
+        return db("$INSERT INTO release (:?) VALUES (::)", $data, $data)
+           and db("UPDATE release SET hidden=1 WHERE name=? AND version=? AND t_published < ?", $data["name"], "", time()-5);
     }
 
 
