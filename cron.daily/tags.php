@@ -20,7 +20,7 @@ include("config.php");
  * split up `tags` as CSV and just fille up according tags table.
  *
  */
-foreach (db("SELECT * FROM release_versions")->into() as $entry) {
+foreach (db("SELECT *, MAX(t_changed) FROM release_versions GROUP BY name")->into() as $entry) {
 
     print_r($entry);
     
