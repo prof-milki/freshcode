@@ -116,12 +116,6 @@ class FreeCode_API {
             $this->body = json_decode(file_get_contents("php://input"), TRUE);
             $this->auth_code = $this->body["auth_code"];
         }
-
-        // Debug dumps
-        if (TRUE) {
-            file_put_contents("api-acc", json_encode($_SERVER, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES));
-            file_put_contents("api-bdy", json_encode($this, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES));
-        }
     }
 
 
