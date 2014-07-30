@@ -24,7 +24,6 @@ RewriteRule  ^$ feed/xfer.%1
 RewriteRule  ^(?:projects)\.(atom|rss|json)$  feed/xfer.$1
 
 #-- Freecode API mapping
-RewriteCond  %{QUERY_STRING}    auth_code
 RewriteCond  %{REQUEST_METHOD}  ^GET$
 RewriteRule  ^projects/([\w-_]+)\.json$  index.php?page=api&name=$1&api=query [L,NS,QSA]
 RewriteCond  %{REQUEST_METHOD}  ^PUT$
