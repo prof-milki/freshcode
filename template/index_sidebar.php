@@ -3,6 +3,7 @@
  * type: template
  * title: frontpage feeds
  * description: Outputs #sidebar on frontage, containing template/feed.*.htm
+ * version: 0.4
  *
  * The feed.*.htm files are regularily updated
  * by cron.daily/newsfeeeds. Thus does not need
@@ -29,9 +30,14 @@
         <?php  include("template/feed.linuxgames.htm");  ?>
     </section>
 
-    <section class="article-links trimmed">
+    <section class="article-links untrimmed">
         <h5>Sourceforge Files</h5>
         <?php  include("template/feed.sourceforge.htm");  ?>
+    </section>
+
+    <section class="article-links untrimmed">
+        <h5>DistroWatch</h5>
+        <?php  include("template/feed.distrowatch.htm");  ?>
     </section>
 
  </aside>

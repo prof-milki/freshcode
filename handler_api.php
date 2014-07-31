@@ -435,7 +435,9 @@ class FreeCode_API {
             unset(
                 $data["lock"], $data["submitter_openid"], $data["submitter"],
                 $data["hidden"], $data["deleted"], $data["flag"],
-                $data["social_links"]
+                $data["social_links"],
+                $data["autoupdate_regex"], $data["autoupdate_url"],
+                $data["t_changed"]
             );
         }
         return $data;
