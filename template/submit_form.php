@@ -16,6 +16,12 @@
  *
  */
 
+
+#-- inline placeholders
+if (!strlen(trim($data["urls"]))) {
+    $data["urls"] = "wiki = \r\ngithub = \r\nrelease-notes = \r\nsupport-channel =\r\ntxz = \r\nrpm-x86 = \r\n";
+}
+
 $select = "form_select_options";
 $_ = "trim";
 print <<<HTML
@@ -137,9 +143,8 @@ print <<<HTML
            <label>
                Other URLs
                <textarea cols=60 rows=5 name=urls maxlength=2000>$data[urls]</textarea>
-               <small>A list of comma or newline-separated project URLs
-               like <code>src = http://foo, deb = http://bar</code>.
-               Common link types include src / rpm / deb / txz / dvcs / release-notes / forum, etc.
+               <small>An ini-style list of URLs like <code>src = http://foo, deb = http://bar</code>.
+               Use customized label tags, common link names include src / rpm / deb / txz / dvcs / release-notes / forum, etc.
                Either may contain a <a class="action version-placeholder">\$version placeholder</a>
                again.</small>
            </label>

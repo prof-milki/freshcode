@@ -47,19 +47,4 @@ SIDEBAR;
 
 
 
-/**
- * Convert "url1=, url2=, url3=" list into titled hyperlinks.
- *
- */
-function proj_links($urls, $entry, $r="") {
-    foreach (p_key_value($urls) as $title=>$url) {
-        $title = ucwords($title);
-        $url = versioned_url($url, $entry["version"]);
-        $r .= "&rarr; <a href=\"$url\">$title</a><br>\n";
-    }
-    return $r;
-}
-
-
-
 ?>

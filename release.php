@@ -75,6 +75,7 @@ class release extends ArrayObject {
     
         // Format constraints via input filter
         $newdata instanceof input  or  $newdata = new input($newdata, "\$newdata");
+        $newdata->_has_urls = array($this, "has_urls");
         $newkeys = $newdata->keys();
         $newdata->nocontrol->trim->always();
         $newdata = array(
@@ -92,7 +93,7 @@ class release extends ArrayObject {
                  "scope"    => $newdata->words->strtolower   ->length…30["scope"],
                  "changes"  => $newdata->text              ->length…2000["changes"],
                 "submitter" => $newdata->text               ->length…100["submitter"],
-                 "urls"     => $newdata                    ->length…2000["urls"],
+                 "urls"     => $newdata->has_urls          ->length…2000["urls"],
                  "lock"     => $newdata->raw               ->length…2000["lock"],
         "autoupdate_module" => $newdata->id                  ->length…30["autoupdate_module"],
          "autoupdate_regex" => $newdata->raw               ->length…2000["autoupdate_regex"],
@@ -194,6 +195,14 @@ class release extends ArrayObject {
             or in_array($authwith, array_merge(p_csv($data["lock"]), $moderator_ids));
     }
 
+    /**
+     * Minor data validation: check that `urls` does contain
+     * actual data, not just empty "key= key= key=" lists.
+     *
+     */
+    function has_urls($str) {
+        return preg_match("/^(\s*[\w-]+\s*=\s*)*$/", $str) ? "" : $str;
+    }
 }
 
 

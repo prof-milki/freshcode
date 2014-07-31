@@ -82,6 +82,27 @@ function versioned_url($url, $version) {
 }
 
 
+/**
+ * Convert "url1=, url2=, url3=" list into titled hyperlinks.
+ *
+ */
+function proj_links($urls, $entry, $r="") {
+
+    // unpack and filter
+    $urls = p_key_value($urls);
+    $urls = array_filter(array_map("input::url", $urls));
+
+    // join into HTML list
+    foreach ($urls as $title=>$url) {
+        $title = ucwords($title);
+        $url = versioned_url($url, $entry["version"]);
+        $r .= "&rarr; <a href=\"$url\">$title</a><br>\n";
+    }
+    return $r;
+}
+
+
+
 
 // Project listing output preparation;
 // HTML context escapaing, versioned urls, formatted date string
@@ -261,7 +282,7 @@ function p_key_value($str) {
     preg_match_all(
         "@
            [[%$]*  ([-\w]+)  []%$]*
-              \s*  [:=>]+  \s*
+              \h*  [:=>]+  \h*
                    (\S+)
            (?<![,.;])
         @imsx",
