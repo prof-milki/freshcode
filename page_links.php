@@ -2,7 +2,7 @@
 /**
  * title: Links to other directories
  * description: Collection/overview of other software tracking / link lists.
- * version: 0.3
+ * version: 0.4
  *
  *
  * ToDo
@@ -10,7 +10,12 @@
  *  + http://www.datamation.com/osrc/article.php/3925806/Open-Source-Software-Top-59-Sites.htm
  *  + http://www.reddit.com/r/coolgithubprojects
  *  + http://sourceforge.net/new/
- *  + http://freeopensourcesoftware.org/
+ *  + https://openhatch.org/
+ *  + http://opensourcearcade.com/
+ *  + http://www.icewalkers.com/
+ *
+ *  - http://www.krugle.org/projects/
+ *  - http://flossmetrics.org/
  *
  */
 
@@ -80,25 +85,45 @@ include("template/header.php");
         <dd>
           <li> <a href="https://pypi.python.org/" title="Python Package Index">PyPI</a>
         </dd>
-        <dt>PHP
+        <dt>Perl</dt>
         <dd>
-          <li> <a href="https://packagist.org/explore/">Packagegist</a>
+          <li> <a href="http://www.cpan.org/" title="Comprehensive Perl Archive Network">CPAN</a>
+          <li> <a href="http://perltricks.com/">Perl Tricks</a>
+        </dd>
+        <dt>PHP</dt>
+        <dd>
+          <li> <a href="https://packagist.org/explore/" title="Composers Package Repo">Packagegist</a>
           <li> <a href="http://phptrends.com/">PHP Trends</a>
         </dd>
-        <dt>Vala
+        <dt>Ruby</dt>
+        <dd>
+          <li> <a href="https://rubygems.org/gems">Gems</a>
+        </dd>
+        <dt>Vala</dt>
         <dd>
           <li> <a href="https://bbs.archlinux.org/viewtopic.php?id=173563" title="Arch Linux Bulletin Board about Vala projects">Arch BBS</a>
         </dd>
+        <dt>Javascript</dt>
+        <dd>
+          <li> <a href="http://plugins.jquery.com/">jQuery Plugins</a>
+        </dd>
       </dl>
+    </section>
+    <section>
+      <b>Windows software</b>
+      <li> <a href="https://help.ubuntu.com/community/ListOfOpenSourcePrograms">LOOP</a>
+      <li> <a href="http://eos.osbf.eu/start/">EOS directory</a>
+      <li> <a href="http://opensourcewindows.org/">OpenSource Windows</a>
+      <li> <a href="http://osswin.sourceforge.net/">OSSWin</a>
     </section>
 
     <?php  if (in_array("de", $langs)): ?>
     <p>Local websites</p>
     <section>
       <b>.de</b>
-      <li> <a href="http://www.pro-linux.de/">Pro Linux</a>
+      <li> <a href="http://www.pro-linux.de/">Pro Linux</a> + <a href="http://www.pro-linux.de/cgi-bin/DBApp/check.cgi">DBApp</a>
       <li> <a href="http://www.linux-magazin.de/">Linux Magazin</a>
-      <li> <a href="http://www.heise.de/open/">Heise Open</a>
+      <li> <a href="http://www.heise.de/open/">Heise Open</a> + <a href="http://www.heise.de/download/top-downloads-50000505000/?f=5s">SW-Cat</a>
       <li> <a href="http://www.linux-community.de/">Linux Community</a>
       <li> <a href="http://wiki.ubuntuusers.de/Software">Ubuntu Users: Software</a>
       <li> <a href="http://ubuntunews.de/">Ubuntu News</a>
@@ -146,22 +171,22 @@ include("template/header.php");
        "The original open source development plattform
         is still home to and primary notification hub for many projects."
       ],
-      ["http://www.ohloh.net/", "ohloh.net.jpeg", "Ohloh.net",
+      ["http://www.ohloh.net/", "ohloh.net.jpeg", "OpenHUB (Ohloh)",
        "statistically tracks open source project development."
       ],
       ["http://github.com/", "github.com.jpeg", "GitHub",
-       "Is a frontend onto a distributed version control system.
+       "is a frontend onto a distributed version control system.
         It's less suited for end users, but still allows searching for software."
       ],
       ["http://savannah.nongnu.org/", "savannah.nongnu.org.jpeg", "Savannah",
        "Provides an alternative Free software development plattform."
       ],
       ["https://launchpad.net/", "launchpad.net.jpeg", "Launchpad",
-       "Is the development hub for Ubuntu and also lists a few things that
+       "is the development hub for Ubuntu and also lists a few things that
         haven't made it into the package managers yet."
       ],
       ["http://www.libe.net/version/index.php", "libe.net.jpeg", "Libe.net",
-       "Is an archive and version tracker for various Linux and open source packages."
+       "is an archive and version tracker for various Linux and open source packages."
       ],
       ["http://www.linuxsoft.cz/en/", "linuxsoft.cz.jpeg", "LinuxSoft.cz",
        "Provides a comprehensive and searchable software list divided into categories.",
@@ -177,54 +202,33 @@ include("template/header.php");
       ["http://openfontlibrary.org/", "openfontlibrary.org.jpeg", "Open Font Library",
        "Helps to easily uncover new and nicely categorized true or open type fonts.",
       ],
-#      ["", "", "",
-#       "",
-#      ],
       ["http://www.opensourcescripts.com/", "opensourcescripts.com.jpeg", "Open Source Scripts",
        "Collects web applications and web service scripts.",
       ],
       ["http://opensourcelinux.org/", "opensourcelinux.org.jpeg", "Open Source List",
        "Provides a summary list of common applications.",
       ],
-      ["http://osliving.com/", "osliving.com.jpeg", "Open Source Living",
-       "is an odd outlier, as they expect open source projects to pay for listings;
-        thrives on click thru ads, etc."
+      ["http://linuxappfinder.com/all", "linuxappfinder.com.jpeg", "Linux AppFinder",
+       "Provides vast categories and application options, alternative lists, web feeds, news, and a community forum.",
       ],
-#      ["http://www.hotscripts.com/", "hotscripts.com.jpeg", "hotscripts.com",
-#       "is a script directory, mixed open source or non-free and commercial listings,
-#        many entries somewhat outdated"
+      ["http://www.findbestopensource.com/home/", "findbestopensource.com.jpeg", "Find Best OpenSource",
+       "is a well curated news and application category blog.",
+      ],
+      ["http://freeopensourcesoftware.org/", "freeopensourcesoftware.org.jpeg", "Free Open Source Software",
+       "A Wiki which doesn't host a software directory itself, but provides various resources to uncover them.",
+      ],
+      ["http://libreprojects.net/", "libreprojects.net.jpeg", "Libre Projects",
+       "is itself a meta directory to various open source and open content directories and community hubs.",
+      ],
+      ["http://www.zwodnik.com/", "zwodnik.com.jpeg", "Zwodnik",
+       "provides a pretty overview, categorization, description and reviews for open source packages.",
+      ],
+#      ["http://osliving.com/", "osliving.com.jpeg", "Open Source Living",
+#       "is an odd outlier, as they expect open source projects to pay for listings;
+#        thrives on click thru ads, etc."
 #      ],
-#      ["http://www.devscripts.com/", "devscripts.com.jpeg", "devscripts.com",
-#       "is a script directory, mixed open source or non-free and commercial listings,
-#        many entries somewhat outdated"
-#      ],
-#      ["http://www.developertutorials.com/scripts/", "developertutorials.com.jpeg", "developer&shy;tutorials.com",
-#       "is a script directory, mixed open source or non-free and commercial listings,
-#        many entries outdated"
-#      ],
-#      ["http://www.bigresource.com/scripts/", "bigresource.com.jpeg", "bigresource.com",
-#       "is a script directory, mixed open source or non-free and commercial listings,
-#        many entries somewhat outdated"
-#      ],
-#      ["http://www.scripts.com/", "scripts.com.jpeg", "scripts.com",
-#       "is a script directory, mixed open source or non-free and commercial listings,
-#        many entries somewhat outdated"
-#      ],
-#      ["http://www.fatscripts.com/", "fatscripts.com.jpeg", "fatscripts.com",
-#       "is a script directory, mixed open source or non-free and commercial listings,
-#        many entries somewhat outdated"
-#      ],
-#      ["http://www.scripts20.com/", "scripts20.com.jpeg", "scripts20.com",
-#       "is a script directory, mixed open source or non-free and commercial listings,
-#        many entries somewhat outdated"
-#      ],
-#      ["http://www.needscripts.com/", "needscripts.com.jpeg", "needscripts.com",
-#       "is a script directory, mixed open source or non-free and commercial listings,
-#        many entries somewhat outdated"
-#      ],
-#      ["http://www.advancescripts.com/", "advancescripts.com.jpeg", "advancescripts.com",
-#       "is a script directory, mixed open source or non-free and commercial listings,
-#        many entries somewhat outdated"
+#      ["", "", "",
+#       "",
 #      ],
   ];
   
