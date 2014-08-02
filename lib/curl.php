@@ -57,6 +57,18 @@ class curl {
      *
      */
     public $handle = NULL;
+    
+    
+    /**
+     * Setup parameters.
+     *
+     */
+    static $defaults = array(
+        "returntransfer" => 1,
+        "httpget" => 1,
+        "http200aliases" => array(200, 201, 202, 203),
+        "header" => 0,
+    );
 
 
     /**
@@ -68,20 +80,16 @@ class curl {
         // create
         $this->handle = is_object($params) ? $params : curl_init();
         
-        // default options
-        $this->returntransfer(1)
-             ->httpget(1)
-             ->http200aliases(array(200,201,202,203))
-             ->header(0)
-             ->UserAgent("freshcode/0.5 (U) +http://freshcode.club/")
-             ->followlocation(!ini_get("safe_mode"));
-             
-        // option is just URL string
-        if (is_string($params)) {
-            $this->url($params);
-        }
+        // merge options
+        $params = array_merge(
+            curl::$defaults,
+            array("followlocation" => !ini_get("safe_mode")),
+            is_array($params) ? array_change_key_case($params) : array(),
+            is_string($params) ? array("url" => $params) : array()
+        );
+
         // multiple [url=>$url, post=>$bool, ..] options
-        elseif (is_array($params)) foreach ($params as $cmd=>$opt) {
+        if (is_array($params)) foreach ($params as $cmd=>$opt) {
             $this->__call($cmd, array($opt));
         }
     }
