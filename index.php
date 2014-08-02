@@ -27,6 +27,7 @@ switch ($page = $_GET->id["page"]) {
     case "links":
     case "tags":
     case "search":
+    case "drchangelog":
     case "login":
         include("page_$page.php");
         break;
