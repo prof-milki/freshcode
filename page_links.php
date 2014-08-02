@@ -8,11 +8,7 @@
  * ToDo
  *  + http://www.datamation.com/open-source/open-source-software-the-mega-list-1.html
  *  + http://www.datamation.com/osrc/article.php/3925806/Open-Source-Software-Top-59-Sites.htm
- *  + http://www.reddit.com/r/coolgithubprojects
  *  + http://sourceforge.net/new/
- *  + https://openhatch.org/
- *  + http://opensourcearcade.com/
- *  + http://www.icewalkers.com/
  *
  *  - http://www.krugle.org/projects/
  *  - http://flossmetrics.org/
@@ -131,7 +127,7 @@ include("template/header.php");
     <?php endif; ?>
     
  </aside>
- <section id=main style="height: 2200pt; min-width: 700px;">
+ <section id=main style="height: 2400pt; min-width: 700px;">
 
  <h4>Other FLOSS/Linux software directories</h4>
    <p>
@@ -223,6 +219,21 @@ include("template/header.php");
       ["http://www.zwodnik.com/", "zwodnik.com.jpeg", "Zwodnik",
        "provides a pretty overview, categorization, description and reviews for open source packages.",
       ],
+      ["http://www.icewalkers.com/", "icewalkers.com.jpeg", "Ice Walkers",
+       "is also a software release tracker and news blog, with an own software directory.",
+      ],
+      ["https://openhatch.org/", "openhatch.org.jpeg", "OpenHatch",
+       "enables matchmaking for projects and their developers and interested users and contributions.",
+      ],
+      ["http://opensourcearcade.com/", "opensourcearcade.com.jpeg", "Open Source Arcade",
+       "is an assemblage of games categorized per programming language or genre.",
+      ],
+      ["http://www.reddit.com/r/coolgithubprojects", "coolgithubprojects.jpeg", "CoolGitHubProjects",
+       "is a subreddit discussing interesting finds from (otherwise opaque) GitHub repos.",
+      ],
+#      ["", "", "",
+#       "",
+#      ],
 #      ["http://osliving.com/", "osliving.com.jpeg", "Open Source Living",
 #       "is an odd outlier, as they expect open source projects to pay for listings;
 #        thrives on click thru ads, etc."
