@@ -1,7 +1,7 @@
 </section>
 
 <footer id=spotlight>
-&nbsp;
+<?php include("template/spotlight.htm"); ?>
 </footer>
 
 <footer id=bottom>
