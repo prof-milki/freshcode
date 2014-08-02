@@ -307,6 +307,10 @@ class input implements ArrayAccess, Countable, Iterator {
         elseif (strpos($rx, "[^")) {
             return preg_replace($rx, "", $data);
         }
+        # replacing
+        else {
+            return preg_replace($rx, $match, $data);
+        }
     }
     
     /**
@@ -564,8 +568,8 @@ class input implements ArrayAccess, Countable, Iterator {
      *
      */
     function _strip_markup($data, $with="") {
-        return preg_replace("~<\s*/?\s*(a|b|i|em|strong|sup|sub|ins|del|br|hr|big|small|font|span|div|table|tr|td|ol|ul|li|dl|dd|dt|abbr|h[1-6])\b".
-               "(?>[^>\"\']+|\"[^\"]*\"|'[^']*')*>~", $with, $data);
+        return preg_replace("~(<\s*/?\s*(a|b|i|em|strong|sup|sub|ins|del|br|hr|big|small|font|span|div|table|tr|td|ol|ul|li|dl|dd|dt|abbr|tt|code|pre|h[1-6])\b".
+               "(?>[^>\"\']+|\"[^\"]*\"|'[^']*')*>)+~", $with, $data);
     }
 
 
@@ -937,7 +941,10 @@ class input implements ArrayAccess, Countable, Iterator {
         }
 
         // slice out named values from ->__vars
-        $data = array_intersect_key($this->__vars, array_flip($keys));
+        $data = array_merge(
+            array_fill_keys($keys, NULL),
+            array_intersect_key($this->__vars, array_flip($keys))
+        );
 
         // chain to _array multiplex handler
         if (!$pass_array) {
