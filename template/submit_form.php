@@ -159,7 +159,7 @@ print <<<HTML
            <a href=/drchangelog><img src=img/drchangelog.png width=37 height=37 align=right style="padding:5pt"></a>
            for your version control system or project homepage.
            See the <a href="http://fossil.include-once.org/freshcode/wiki/Autoupdate">Autoupdate Howto</a>
-           or <a href=/drchangelog>Dr.Changelog</a>.
+           or <a href=/drchangelog class="action drchangelog">Dr.Changelog</a>.
         </p>
         <p>
            <label>
