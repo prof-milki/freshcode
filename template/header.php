@@ -17,7 +17,7 @@
     <title><?= isset($title) ? $title : "freshcode.club" ?></title>
     <meta name=version content=0.5.5>
     <meta charset=UTF-8>
-    <link rel=stylesheet href="/freshcode.css?0.6.2">
+    <link rel=stylesheet href="/freshcode.css?0.6.2.1">
     <link rel="shortcut icon" href="/img/changes.png">
     <base href="//<?= HTTP_HOST ?>/">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -46,7 +46,7 @@ Open source community software release tracking.
    <a href="/">Home</a>
    <a href="/submit" class=submit>Submit</a>
    <a href="/tags">Browse Projects by Tag</a>
-   <a href="/search">Search</a>
+   <form id=search_q style="display:inline" action=search><input name=q size=5><a href="/search">Search</a></form>
    <a href="//fossil.include-once.org/freshcode/wiki/About">About</a>
    <a href="/links">Links</a>
    <a href="//www.opensourcestore.org/">Forum</a>

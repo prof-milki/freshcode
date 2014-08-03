@@ -36,11 +36,6 @@ $(document).ready(function(){
         $(this).toggleClass("trimmed");
     });
 
-    // Likewise for compacted news feeds in #sidebar
-    $(".forum .entry").one("click", function(){
-        $(this).find(".excerpt, .content, .funcs").toggleClass("trimmed");
-    });
-    
     
     /**
      * Trove map and tag cloud.
@@ -88,8 +83,8 @@ $(document).ready(function(){
     // submit_form: lock entry
     $(".action.lock-entry").click(function(){
         var $lock = $("input[name='lock']");
-        if (!$lock.val().length) {
-            $lock.val($lock.val("placeholder"));
+        if (!$lock.val().length && $lock.attr("placeholder")) {
+            $lock.val($lock.attr("placeholder"));
         }
     });
 
@@ -107,6 +102,18 @@ $(document).ready(function(){
         $("#sidebar section").eq(0).toggle("medium");
         $("#sidebar .submit-import").fadeToggle("slow");
     });
+    
+    // Copying some form fields from /submit to /drchangelog
+    $(".action.drchangelog").click(function() {
+        $(this).attr("href", "/drchangelog?autoupdate_module=" + $("form[method='POST']").serialize());
+        // and let default action proceed
+    });
+
+    // Copying some form fields from /submit to /drchangelog
+    $("#search_q a").click(function() {
+        $(this).attr("href", "/search?q=" + $("#search_q input[name=q]").val());
+        // and let default action proceed
+    });
 
 
 
@@ -114,6 +121,12 @@ $(document).ready(function(){
      * Forum actions.
      *
      */
+
+    // Expand forum previews
+    $(".forum .entry").one("click", function(){
+        $(this).find(".excerpt, .content, .funcs").toggleClass("trimmed");
+    });
+    
      
     // Post submit button
     $(".forum").delegate(".action", "click", function(){

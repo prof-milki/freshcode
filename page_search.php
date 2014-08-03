@@ -42,7 +42,8 @@ else {
 #   db()->test = 1;
     $result = db("
         SELECT release.name AS name, title, SUBSTR(description,1,500) AS description,
-               version, image, homepage, download, submitter, release.tags AS tags,
+               version, image, homepage, download, submitter, submitter_image,
+               release.tags AS tags,
                license, state, t_published, flag, hidden, deleted, MAX(t_changed)
           FROM release
          WHERE NOT deleted AND flag < 5
