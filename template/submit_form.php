@@ -154,10 +154,12 @@ print <<<HTML
         <h3>Automatic Release Tracking</h3>
         <p>
            <em>You can skip this section.</em>
-           But after registering your first version manually, you can later automate the process.
-           Use a normalized Changelog or <var>releases.json</var> in your version control system,
-           or a regex for your project homepage.
-           See the <a href="http://fossil.include-once.org/freshcode/wiki/Autoupdate">Autoupdate Howto</a>.
+           But future release submissions can be automated, with  a
+           normalized Changelog, or <var>releases.json</var>, or an extraction ruleset
+           <a href=/drchangelog><img src=img/drchangelog.png width=37 height=37 align=right style="padding:5pt"></a>
+           for your version control system or project homepage.
+           See the <a href="http://fossil.include-once.org/freshcode/wiki/Autoupdate">Autoupdate Howto</a>
+           or <a href=/drchangelog>Dr.Changelog</a>.
         </p>
         <p>
            <label>
@@ -169,18 +171,19 @@ print <<<HTML
 
            <label>
                Autoupdate URL
-               <input name=autoupdate_url type=url size=50 value="$data[autoupdate_url]" placeholder="https://github.com/user/repo/tags.atom" maxlength=250>
-               <small>This is the primary source for <b>releases.json</b> and the <b>regex</b> method.
-               GitHub and Sourceforge URLs are autodiscovered if they're e.g. your project homepage.</small>
+               <input name=autoupdate_url type=url size=50 value="$data[autoupdate_url]" placeholder="https://github.com/user/repo/Changelog.md" maxlength=250>
+               <small>This is the primary source for <b>releases.json</b> or a <b>Changelog</b>.
+               It's also initially used for <b>Regex</b> rules in absence of override URLs. GitHub and SourceForge
+               links are usually autodiscovered.</small>
            </label>
 
            <label>
-               Regex
-               <textarea cols=50 rows=3 name=autoupdate_regex placeholder="version = /-(\d+\.\d+\.\d+)\.txz/" maxlength=2500>$data[autoupdate_regex]</textarea>
+               Rules <span style="font-weight: 100">(URLs, Regex, XPath, jQuery)</span>
+               <textarea cols=50 rows=3 name=autoupdate_regex placeholder="version = /foo-(\d+\.\d+\.\d+)\.txz/" maxlength=2500>$data[autoupdate_regex]</textarea>
                <small>
-               <a href="http://fossil.include-once.org/freshcode/wiki/AutoupdateRegex">Regex automated updates</a>
-               expect a list of <code>field=/regex/</code> names, like version=, changes=, download=, state=.
-               Associatively-named "Other URLs" are also used for extraction.</small>
+               <a href="http://fossil.include-once.org/freshcode/wiki/AutoupdateRegex">Regex/Xpath automated updates</a>
+               expect a list of <code>field = ..</code> rules. Define an URL and then associated RegExp, XPath or jQuery selectors
+               for the version= and changes= fields, and optionally for state=, scope= and download=.</small>
            </label>
 
         </p>
