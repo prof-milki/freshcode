@@ -51,7 +51,7 @@ function feed_project($row) {
         "license" => $row["license"],
         "tags" => $row["tags"],
         "image" => $row["image"],
-        "submitter" => preg_replace(array("/\S+@\S+/", "/^[\s,]+|[\s,]+$/"), "", $row["submitter"]),
+        "submitter" => $row["submitter"],
         "urls" => p_key_value($row["urls"]),
     );
 }

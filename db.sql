@@ -3,15 +3,14 @@
 # version: 0.6
 #
 
-
 CREATE TABLE [release] ( 
-    name              VARCHAR( 100 )    NOT NULL,
-    title             TEXT              NOT NULL,
+    name              VARCHAR( 100 )     NOT NULL,
+    title             TEXT               NOT NULL,
     homepage          TEXT,
-    description       TEXT              NOT NULL,
+    description       TEXT               NOT NULL,
     license           VARCHAR( 100 ),
     tags              VARCHAR( 200 ),
-    version           VARCHAR( 100 )    NOT NULL,
+    version           VARCHAR( 100 )     NOT NULL,
     state             VARCHAR( 20 ),
     scope             VARCHAR( 20 ),
     changes           TEXT,
@@ -22,15 +21,16 @@ CREATE TABLE [release] (
     autoupdate_regex  TEXT,
     t_published       INT,
     t_changed         INT,
-    flag              INT               DEFAULT ( 0 ),
-    deleted           BOOLEAN           DEFAULT ( 0 ),
+    flag              INT                DEFAULT ( 0 ),
+    deleted           BOOLEAN            DEFAULT ( 0 ),
     submitter_openid  TEXT,
-    submitter         VARCHAR( 0, 50 ),
+    submitter         VARCHAR( 0, 100 ),
     lock              TEXT,
-    hidden            BOOLEAN           DEFAULT ( 0 ),
+    hidden            BOOLEAN            DEFAULT ( 0 ),
     image             TEXT,
-    social_links      INT               DEFAULT ( 0 ),
-    CONSTRAINT 'release_revision' UNIQUE ( name, version COLLATE 'NOCASE', t_published, t_changed ) 
+    social_links      INT                DEFAULT ( 0 ),
+    submitter_image   VARCHAR( 200 ),
+    CONSTRAINT 'release_revisions' UNIQUE ( name, version COLLATE 'NOCASE', t_published, t_changed ) 
 );
 
 CREATE TABLE flags ( 

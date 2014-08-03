@@ -117,6 +117,9 @@ class release extends ArrayObject {
         if ($partial) {
             $newdata = array_intersect_key($newdata, array_flip($newkeys));
         }
+        
+        // Apply some logic filters
+        $this->unpack($newdata);
 
         // Merge and apply input
         $this->exchangeArray(array_merge(
@@ -143,6 +146,22 @@ class release extends ArrayObject {
         $data = $this->getArrayCopy();
         return db("$INSERT INTO release (:?) VALUES (::)", $data, $data)
            and db("UPDATE release SET hidden=1 WHERE name=? AND version=? AND t_published < ?", $data["name"], "", time()-5);
+    }
+
+
+    /**
+     * Split up fields,
+     * in particular the email out of `submitter`.
+     *
+     */
+    function unpack(&$newdata) {
+
+        if (!empty($newdata["submitter"]) and is_int(strpos($newdata["submitter"], "@"))
+        and preg_match($rx = "/[^,;\s]+@[^,;\s]+/", $newdata["submitter"], $match))
+        {
+            $newdata["submitter_image"] = $match[0];
+            $newdata["submitter"] = trim(preg_replace($rx, "", $newdata["submitter"]), ", ");
+        }
     }
 
 

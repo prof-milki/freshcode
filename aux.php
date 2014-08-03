@@ -128,27 +128,27 @@ function prepare_output(&$entry) {
     $entry = array_map("input::_html", $entry);
 
     // user image
-    $entry["submitter_img"] = submitter_gravatar($entry["submitter"]);
+    $entry["submitter_img"] = submitter_gravatar($entry["submitter_image"]);
 }
 
 
 /**
- * Strip email@xyz from submitter name list (else just hash name),
- * return gravatar or identicon.
+ * Convert email@xyz to gravatar or identicon,
+ * keep raw URLs, or use default image for empty fields.
  *
  */
-function submitter_gravatar(&$user, $size=24) {
-    $rx = "/[^,;\s]+@[^,;\s]+/";
-    $m = array($user);
+function submitter_gravatar($img, $size=24) {
     
     // capture+strip email
-    if (is_int(strpos($user, "@")) and preg_match($rx, $user, $m)) {
-        $user = trim(preg_replace($rx, "", $user), ",; ");
+    if (is_int(strpos($img, "@"))) {
+        $img = "//www.gravatar.com/avatar/" . md5($img) . "?s=$size&d=identicon&r=pg";
+    }
+    elseif (empty($img)) {
+        $img = "/img/user.png";
     }
     
     // return html <img> snippet
-    return "<img src=\"//www.gravatar.com/avatar/" . md5(current($m))
-         . "?s=$size&d=identicon&r=pg\" width=$size height=$size class=gravatar>";
+    return "<img src=\"$img\" width=$size height=$size class=gravatar>";
 }
 
 
