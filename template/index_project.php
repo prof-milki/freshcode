@@ -28,8 +28,8 @@ print <<<HTML
             <em class=version>$entry[version]</em></a>
             <span class=links>
                 <span class=published_date>$entry[formatted_date]</span>
-                <a href="$entry[homepage]"><img src="img/home.png" width=20 height=20 border=0 align=middle></a>
-                <a href="$entry[download]"><img src="img/disk.png" width=20 height=20 border=0 align=middle></a>
+                <a href="$entry[homepage]"><img src="img/home.png" width=20 height=20 border=0 align=middle alt="⛵"></a>
+                <a href="$entry[download]"><img src="img/disk.png" width=20 height=20 border=0 align=middle alt="💾"></a>
             </span>
         </h3>
         <a href="$entry[homepage]"><img class=preview src="$entry[image]" align=right width=120 height=90 border=0></a>
