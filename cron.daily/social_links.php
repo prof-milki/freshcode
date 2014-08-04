@@ -16,7 +16,6 @@
 // deps
 chdir(dirname(__DIR__)); 
 include("config.php");
-include("lib/curl.php");
 
 // use "remotely" for implicit caching
 define("IO_LINKS", "http://api.include-once.org/links/social.ajax.php");

@@ -283,7 +283,6 @@ class project_import {
      *
      */
     function FREECODE($name) {
-        include_once("lib/curl.php");
 
         // retrieve
         if ($html = curl("http://freecode.com/projects/$name")->exec()) {
@@ -318,7 +317,6 @@ class project_import {
      *
      */
     function SOURCEFORGE($name) {
-        include_once("lib/curl.php");
 
         // retrieve
         if ($data = json_decode(curl("https://sourceforge.net/rest/p/$name")->exec(), TRUE)) {
