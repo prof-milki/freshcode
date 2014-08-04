@@ -61,6 +61,7 @@ class release extends ArrayObject {
     
     /**
      * Prepare new release submission.
+     *
      * Merges in flags (hidden, deleted, submitter_*, etc) from latest entry;
      * but retains t_published associated to `version` if it existed before.
      *
@@ -138,14 +139,24 @@ class release extends ArrayObject {
     /**
      * Store current data bag into `release` table.
      * Is to be invoked after ->update().
-     * 
-     * Automatically hides previous version-less entries.
      *
      */
     function store($INSERT="INSERT") {
         $data = $this->getArrayCopy();
         return db("$INSERT INTO release (:?) VALUES (::)", $data, $data)
-           and db("UPDATE release SET hidden=1 WHERE name=? AND version=? AND t_published < ?", $data["name"], "", time()-5);
+           and $this->update_rules();
+    }
+
+    /**
+     * Further version management.
+     *
+     */
+    function update_rules($data) {
+         return
+             // Hide previous empty "" version project entries, if less than two minutes old.
+             db("UPDATE release SET hidden=1 WHERE name=? AND version=? AND t_published < ?",
+                 $data["name"], "", time() - 120
+             );
     }
 
 
