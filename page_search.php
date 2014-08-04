@@ -35,7 +35,7 @@ else {
     $tags = array_filter(array_merge($_GET->array->words["tags"], $_GET->words->p_csv["tag"]));
     $trove = $_GET->array->words["trove"] and $trove = [$trove, count($trove)];
     $user = $_GET->words["user"] and $user = ["$user%"];
-    $license = $_GET->words["license"] and $license = [$license];
+    $license = $_GET->array->words["license"] and $license = array_filter($license);
     $search = $_GET->text["q"] and $search = ["%$search%"];
 
     // Run SQL
@@ -55,7 +55,7 @@ else {
             // expr :* placeholders only interpolate when inner array contains params
             [" AND description LIKE ? ",  $search],
             [" AND submitter LIKE ? ", $user],
-            [" AND license = ? ",   $license],
+            [" AND license IN (??) ",   $license],
             [" AND name IN (SELECT name FROM tags WHERE tag IN (??)) ", $tags],
             [" AND name IN (SELECT name FROM tags WHERE tag IN (??)
                GROUP BY name HAVING COUNT(tag) = 1*?) ", $trove]

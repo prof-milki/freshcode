@@ -9,7 +9,7 @@
  */
 
 $select = "form_select_options";
-$licenses = array_merge(array(""=>"*Any*"), tags::$licenses);
+$licenses = array_slice(tags::$licenses, 1);
 
 ?>
 
@@ -19,19 +19,22 @@ $licenses = array_merge(array(""=>"*Any*"), tags::$licenses);
 
     <label>
         Description
-        <input name=q type=text size=50>
+        <input name=q type=text size=50 style=height:24pt>
+        <small>Search in project titles and descriptions.</small>
     </label>
 
     <label>
         Tags
         <input name=tag type=text size=50>
+        <small>Comma-separated list of tags you want to include.</small>
     </label>
 
     <label>
-        License
-        <select name=license>
-            <?php print form_select_options($licenses, ""); ?>
+        Licenses<br>
+        <select name="license[]" multiple size=3>
+            <?php print form_select_options($licenses, NULL); ?>
         </select>
+        <small>Constrain results to a specific libre / open source / free software licenses.</small>
     </label>
     
     <label> 

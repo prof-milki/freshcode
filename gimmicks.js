@@ -109,9 +109,11 @@ $(document).ready(function(){
         // and let default action proceed
     });
 
-    // Copying some form fields from /submit to /drchangelog
+    // Append search field in #tools bar
     $("#search_q a").click(function() {
-        $(this).attr("href", "/search?q=" + $("#search_q input[name=q]").val());
+        if (var q = $("#search_q input[name=q]").val()) {
+            $(this).attr("href", "/search?q=" + q);
+        }
         // and let default action proceed
     });
 

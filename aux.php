@@ -196,13 +196,13 @@ function pagination($page_no, $GET_param="n") {
  * - Or an associative array.
  *
  */
-function form_select_options($names, $value, $r="") {
+function form_select_options($names, $value=NULL, $r="") {
 
     // Transform comma-separated string into array
     $map = is_string($names) ? array_combine($names = str_getcsv($names), $names) : $names;
     
     // Add currently active value if missing
-    if ($value and !isset($map[$value])) {
+    if ($value and !isset($map[$value]) and $value !== NULL) {
         $map[$value] = $map[$value];
     }
     
