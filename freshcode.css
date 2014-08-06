@@ -3,7 +3,7 @@
  * type: stylesheet
  * title: freshcode.club layout+style
  * description: Simulates the late freecode.com layout and looks; well mostly.
- * version: 0.6.2.9
+ * version: 0.6.3.1
  *
  * Centered two-pane layout. The #main section is usually 33% of the screen width,
  * while the #sidebar floats at the right. They're repositioned only using padding:
@@ -51,6 +51,14 @@ code, var, kbd {
 }
 var { box-shadow: 0 0 3px 2px #fdd; }
 kbd { box-shadow: 0 0 3px 2px #dfd; }
+
+table {}
+tr, th, td {
+   align: left;
+   vertical-align: top;
+}
+
+
 
 /**
  * Page header, info bar and logo box
@@ -101,6 +109,9 @@ kbd { box-shadow: 0 0 3px 2px #dfd; }
     position: relative;
     top: -15pt;
 }
+.absolute {
+    position: absolute;
+}
 #tools a {
     color: #777;
     margin: 0 1pt;
@@ -116,6 +127,18 @@ kbd { box-shadow: 0 0 3px 2px #dfd; }
     color: #fff;
     background: #346;
 }
+#tools .submenu:hover {
+    background: #D3D7DE;
+    border-radius: 5pt;
+}
+#tools .submenu a:first-child {
+    padding-right: 3pt;
+    margin-right: 0;
+}
+#tools .submenu a:nth-child(2) {
+    padding-left: 3pt;
+    margin-left: 0;
+}
 #tools #search_q {
     display: inline;
     border-radius: 4pt;
@@ -129,7 +152,7 @@ kbd { box-shadow: 0 0 3px 2px #dfd; }
     margin: 1pt;
 }
 #tools #search_q:hover {
-    background: #567;
+    background: #D3D7DE;
 }
 #tools #search_q:hover a {
     color: #eee;
@@ -203,7 +226,7 @@ kbd { box-shadow: 0 0 3px 2px #dfd; }
     background: #ddd;
     background: linear-gradient(#f3f3f3,#f0f0f0,#eee,#e7e7e7,#d3d3d3);
     border-radius: 2pt;
-    padding: 3.5pt 5pt;
+    padding: 3.5pt 5pt 1.5pt 5pt;
     margin-top: 25pt;
 }
 #main label, #sidebar label {
@@ -298,6 +321,7 @@ kbd { box-shadow: 0 0 3px 2px #dfd; }
     font-weight: 200;
     font-size: 65%;
     color: #777;
+    position: relative; top: -3.5pt;
 }
 #main .project img.preview {
     padding: 3px;
@@ -565,6 +589,58 @@ kbd { box-shadow: 0 0 3px 2px #dfd; }
 #trove_tags .optgroup[data-tag='audience'] * { background: #f0fff3; }
 
 
+
+
+/**
+ * Specific pages
+ *
+ */
+table.rc {
+   width: 100%;
+   margin-top: 5pt;
+}
+.rc th {
+   background: #ddd;
+   font-weight: 500;
+   padding: 3pt;
+   text-align: left;
+   border-radius: 5pt 5pt 0 0;
+   box-shadow: 0px -2px 3px 1px #eee;
+}
+.rc td {
+   background: #f7f9fc;
+}
+.rc th a {
+   color: #22c;
+}
+.rc th:first-child {
+   font-weight: 600;
+}
+.rc th:first-child,
+.rc td:first-child {
+   width: 15%;
+}
+.rc ins {
+   color: #151;
+   text-decoration: none;
+   border-bottom: 1px dashed green;
+   background: #efe;
+}
+.rc del {
+   color: #521;
+   background: #fee;
+}
+.rc .funcs {
+   float: right;
+}
+.rc .funcs a {
+   font-size: 60%;
+   color: #99b;
+   background: #e3e3e3;
+   border: 1px solid #eee;
+   border-radius: 3pt;
+   padding: 1pt 3pt;
+}
 
 
 /**
