@@ -6,9 +6,10 @@
  *
  *
  * ToDo
- *  + http://www.datamation.com/open-source/open-source-software-the-mega-list-1.html
- *  + http://www.datamation.com/osrc/article.php/3925806/Open-Source-Software-Top-59-Sites.htm
- *  + http://sourceforge.net/new/
+ *  - http://www.datamation.com/open-source/open-source-software-the-mega-list-1.html
+ *  - http://www.datamation.com/osrc/article.php/3925806/Open-Source-Software-Top-59-Sites.htm
+ *  - http://sourceforge.net/new/
+ *  + http://fossies.org/linux/misc/
  *
  *  - http://www.krugle.org/projects/
  *  - http://flossmetrics.org/
@@ -127,7 +128,7 @@ include("template/header.php");
     <?php endif; ?>
     
  </aside>
- <section id=main style="height: 2400pt; min-width: 700px;">
+ <section id=main style="height: 2600pt; min-width: 700px;">
 
  <h4>Other FLOSS/Linux software directories</h4>
    <p>
@@ -135,55 +136,66 @@ include("template/header.php");
 
   $links = [
 
+#      ["http://freshcode.club/", "freshcode.club.jpeg", "freshcode.club",
+#       "and <a href=\"http://freecode.club/\">freecode</a>/<a href=\"http://freshmeat.club/\">freshmeat.club</a>
+#        are supposed to become substitutes with differing views on shared data sets."
+#      ],
+
+
+   //1
       ["http://freecode.com/", "freecode.com.jpeg", "Freecode.com",
        "(AKA Freshmeat) was the original software release tracker, and is still available as archive."
       ],
-      ["http://freshcode.club/", "freshcode.club.jpeg", "freshcode.club",
-       "and <a href=\"http://freecode.club/\">freecode</a>/<a href=\"http://freshmeat.club/\">freshmeat.club</a>
-        are supposed to become substitutes with differing views on shared data sets."
+      ["http://sourceforge.net/", "sourceforge.net.jpeg", "Sourceforge.net",
+       "Is the classic open source development service
+        and still home to and primary hub for many projects."
       ],
+      ["http://fossies.org/linux/misc/", "fossies.org.jpeg", "Fossies.org",
+       "tracks popular open source packages; and is quite feature-rich underneath its classic interface.",
+      ],
+   //2
       ["http://directory.fsf.org/", "directory.fsf.org.jpeg", "Free Software directory",
        "is the FSFs Wiki to summarize FLOSS packages and projects."
       ],
+      ["http://github.com/", "github.com.jpeg", "GitHub",
+       "is a prettier frontend onto git source control.
+        Less suited for end users, but still allows searching for software."
+      ],
+      ["http://www.icewalkers.com/", "icewalkers.com.jpeg", "Ice Walkers",
+       "is also a software release tracker and news blog, with its own software directory.",
+      ],
+   //3
       ["http://www.opensourcesoftwaredirectory.com/", "opensourcesoftwaredirectory.com.jpeg", "Open Source Software Directory",
        "Lists only stable and well-known Linux software, as it's intended for end users."
-      ],
-      ["http://opensourcelist.org/", "opensourcelist.org.jpeg", "OpenSourceList.org",
-       "Collection of best-per-category software; also includes MacOS and Windowsware."
-      ],
-      ["http://thechangelog.com/", "thechangelog.com.jpeg", "the changelog",
-       "Is a blog and weekly podcast on open source development and interesting projects."
-      ],
-      ["http://www.linuxalt.com/", "linuxalt.com.jpeg", "Linux Alternatives",
-       "Curates a list of Linux software alternatives for migrating newcomers."
-      ],
-      ["http://www.osalt.com/", "osalt.com.jpeg", "OS as Alternative",
-       "Lists commercial/prioprietary software and the Free or Linux alternatives in usage categories."
-      ],
-      ["http://www.linuxgames.com/", "linuxgames.com.jpeg", "Linux Games",
-       "Captures progress and newly released gaming software for Linux.",
-      ],
-      ["http://sourceforge.net/", "sourceforge.net.jpeg", "Sourceforge.net",
-       "The original open source development plattform
-        is still home to and primary notification hub for many projects."
-      ],
-      ["http://www.ohloh.net/", "ohloh.net.jpeg", "OpenHUB (Ohloh)",
-       "statistically tracks open source project development."
-      ],
-      ["http://github.com/", "github.com.jpeg", "GitHub",
-       "is a frontend onto a distributed version control system.
-        It's less suited for end users, but still allows searching for software."
-      ],
-      ["http://savannah.nongnu.org/", "savannah.nongnu.org.jpeg", "Savannah",
-       "Provides an alternative Free software development plattform."
       ],
       ["https://launchpad.net/", "launchpad.net.jpeg", "Launchpad",
        "is the development hub for Ubuntu and also lists a few things that
         haven't made it into the package managers yet."
       ],
-      ["http://www.libe.net/version/index.php", "libe.net.jpeg", "Libe.net",
-       "is an archive and version tracker for various Linux and open source packages."
+      ["http://www.linuxgames.com/", "linuxgames.com.jpeg", "Linux Games",
+       "Captures progress and newly released gaming software for Linux.",
       ],
+   //4
+      ["http://www.osalt.com/", "osalt.com.jpeg", "OS as Alternative",
+       "Lists commercial/prioprietary software and the Free or Linux alternatives in usage categories."
+      ],
+      ["http://www.ohloh.net/", "ohloh.net.jpeg", "OpenHUB (Ohloh)",
+       "statistically tracks open source project development."
+      ],
+      ["http://www.zwodnik.com/", "zwodnik.com.jpeg", "Zwodnik",
+       "provides a pretty overview, categorization, description and reviews for open source packages.",
+      ],
+   //5
+      ["http://www.linuxalt.com/", "linuxalt.com.jpeg", "Linux Alternatives",
+       "Curates a list of Linux software alternatives for migrating newcomers."
+      ],
+      ["http://savannah.nongnu.org/", "savannah.nongnu.org.jpeg", "Savannah",
+       "Provides an alternative Free software development plattform."
+      ],
+      ["http://www.reddit.com/r/coolgithubprojects", "coolgithubprojects.jpeg", "CoolGitHubProjects",
+       "is a subreddit discussing interesting finds from (otherwise opaque) GitHub repos.",
+      ],
+   //6
       ["http://www.linuxsoft.cz/en/", "linuxsoft.cz.jpeg", "LinuxSoft.cz",
        "Provides a comprehensive and searchable software list divided into categories.",
       ],
@@ -195,66 +207,66 @@ include("template/header.php");
        "DistroWatch",
        "Does as it says and tracks new and upcoming BSD / Linux / GNU / Solaris distribution releases."
       ],
-      ["http://openfontlibrary.org/", "openfontlibrary.org.jpeg", "Open Font Library",
-       "Helps to easily uncover new and nicely categorized true or open type fonts.",
+   //7
+      ["http://linuxappfinder.com/all", "linuxappfinder.com.jpeg", "Linux AppFinder",
+       "Provides vast categories and application options, alternative lists, web feeds, news, and a community forum.",
       ],
       ["http://www.opensourcescripts.com/", "opensourcescripts.com.jpeg", "Open Source Scripts",
        "Collects web applications and web service scripts.",
       ],
+      ["http://www.libe.net/version/index.php", "libe.net.jpeg", "Libe.net",
+       "is an archive and version tracker for various Linux and open source packages."
+      ],
+   //8
+      ["http://opensourcelist.org/", "opensourcelist.org.jpeg", "OpenSourceList.org",
+       "Collection of best-per-category software; also includes MacOS and Windowsware."
+      ],
       ["http://opensourcelinux.org/", "opensourcelinux.org.jpeg", "Open Source List",
        "Provides a summary list of common applications.",
-      ],
-      ["http://linuxappfinder.com/all", "linuxappfinder.com.jpeg", "Linux AppFinder",
-       "Provides vast categories and application options, alternative lists, web feeds, news, and a community forum.",
-      ],
-      ["http://www.findbestopensource.com/home/", "findbestopensource.com.jpeg", "Find Best OpenSource",
-       "is a well curated news and application category blog.",
-      ],
-      ["http://freeopensourcesoftware.org/", "freeopensourcesoftware.org.jpeg", "Free Open Source Software",
-       "A Wiki which doesn't host a software directory itself, but provides various resources to uncover them.",
-      ],
-      ["http://libreprojects.net/", "libreprojects.net.jpeg", "Libre Projects",
-       "is itself a meta directory to various open source and open content directories and community hubs.",
-      ],
-      ["http://www.zwodnik.com/", "zwodnik.com.jpeg", "Zwodnik",
-       "provides a pretty overview, categorization, description and reviews for open source packages.",
-      ],
-      ["http://www.icewalkers.com/", "icewalkers.com.jpeg", "Ice Walkers",
-       "is also a software release tracker and news blog, with an own software directory.",
-      ],
-      ["https://openhatch.org/", "openhatch.org.jpeg", "OpenHatch",
-       "enables matchmaking for projects and their developers and interested users and contributions.",
       ],
       ["http://opensourcearcade.com/", "opensourcearcade.com.jpeg", "Open Source Arcade",
        "is an assemblage of games categorized per programming language or genre.",
       ],
-      ["http://www.reddit.com/r/coolgithubprojects", "coolgithubprojects.jpeg", "CoolGitHubProjects",
-       "is a subreddit discussing interesting finds from (otherwise opaque) GitHub repos.",
+   //9
+      ["http://libreprojects.net/", "libreprojects.net.jpeg", "Libre Projects",
+       "is itself a meta directory to various open source and open content directories and community hubs.",
       ],
-#      ["", "", "",
-#       "",
-#      ],
-#      ["http://osliving.com/", "osliving.com.jpeg", "Open Source Living",
-#       "is an odd outlier, as they expect open source projects to pay for listings;
-#        thrives on click thru ads, etc."
-#      ],
+      ["http://openfontlibrary.org/", "openfontlibrary.org.jpeg", "Open Font Library",
+       "Helps to easily uncover new and nicely categorized true or open type fonts.",
+      ],
+      ["http://www.findbestopensource.com/home/", "findbestopensource.com.jpeg", "Find Best OpenSource",
+       "is a well curated news and application category blog.",
+      ],
+   //10
+      ["http://freeopensourcesoftware.org/", "freeopensourcesoftware.org.jpeg", "Free Open Source Software",
+       "A Wiki which doesn't host a software directory itself, but provides various resources to uncover them.",
+      ],
+      ["https://openhatch.org/", "openhatch.org.jpeg", "OpenHatch",
+       "enables matchmaking for projects and their developers and interested users and contributions.",
+      ],
+   //11
+      ["http://thechangelog.com/", "thechangelog.com.jpeg", "the changelog",
+       "Is a blog and weekly podcast on open source development and interesting projects."
+      ],
 #      ["", "", "",
 #       "",
 #      ],
   ];
   
   
-  foreach ($links as $row) {
+  // Write out our gallery  
+  foreach ($links as $entry) {
       print <<<HTML
       <div class=links-entry>
-         <a href="$row[0]">
-            <img src="/img/links/$row[1]" width=200 height=150 align=bottom border=0>
-            <b>$row[2]</b>
+         <a href="$entry[0]">
+            <img src="/img/links/$entry[1]" width=200 height=150 align=bottom border=0>
+            <b>$entry[2]</b>
          </a>
-         $row[3]
-      </div>
+         $entry[3]
+      </div>\n
 HTML;
   }
+  
 
 
 
