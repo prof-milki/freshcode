@@ -93,6 +93,7 @@ $(document).ready(function(){
         var $input = $(this).parent().parent().find("input, textarea").eq(0);
         var version = $("input[name='version']").val();
         if (version.length) {
+            version = new RegExp(version.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1"), "g");
             $input.val($input.val().replace(version, "$version"));
         }
     });
@@ -111,7 +112,8 @@ $(document).ready(function(){
 
     // Append search field in #tools bar
     $("#search_q a").click(function() {
-        if (var q = $("#search_q input[name=q]").val()) {
+        var q;
+        if (q = $("#search_q input[name=q]").val()) {
             $(this).attr("href", "/search?q=" + q);
         }
         // and let default action proceed
