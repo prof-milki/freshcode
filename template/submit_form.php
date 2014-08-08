@@ -19,7 +19,7 @@
 
 #-- inline placeholders
 if (!strlen(trim($data["urls"]))) {
-    $data["urls"] = "wiki = \r\ngithub = \r\nrelease-notes = \r\nsupport-channel =\r\ntxz = \r\nrpm-x86 = \r\n";
+    $data["urls"] = "wiki = \r\ngithub = \r\nrelease-notes = \r\n";
 }
 
 $select = "form_select_options";
@@ -156,7 +156,7 @@ print <<<HTML
            <em>You can skip this section.</em>
            But future release submissions can be automated, with  a
            normalized Changelog, or <var>releases.json</var>, or an extraction ruleset
-           <a href=/drchangelog><img src=img/drchangelog.png width=37 height=37 align=right style="padding:5pt"></a>
+           <a href=/drchangelog class="action drchangelog"><img src=img/drchangelog.png width=37 height=37 align=right style="padding:5pt"></a>
            for your version control system or project homepage.
            See the <a href="http://fossil.include-once.org/freshcode/wiki/Autoupdate">Autoupdate Howto</a>
            or <a href=/drchangelog class="action drchangelog">Dr.Changelog</a>.
