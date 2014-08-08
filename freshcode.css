@@ -3,7 +3,7 @@
  * type: stylesheet
  * title: freshcode.club layout+style
  * description: Simulates the late freecode.com layout and looks; well mostly.
- * version: 0.6.3.1
+ * version: 0.6.4.1
  *
  * Centered two-pane layout. The #main section is usually 33% of the screen width,
  * while the #sidebar floats at the right. They're repositioned only using padding:
@@ -100,14 +100,15 @@ tr, th, td {
  */
 #tools {
     margin: 0 150pt;
-    padding: 4pt;
+    padding: 3pt 5pt 2pt 5pt;
     border: 1.75pt solid #bbb;
     border-top: 1pt solid #ccc;
     border-radius: 5pt;
     background: #e5e7e9;
     background: linear-gradient(to bottom, #ffffff, #fdfefe, #f5f7f9, #eaecee, #e5e7e9, #e1e3e5, #d0d1d2);
     position: relative;
-    top: -15pt;
+    top: -14pt;
+    font-size: 95%;
 }
 .absolute {
     position: absolute;
@@ -572,7 +573,7 @@ tr, th, td {
     background: #ccf;
 }
 #trove_tags .option.selected, #tag_cloud a.selected {
-    background: #fba;
+    background: #fba !important;
 }
 
 #trove_tags .optgroup[data-tag='topic']   { background: #f3f4f7; }
@@ -629,6 +630,15 @@ table.rc {
 .rc del {
    color: #521;
    background: #fee;
+}
+.rc.admin ins {
+   border: none;
+   background: #f1fff3;
+}
+.rc.admin del {
+   color: #210;
+   background: #fff5f3;
+   text-decoration: none;
 }
 .rc .funcs {
    float: right;
