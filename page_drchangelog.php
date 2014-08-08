@@ -32,29 +32,41 @@ include("template/header.php");
 <section id=main> <?php
 
 
+#-- Output formatted results
+class TestProject extends ArrayObject {
+    function update($result) {
+        #-- output formatted
+        print "<dl>\n";
+        foreach ($result as $key=>$value) {
+            print "<dt><b>$key</b></dt>\n<dd>" . input::html($value) . "</dd>\n";
+        }
+        print "</dl>";
+    }
+}
+
+
 // run test
 if ($_REQUEST->has("test")) {
 
     #-- prepare
     $run = new Autoupdate();
-    $project = array(
+    $run->debug = 1;
+    $project = new TestProject(array(
          "name" => "testproject",
          "version" => "0.0.0.0.0.0.1",
          "homepage" => "",
          "download" => "",
          "urls" => "",
-         "autoupdate_module" => $_REQUEST->name->in_array("autoupdate_module", "release.json,changelog,regex,github"),
+         "autoupdate_module" => $_REQUEST->id->in_array("autoupdate_module", "none,release.json,changelog,regex,github"),
          "autoupdate_url" => $_REQUEST->url["autoupdate_url"],
          "autoupdate_regex" => $_REQUEST->raw["autoupdate_regex"],
-    );
+    ));
     
     #-- exec
-    $method = $run->map[$project["autoupdate_module"]];
     print "<h3>Results for <em>$method</em> extraction</h3>\n";
-    $run->debug = 1;
-    $result = $run->{$method}($project);
-    var_dump($result);
-
+    $method = $run->map[$project["autoupdate_module"]];
+    $result = new TestProject($run->{$method}($project));
+    $result->update($result);
 }
 
 
