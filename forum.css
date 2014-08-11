@@ -1,0 +1,230 @@
+/**
+ * api: css
+ * type: stylesheet
+ * title: meta forum layout
+ * description: Minimalistic forum style
+ * version: 0.1
+ *
+ * Posts are just presented in a nested list,
+ * and left-side title banner sticks out.
+ *
+ */
+
+
+/**
+ * Google fonts
+ *
+ */
+@import url(http://fonts.googleapis.com/css?family=Hind:400,500,700,300);
+
+/**
+ * General
+ *
+ */
+html, body { padding: 0; margin: 0; height: 100%; }
+body {
+/* font: 400 12pt/16pt Kreon;/
+   font: 500 12pt/16pt Raleway;
+   font: 500 12pt/16pt Numans;
+   font: 500 12pt/16pt Inder;
+   font: 400 12pt/16pt Voces;
+   font: 400 12pt/16pt Magra;*/
+   font: 400 12pt/16pt Hind;
+}
+
+/**
+ * Title border
+ *
+ */
+#title {
+   display: block;
+   position: fixed;
+   left: 0;
+   top: 0;
+   background: #222;
+   width: 150pt;
+   float: left;
+   height: 100%;
+   min-height: 5000px;
+   padding: 0;  margin: 0;
+}
+h1 {
+   transform: rotate(270deg);
+   color: #fff;
+   font-size: 72pt;
+   position: relative;
+   top: 400pt;
+   white-space: nowrap;
+   letter-spacing: -0.025em;
+}
+h1 { font-weight: 300; }
+h1 b { font-weight: 700; }
+h1 .red { color: #744; }
+h1 .grey { color: #444; }
+
+/**
+ * Forum tree
+ *
+ */
+.forum, .forum ul {
+   padding: 5pt 0 0 30pt;
+   list-style: none;
+}
+ul.forum {
+   padding: 5pt;
+   padding-left: 180pt;
+   list-style: none;
+   padding-bottom: 90pt;
+}
+
+/**
+ * One post block (wrapped in <li>)
+ *
+ */
+.forum .entry {
+   display: block;
+   width: 600pt;
+/*   background: #eee;
+   border: 1px solid #ddd; */
+   min-height: 30pt;
+   padding-left: 5pt;
+   margin-top: 15pt;
+}
+
+/**
+ * Tag / author / time - left-rotated meta info.
+ *
+ */
+.forum .entry .meta {
+}
+.forum .entry .meta div {
+   /* border: 2px dashed #faa; */
+}
+.forum .entry .meta div > * {
+   font-size: 90%;
+   line-height: 90%;
+   color: #666;
+   padding-right: 5pt;
+}
+.forum .entry .meta .datetime {
+   font-size: 5pt;
+   color: #ccc;
+}
+.forum .entry .meta .category {
+   color: #85879f;
+   background: #fcf9f1;
+   border-radius: 3pt;
+   font-size: 105%;
+   letter-spacing: 0.1em;
+}
+
+
+/**
+ * Post content.
+ *
+ */
+.forum .entry .summary {
+   display: block;
+   margin: 0;
+   font-weight: bold;
+   font-size: 108%;
+   color: #449;
+}
+.forum .entry .excerpt {
+   color: #777;
+}
+.forum .entry .excerpt.trimmed {
+   display: none;
+}
+.forum .entry .content.trimmed {
+   display: none;
+}
+.forum .entry .funcs.trimmed {
+   opacity: 0.1;
+}
+.forum .entry .content p {
+   padding-top: 0; margin-top: 0;
+}
+
+label {
+   display: block;
+   padding: 5pt;
+}
+
+.action {
+   margin: 1pt;
+   padding: 2pt 10pt;
+   color: #33c;
+   background: #e7e7fc;
+   border: #f0f0f9;
+   border-radius: 5pt;
+   font-size: 10pt;
+   opacity: 0.85;
+   cursor: pointer;
+}
+.action.forum-edit {
+   opacity: 0.5;
+}
+.action:hover {
+   opacity: 1.0;
+}
+.action.forum-edit:hover {
+   cursor: s-resize;
+}
+.action.forum-reply:hover {
+   cursor: copy;
+}
+
+
+/**
+ * Submit form
+ *
+ */
+form.forum-submit label b {
+   display: inline-block;
+   width: 80pt;
+   text-align: right;
+}
+form.forum-submit label b select {
+   font-weight: 900;
+   font-size: 105%;
+   text-align: right;
+}
+
+form.forum-submit .markup-buttons {
+   width: 80pt;
+   padding: 5pt;
+   text-align: right;
+   position: relative;
+}
+.markup-buttons .action {
+   display: inline-block;
+   margin: 0 10pt 7pt 0;
+   cursor: text;
+   padding: 3pt 15pt 1pt 15pt;
+   line-height: 1em;
+   background: #eef0f7;
+   opacity: 0.3;
+}
+.markup-buttons .action:hover {
+   opacity: 1.0;
+}
+
+.error, .warning {
+   background: #eeddaa;
+   border: 2px solid #ddcc99;
+   border-radius: 5pt;
+   padding: 5pt;
+}
+.error {
+   background: #eebbaa;
+}
+
+
+input, textarea, select {
+   font-size: 105%;
+   padding: 1.5pt;
+   border: 1px solid #bbb;
+   border-left: 5pt solid #ccc;
+   border-radius: 5pt;
+}

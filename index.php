@@ -1,9 +1,10 @@
 <?php
 /**
  * api: php
+ * type: main
  * title: Freshcode.club
  * description: FLOSS software release tracking website
- * version: 0.6.0
+ * version: 0.6.5
  * author: mario
  * license: AGPL
  * 
@@ -20,18 +21,24 @@ include("config.php");
 #-- dispatch
 switch ($page = $_GET->id["page"]) {
 
+    case "name":
+    case "names":
+        $page = "names";
     case "index":
     case "projects":
     case "feed":
-    case "forum":
     case "links":
     case "tags":
-    case "names":
     case "search":
     case "rc":
     case "drchangelog":
     case "login":
         include("page_$page.php");
+        break;
+
+    case "forum":
+    case "meta":
+        include("page_forum.php");
         break;
 
     case "flag":

@@ -156,13 +156,28 @@ $(document).ready(function(){
         // submit
         if (func == "forum-submit"){
             $target = $target.parent();
-            $.post("/forum/submit", $target.serialize(), function(html){
+            $.post("/forum/submit", $target.find("form").serialize(), function(html){
                 $target.html(html);
             });
         }
         event.preventDefault();
     });
 
+    // Markup
+    $(".forum").delegate(".action.markup", "click", function(){
+        var $ta = $(this).parent().parent().parent().find("textarea");
+        var content = $ta.val();
+        var x = $ta[0].selectionStart;
+        var y = $ta[0].selectionEnd;
+        var before = $(this).data("before");
+        var after = $(this).data("after");
+        if (y) {
+            $ta.val(content.substr(0, x) + before + content.substr(x, y-x) + after + content.substr(y, content.length - y));
+        }
+        else {
+            $ta.val(content + before + "..." + after);
+        }
+    });
 
 });
 
