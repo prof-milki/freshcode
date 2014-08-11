@@ -3,7 +3,7 @@
  * type: stylesheet
  * title: freshcode.club layout+style
  * description: Simulates the late freecode.com layout and looks; well mostly.
- * version: 0.6.4.1
+ * version: 0.6.5
  *
  * Centered two-pane layout. The #main section is usually 33% of the screen width,
  * while the #sidebar floats at the right. They're repositioned only using padding:
@@ -596,6 +596,27 @@ tr, th, td {
  * Specific pages
  *
  */
+
+/* /names */
+.project-name-columns {
+   column-count: 6;
+   column-gap: 20pt;
+   column-break-inside: avoid;
+}
+.project-name-columns a {
+   display: inline-block;
+   margin: 11pt;
+   white-space: nowrap;
+   color: #337;
+   font-weight: 700;
+   text-align: center;
+}
+.project-name-columns a img {
+   display: block;
+   box-shadow: 1px 1px 2px 1px #eee;
+}
+
+/* RecentChanges */
 table.rc {
    width: 100%;
    margin-top: 5pt;
