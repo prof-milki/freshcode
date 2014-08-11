@@ -25,18 +25,21 @@ include_once("lib/input.php");
 // database
 include_once("lib/db.php");
 db(new PDO("sqlite:freshcode.db"));
+db()->in_clause = 0;
 
 // auth+session
 define("LOGIN_REQUIRED", 0);
+define("CAPTCHA_REQUIRED", 0);
 define("HTTP_HOST", $_SERVER->id["HTTP_HOST"]);
 include_once("lib/deferred_openid_session.php");
 
 // utility functions
 include_once("aux.php");
+curl::$defaults["useragent"] = "freshcode/0.6 (Linux x86-64; curl) projects-autoupdate/0.5 (screenshots,changelog,regex,xpath) +http://freshcode.club/";
 
-// List of moderator OpenID handles
-$moderator_ids = array(
-);
+// List of administrative OpenID handles
+$moderator_ids = array();
+include("config.local.php");   
 
 
 ?>
