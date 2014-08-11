@@ -22,9 +22,9 @@ $feeds = array(
     "sourceforge" => "http://sourceforge.net/directory/release_feed/",
     "distrowatch" => "http://distrowatch.com/news/dwd.xml",
 );
-$filter = array(
-    "Please 'report' off-topic submissions and spam comments.",
-);
+$filter = 
+    "/Please 'report' off-topic|namelessrom|machomebrew/"
+;
 
 #-- Traverse and collect entries
 foreach ($feeds as $name=>$url) {
@@ -41,7 +41,7 @@ foreach ($feeds as $name=>$url) {
     
         # pre-filter
         list($title, $link) = array( htmlspecialchars($item->title),  htmlspecialchars($item->link) );
-        if (empty($title) or empty($link) or in_array($title, $filter)) {
+        if (empty($title) or empty($link) or preg_match($filter, $title) or preg_match($filter, $link)) {
             continue;
         }
 
