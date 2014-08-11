@@ -203,7 +203,8 @@ print <<<HTML
                <input name=lock size=50 placeholder="$_SESSION[openid]" value="$data[lock]" maxlength=250>
                <small>Normally all projects can be edited by everyone (WikiStyle).
                If you commit to yours, you can however <a class="action lock-entry"><b>lock</b> this project</a>
-               against one or multiple OpenID handles (comma-separated, take care to use exact URLs).
+               against one or multiple OpenID handles (comma-separated, take care to use exact URLs;
+               or <a href="/login">log in</a> beforehand).
                Or add a password hash for using the submit API.
            </label>
         </p>

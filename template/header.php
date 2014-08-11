@@ -4,7 +4,7 @@
  * type: template
  * title: HTML page header
  * description: Starts <html> and <head>, outputs top bar / menus etc.
- * version: 0.5.9
+ * version: 0.6.5
  *
  * Optionally injects a `$header_add` list, or allows to override the
  * page $title.
@@ -15,9 +15,9 @@
 <html>
 <head> 
     <title><?= isset($title) ? $title : "freshcode.club" ?></title>
-    <meta name=version content=0.5.9>
+    <meta name=version content=0.6.5>
     <meta charset=UTF-8>
-    <link rel=stylesheet href="/freshcode.css?0.6.2.9">
+    <link rel=stylesheet href="/freshcode.css?0.6.5">
     <link rel="shortcut icon" href="/img/changes.png">
     <base href="//<?= HTTP_HOST ?>/">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -29,7 +29,7 @@
 
 <nav id=topbar>
 Open source software release tracking.
-<?= is_int(strpos(HTTP_HOST, ".")) ? '<small style="color:#9c7" class=version>[0.5.9 alpha]</small>' : '<b style="color:#c54">[local dev]</b>'; ?>
+<?= is_int(strpos(HTTP_HOST, ".")) ? '<small style="color:#9c7" class=version>[0.6.5 alpha]</small>' : '<b style="color:#c54">[local dev]</b>'; ?>
 <span style=float:right>
 <a href="//freshmeat.club/">freshmeat.club</a> |
 <a href="//freecode.club/">freecode.club</a> |
@@ -46,13 +46,13 @@ Open source software release tracking.
    <a href="/">Home</a>
    <a href="/submit" class=submit>Submit</a>
    <span class=submenu>
-      <a href="/name">Browse Projects</a>
-      <a href="/tags" style="left:-5pt;">by Tag</a>
+      <a href="/names">Browse</a>
+      <a href="/tags" style="left:-5pt;">Projects by Tag</a>
    </span>
    <form id=search_q style="display:inline" action=search><input name=q size=5><a href="/search">Search</a></form>
    <a href="//fossil.include-once.org/freshcode/wiki/About">About</a>
    <a href="/links">Links</a>
-   <a href="//www.opensourcestore.org/">Forum</a>
+   <a href="/meta">Meta</a>
 </nav>
 
 
