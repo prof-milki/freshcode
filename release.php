@@ -144,7 +144,7 @@ class release extends ArrayObject {
     function store($INSERT="INSERT") {
         $data = $this->getArrayCopy();
         return db("$INSERT INTO release (:?) VALUES (::)", $data, $data)
-           and $this->update_rules();
+           and $this->update_rules($data);
     }
 
     /**
