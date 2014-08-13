@@ -3,7 +3,7 @@
  * api: php7
  * title: fluent curl
  * description: simple wrapper around curl functions
- * version: 0.2
+ * version: 0.3
  * license: Public Domain
  *
  *
@@ -72,6 +72,13 @@ class curl {
 
 
     /**
+     * Some checks before returning the resulting content.
+     *
+     */
+    public $assert = array();
+
+
+    /**
      * Initialize, where $params is usually just an $url, or an [OPT=>val] list
      *
      */
@@ -120,6 +127,32 @@ class curl {
         }
         
         return $this;
+    }
+    
+    
+    /**
+     * Append result-checks such as ["HTTP_CODE" => [200, 201]].
+     *
+     */
+    function assert($list) {
+        $this->assert += $list;
+        return $this;
+    }
+
+
+    /**
+     * Wrap exec() to test result handle for HTTP or CURL properties.
+     *
+     */
+    function exec() {
+        $args = func_get_args();
+        $content = $this->__call("exec", $args);
+        foreach ($this->assert as $option => $values) {
+            if (!in_array($this->$option, $values)) {
+                return NULL;
+            }
+        }
+        return $content;
     }
 
     
