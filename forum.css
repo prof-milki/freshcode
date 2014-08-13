@@ -50,12 +50,17 @@ body {
 }
 h1 {
    transform: rotate(270deg);
-   color: #fff;
-   font-size: 72pt;
+   font-size: 92pt;
+   font-size: 12.5vh;
    position: relative;
-   top: 400pt;
+   top: 500pt;
+   top: 67vh;
    white-space: nowrap;
    letter-spacing: -0.025em;
+}
+h1 * {
+   color: #fff;
+   text-decoration: none;
 }
 h1 { font-weight: 300; }
 h1 b { font-weight: 700; }
@@ -67,8 +72,11 @@ h1 .grey { color: #444; }
  *
  */
 .forum, .forum ul {
-   padding: 5pt 0 0 30pt;
+   padding: 5pt 0 10pt 30pt;
    list-style: none;
+}
+ul.forum > li {
+   padding-bottom: 10pt;
 }
 ul.forum {
    padding: 5pt;
@@ -118,7 +126,6 @@ ul.forum {
    letter-spacing: 0.1em;
 }
 
-
 /**
  * Post content.
  *
@@ -132,24 +139,39 @@ ul.forum {
 }
 .forum .entry .excerpt {
    color: #777;
+   z-index: 7;
+   width: 600pt;
 }
-.forum .entry .excerpt.trimmed {
+.forum .entry .excerpt:hover {
+   color: #5a5a5a !important;
+   cursor: nw-resize;
+}
+.forum .entry .trimmed {
+   /* hidden divs */
    display: none;
 }
-.forum .entry .content.trimmed {
-   display: none;
-}
-.forum .entry .funcs.trimmed {
-   opacity: 0.1;
+.forum .entry {
+   color: #444;
 }
 .forum .entry .content p {
    padding-top: 0; margin-top: 0;
 }
-
-label {
-   display: block;
-   padding: 5pt;
+.forum .entry .content ul {
+   margin: 10pt !important;
+   padding: 0 !important;
 }
+.forum .entry .content ul li:before {
+   content: "→";
+   margin-right: 5pt;
+   color: #522;
+}
+.forum .entry .content code {
+   background: #eee;
+   font-size: 90%;
+   padding: 1pt;
+   border-radius: 3pt;
+}
+
 
 .action {
    margin: 1pt;
@@ -180,6 +202,10 @@ label {
  * Submit form
  *
  */
+label {
+   display: block;
+   padding: 5pt;
+}
 form.forum-submit label b {
    display: inline-block;
    width: 80pt;
@@ -190,7 +216,6 @@ form.forum-submit label b select {
    font-size: 105%;
    text-align: right;
 }
-
 form.forum-submit .markup-buttons {
    width: 80pt;
    padding: 5pt;
@@ -209,7 +234,13 @@ form.forum-submit .markup-buttons {
 .markup-buttons .action:hover {
    opacity: 1.0;
 }
-
+input, textarea, select {
+   font-size: 105%;
+   padding: 1.5pt;
+   border: 1px solid #bbb;
+   border-left: 5pt solid #ccc;
+   border-radius: 5pt;
+}
 .error, .warning {
    background: #eeddaa;
    border: 2px solid #ddcc99;
@@ -221,10 +252,3 @@ form.forum-submit .markup-buttons {
 }
 
 
-input, textarea, select {
-   font-size: 105%;
-   padding: 1.5pt;
-   border: 1px solid #bbb;
-   border-left: 5pt solid #ccc;
-   border-radius: 5pt;
-}

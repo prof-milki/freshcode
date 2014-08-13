@@ -319,10 +319,11 @@ class forum {
         global $forum_cfg;
 
         extract(array_merge(
-            array_fill_keys(str_getcsv("author,miniature,tag,summary,source"), ""),
-            $data ? array() : $_COOKIE->list->text["author,miniature"],
-            array_map("htmlspecialchars", $data)
+            array_fill_keys(str_getcsv("author,image,tag,summary,source"), ""),
+            $data ? array() : $_COOKIE->list->text->html["author,image"],
+            $data  // all fields excerpt `$source` are already HTML-escaped
         ));
+        $source = input::html($source);
 
         include("template/forum_submit_form.php");
     }

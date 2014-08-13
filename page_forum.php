@@ -53,7 +53,7 @@ switch ($name = $_GET->id["name"]) {
 <head>
     <title>freshcode.club forum</title>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src=gimmicks.js></script>
+    <script src="gimmicks.js?019"></script>
     <meta charset=UTF-8>
     <?= "<style>\n"
       . file_get_contents("forum.css")
@@ -62,7 +62,7 @@ switch ($name = $_GET->id["name"]) {
 </head>
 <body>
 <div id=title>
-   <h1><b>fresh</b>(code)<b class=red>.</b><span class=grey>club</span></h1>
+   <h1><a href="/"><b>fresh</b>(code)<b class=red>.</b><span class=grey>club</span></a></h1>
 </div>
 <br>
 <ul class=forum>

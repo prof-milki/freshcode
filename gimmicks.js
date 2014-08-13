@@ -127,10 +127,10 @@ $(document).ready(function(){
      */
 
     // Expand forum previews
-    $(".forum .entry").one("click", function(){
-        $(this).find(".excerpt, .content, .funcs").toggleClass("trimmed");
+    $(".forum").on("click", ".entry", function(){
+        $(this).find(".excerpt, .content").animate({opacity: 'toggle', height: 'toggle'});
+        $(this).find(".funcs").toggleClass("trimmed");
     });
-    
      
     // Post submit button
     $(".forum").delegate(".action", "click", function(){
@@ -147,7 +147,7 @@ $(document).ready(function(){
         // reply
         if (func == "forum-reply") {
             $target.append("<ul><li></li></ul>");
-            $target.find("ul li").load("/forum/post", { "pid": id }).fadeIn();
+            $target.find("ul li").last().load("/forum/post", { "pid": id }).fadeIn();
         }
         // editing
         if (func == "forum-edit") {
@@ -178,6 +178,7 @@ $(document).ready(function(){
             $ta.val(content + before + "..." + after);
         }
     });
+
 
 });
 
