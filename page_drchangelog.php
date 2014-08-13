@@ -54,6 +54,7 @@ if ($_REQUEST->has("test")) {
     $project = new TestProject(array(
          "name" => "testproject",
          "version" => "0.0.0.0.0.0.1",
+         "t_published" => 0,
          "homepage" => "",
          "download" => "",
          "urls" => "",
@@ -63,9 +64,10 @@ if ($_REQUEST->has("test")) {
     ));
     
     #-- exec
-    print "<h3>Results for <em>$method</em> extraction</h3>\n";
     $method = $run->map[$project["autoupdate_module"]];
-    $result = new TestProject($run->{$method}($project));
+    print "<h3>Results for <em>$method</em> extraction</h3>\n";
+    $result = $run->$method($project);
+    $result = new TestProject((array)$result);
     $result->update($result);
 }
 
