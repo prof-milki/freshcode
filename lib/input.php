@@ -429,7 +429,7 @@ class input implements ArrayAccess, Countable, Iterator {
             (?(DEFINE)  (?<byte> 2[0-4]\d |25[0-5] |1\d\d |[1-9]?\d)  (?<ip>(?&byte)(\.(?&byte)){3})  (?<hex>[0-9a-fA-F]{1,4})  )
         ^   (?<proto>https?|ftps?)  ://
             # (?<user> \w+(:\w+)?@ )?
-            ( (?<host>  (?:[a-z][a-z\d_\-\$]*\.?)+)
+            ( (?<host>  (?:[a-z\d][a-z\d_\-\$]*\.?)+)
              |(?<ipv6>  \[     (?! [:\w]*:::          # ASSERT: no triple ::: colons
                                  |(:\w+){8}|(\w+:){8} # not more than 7 : colons
                                  |(\w*:){7}\w+\.      # not more than 6 : if there's a .
