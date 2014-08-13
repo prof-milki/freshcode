@@ -52,7 +52,7 @@ function feed_project($row) {
         "tags" => $row["tags"],
         "image" => $row["image"],
         "submitter" => $row["submitter"],
-        "urls" => p_key_value($row["urls"]),
+        "urls" => p_key_value($row["urls"], CASE_LOWER),
     );
 }
 
@@ -185,8 +185,8 @@ else {
           To get all project updates instead use
           <ul>
              <li> <tt>http://freshcode.club/feed/<b>xfer</b><var style="color: #ccc">.json</var></tt>
-             <li> <tt>http://freshcode.club/projects.rss</tt>
-             <li> <tt>http://freshcode.club/projects.atom</tt>
+             <li> <tt>http://freshcode.club/projects.rss</tt> or <tt>/?format=rss</tt>
+             <li> <tt>http://freshcode.club/projects.atom</tt> or <tt>/?format=atom</tt>
           </ul>
        </p>
        <p>
