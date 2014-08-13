@@ -19,19 +19,33 @@
  *
  *   $r = db("SELECT * FROM tbl WHERE a>=? AND b IN (??)", $a, array($b, $c));
  *
- * Extended placeholder syntax:
+ * Extended placeholder syntax and common uses:
  *
- *      ??    Interpolation of indexed arrays - useful for IN clauses.
- *      ::    Turns associative arrays into a :named, :value, :list.
- *      :?    Interpolates key names (ignores values).
- *
- *      :&    Becomes a `name`=:value list, joined by AND - for WHERE clauses.
- *      :|    Becomes a `name`=:value list, joined by OR - for WHERE clauses.
- *      :,    Becomes a `name`=:value list, joined by , commas - for UPDATEs.
- *
- *      :*    Expression placeholder, where the associated argument should
- *            contain an array ["AND foo IN (??)", $params] - which only
- *            interpolates if $params contains any value.  Can be nested.
+ *  ┌─────┬──────────────┬─────────┬────────────────────────────────────────┐
+ *  │PlcH │  Expands to  │ Context │                Purpose                 │
+ *  ├─────┼──────────────┼─────────┼────────────────────────────────────────┤
+ *  │ ??  │ ?, ?, ?      │ IN      │ Expansion of indexed arrays.           │
+ *  ├─────┼──────────────┼─────────┼────────────────────────────────────────┤
+ *  │ ::  │ :a, :b       │ VALUES  │ Expand  associative  arrays into named │
+ *  │     │              │         │ value list.                            │
+ *  ├─────┼──────────────┼─────────┼────────────────────────────────────────┤
+ *  │ :?  │ ‘a‘, ‘b‘     │ Names   │ Interpolates key names (does  not  pa‐ │
+ *  │     │              │         │ rameterize values).                    │
+ *  ├─────┼──────────────┼─────────┼────────────────────────────────────────┤
+ *  │ :&  │ x=:x         │ WHERE   │ Becomes AND‐joined name=:value list.   │
+ *  │     │  AND y=:y    │         │                                        │
+ *  ├─────┼──────────────┼─────────┼────────────────────────────────────────┤
+ *  │ :|  │ x=:x         │ WHERE   │ Becomes OR‐joined name=:value list.    │
+ *  │     │  OR y=:y     │         │                                        │
+ *  ├─────┼──────────────┼─────────┼────────────────────────────────────────┤
+ *  │ :,  │ x=:x, y=:y   │ UPDATE  │ Becomes comma‐joined name=:value list. │
+ *  ├─────┼──────────────┼─────────┼────────────────────────────────────────┤
+ *  │ :*  │ SQL + params │ Expr    │ Expression  placeholder, where the as‐ │
+ *  │     │              │         │ sociated argument  should  contain  an │
+ *  │     │              │         │ array  ["AND  foo  IN (??)", $params]. │
+ *  │     │              │         │ Which  only  interpolates  if  $params │
+ *  │     │              │         │ contains any value. Can be nested.     │
+ *  └─────┴──────────────┴─────────┴────────────────────────────────────────┘
  *
  * Configurable {TOKENS} from db()->tokens[] are also substituted..
  *
