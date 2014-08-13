@@ -22,7 +22,7 @@
     <base href="//<?= HTTP_HOST ?>/">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script><![endif]-->
-    <script src="/gimmicks.js"></script>
+    <script src="/gimmicks.js?2"></script>
     <?php if (isset($header_add)) { print $header_add . "\n"; } ?>
 </head>
 <body>
@@ -52,7 +52,7 @@ Open source software release tracking.
    <form id=search_q style="display:inline" action=search><input name=q size=5><a href="/search">Search</a></form>
    <a href="//fossil.include-once.org/freshcode/wiki/About">About</a>
    <a href="/links">Links</a>
-   <a href="/meta">Meta</a>
+   <a href="/meta" class=meta>Meta</a>
 </nav>
 
 
