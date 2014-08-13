@@ -172,7 +172,7 @@ class FreeCode_API {
                  "oneliner" => substr($data["description"], 0, 100),
                  "license_list" => p_csv($data["license"]),
                  "tag_list" => p_csv($data["tags"]),
-                 "approved_urls" => $this->array_uncolumn(p_key_value($data["urls"]))
+                 "approved_urls" => $this->array_uncolumn(p_key_value($data["urls"], NULL))
             ) + $data->getArrayCopy()
         );
     }
@@ -369,7 +369,7 @@ class FreeCode_API {
          *
          */
         if ($this->method == "GET") {
-            return array("urls" => p_key_value($project["urls"]));
+            return array("urls" => p_key_value($project["urls"], NULL));
         }
         
         /**

@@ -66,15 +66,15 @@ function date_fmt($time) {
 function versioned_url($url, $version) {
     $rx = "/
         ([ \$ % ])                  # var syntax
-        (?: (.?) \\1 )?              # substitution prefix
+        ( (.?) \\1 )?+              # substitution prefix
         (version|Version|VERSION)   # 'version'
         (?= \\1 | \b | _ )          # followed by var syntax, wordbreak, or underscore
     /x";
     // Check for '$version'
     if (preg_match($rx, $url, $m)) {
         // Optionally replace dots in version string
-        if ($m[2]) {
-            $version = strtr($version, ".", $m[2]);
+        if (strlen($m[2])) {
+            $version = strtr($version, ["." => $m[3]]);
         }
         $url = preg_replace($rx, $version, $url);
     }
@@ -89,7 +89,7 @@ function versioned_url($url, $version) {
 function proj_links($urls, $entry, $r="") {
 
     // unpack and filter
-    $urls = p_key_value($urls);
+    $urls = p_key_value($urls, NULL);
     $urls = array_filter(array_map("input::url", $urls));
 
     // join into HTML list
@@ -278,7 +278,7 @@ function p_csv($str) {
  *  Values may not contain spaces
  *
  */
-function p_key_value($str) {
+function p_key_value($str, $case=CASE_LOWER) {
     preg_match_all(
         "@
            [[%$]*  ([-\w]+)  []%$]*
@@ -288,7 +288,8 @@ function p_key_value($str) {
         @imsx",
         $str, $m
     );
-    return array_change_key_case(array_combine($m[1], $m[2]), CASE_LOWER);
+    $r = array_combine($m[1], $m[2]);
+    return is_int($case) ? array_change_key_case($r, $case) : $r;
 }
 
 
