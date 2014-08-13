@@ -35,7 +35,7 @@
 
    <label>
        <b><select name=img_type><option>gravatar<option>identicon<option>monsterid<option>wavatar<option>retro</select></b>
-       <input name=image type=email placeholder="you@example.com" size=50 value="<?=$miniature?>">
+       <input name=image type=email placeholder="you@example.com" size=50 value="<?=$image?>">
    </label>
 
    <label>
