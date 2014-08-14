@@ -20,9 +20,12 @@
 // varexpr callback
 $_ = "trim";
 
+// greying out flagged entries?
+$css_flags = empty($entry["flag"]) ? "" : "style=\"opacity: " . (1.0 - 0.2 * $entry["flag"]) . "\"";
+
 // Write
 print <<<HTML
-      <article class=project>
+      <article class=project $css_flags>
         <h3>
             <a href="projects/$entry[name]">$entry[title]
             <em class=version>$entry[version]</em></a>
