@@ -9,8 +9,6 @@
  *  - http://www.datamation.com/open-source/open-source-software-the-mega-list-1.html
  *  - http://www.datamation.com/osrc/article.php/3925806/Open-Source-Software-Top-59-Sites.htm
  *  - http://sourceforge.net/new/
- *  + http://fossies.org/linux/misc/
- *
  *  - http://www.krugle.org/projects/
  *  - http://flossmetrics.org/
  *
@@ -54,6 +52,7 @@ include("template/header.php");
     </section>
     <section>
       <b>Boards / Forums</b>
+      <li> <a href="http://www.reddit.com/r/opensource/">/r/opensource</a>
       <li> <a href="http://www.linuxquestions.org/">LinuxQuestions</a>
       <li> <a href="http://www.linuxforums.org/forum/">LinuxBoards</a>
     </section>
@@ -72,6 +71,26 @@ include("template/header.php");
       <b>Chat channels</b>
       <li> <a href="http://freenode.net/">Freenode</a><br> &nbsp;&nbsp; and its <a href="https://webchat.freenode.net/">web chat</a>
     </section>
+    <p>
+      They are more software forges and hosters though:
+    </p>
+    <section>
+    <ul>
+      <li> <a href="https://gitorious.org/">Gitorious</a>
+      <li> <a href="https://bitbucket.org/">Bitbucket</a>
+      <li> <a href="http://www.tigris.org/">Tigris</a>
+      <li> <a href="https://alioth.debian.org/">Alioth</a>
+      <li> <a href="http://gna.org/">GNA!</a>
+      <li> <a href="https://freepository.com/home/">FreePository</a>
+      <li> <a href="http://ourproject.org/">OurProject</a>
+      <li> <a href="https://www.assembla.com/search/home">Assembla</a>
+      <li> <a href="https://code.google.com/">Google Code</a>
+      <li> <a href="http://www.codeplex.com/">CodePlex</a>
+      <li> <a href="http://www.cloudforge.com/">CloudForge</a>
+      <li> <a href="https://www.bountysource.com/projects">(BountySource)</a>
+    </ul>   
+    <small>See also <a href="http://alternativeto.net/software/sourceforge/">SF alternatives</a>.</small>
+    </section> 
     <p>
       Programming-language specific developer hubs and package repositories
       often allow uncovering new software as well.
@@ -244,15 +263,18 @@ include("template/header.php");
       ["https://openhatch.org/", "openhatch.org.jpeg", "OpenHatch",
        "enables matchmaking for projects and their developers and interested users and contributions.",
       ],
-   //11
       ["http://thechangelog.com/", "thechangelog.com.jpeg", "the changelog",
        "Is a blog and weekly podcast on open source development and interesting projects."
+      ],
+   //11
+      ["http://alternativeto.net/software/sourceforge/", "alternativeto.net.jpeg", "AlternativeTo",
+       "is an extensive meta cross-reference list of web sites and applications."
       ],
 #      ["", "", "",
 #       "",
 #      ],
   ];
-  
+
   
   // Write out our gallery  
   foreach ($links as $entry) {
