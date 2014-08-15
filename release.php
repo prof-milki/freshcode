@@ -153,9 +153,10 @@ class release extends ArrayObject {
      */
     function update_rules($data) {
          return
-             // Hide previous empty "" version project entries, if less than two minutes old.
+             // Hide previous empty "" version project entries, if more than five minutes old.
+             empty($data["version"]) or
              db("UPDATE release SET hidden=1 WHERE name=? AND version=? AND t_published < ?",
-                 $data["name"], "", time() - 120
+                 $data["name"], "", time() - 300
              );
     }
 
