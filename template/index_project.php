@@ -5,6 +5,7 @@
  * title: Frontpage listing
  * description: Outputs list entry for recent project releases
  * depends: wrap_tags
+ * version: 0.5
  *
  * Each project release entry on the frontpage contains
  *
@@ -21,7 +22,7 @@
 $_ = "trim";
 
 // greying out flagged entries?
-$css_flags = empty($entry["flag"]) ? "" : "style=\"opacity: " . (1.0 - 0.2 * $entry["flag"]) . "\"";
+$css_flags = ($entry["flag"] < 2) ? "" : "style=\"opacity: " . (1.0 - 0.2 * $entry["flag"]) . "\"";
 
 // Write
 print <<<HTML
