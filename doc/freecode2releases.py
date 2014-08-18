@@ -5,7 +5,7 @@
 # title: freecode-to-releases     
 # description: Extracts project descriptions+history from Freecode.com into releases.JSON
 # category: scraping
-# version: 0.5
+# version: 0.7
 # config:
 #   <env-unused name=XDG_CONFIG_HOME value=~/.config description="user config base dir"> 
 # license: MITL
@@ -41,11 +41,15 @@ except:
 
 # scrape from freecode.com
 def freecode_fetch(name):
-    url = "http://freecode.com/projects/%s" % name
-    html = bs(requests.get(url).text)
+    try:
+        url = "http://freecode.com/projects/%s" % name
+        html = bs(requests.get(url).text)
+    except:
+        print("project not found, %s" % url)
+        return None
     # le basics
     r = collections.OrderedDict([
-        ("$feed-license", "CC author/editors"),
+        ("$feed-license", "author/editor"),
         ("$feed-origin", url),
         ("name", name),
         ("title", html.find("meta", {"property": "og:title"})["content"]),
@@ -53,15 +57,29 @@ def freecode_fetch(name):
         #("image", "http://freshcode.com" + html.find("meta", {"property": "og:image"})["content"]),
         ("keywords", html.find("meta", {"name": "keywords"})["content"]),
         ("description", html.select("div.project-detail p")[0].string),
+        ("tags", freecode_tags(html.select("#project-tag-cloud a"))),
+        ("submitter", html.select("li.avatar a.avatar")[0]["title"]),
+        ("urls", freecode_urls(html.select(".sub-navigation li.url a"))),
         ("releases", freecode_releases(name)),
     ])
     return r
 
 
+# extract tag basename from <a> link list
+def freecode_tags(li):
+    return ", ".join([  a["href"][6:] for a in li  ])
+
+
+# convert url list <li> <a> into dict
+def freecode_urls(li):
+    r = [  (a.string, "http://freecode.com" + a["href"]) for a in li  ]
+    return collections.OrderedDict(r)
+
+
 # fetch releases pages
 def freecode_releases(name):
     last_page = 1
-    page = 0
+    page = 1
     r = []
     while page <= last_page:
         # iterate through /releases pages
@@ -87,7 +105,6 @@ def freecode_releases(name):
         except:
             last_page = 1
         page = page + 1
-        print page
     return r
 
 
@@ -105,8 +122,9 @@ def strftime(s):
 
 
 # process CLI arguments, invoke retrieval methods
-def freecode_cli(argv0="f2r", name="", output="releases.json"):
+def freecode_cli(argv0="f2r", name="", output=""):
     if name:
+        output = output or "%s-releases.json" % name
         json.dump(freecode_fetch(name), open(output, "wt"), indent=4)
     else:
         print("synopsis: freecode2releases.py [projectname [output.json]]");
