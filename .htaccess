@@ -19,7 +19,7 @@ RewriteCond  %{HTTP_HOST}       ^ww+\.(\w+\.\w+)\.?$
 RewriteRule  ^(.*)$             http://%1/$1            [R,QSA,L]
 
 #-- RSS/Atom aliases
-RewriteCond  %{QUERY_STRING}    ^format=(atom|rss)$
+RewriteCond  %{QUERY_STRING}    ^format=(atom|rss|json)$
 RewriteRule  ^$ feed/xfer.%1
 RewriteRule  ^(?:projects)\.(atom|rss|json)$  feed/xfer.$1
 
