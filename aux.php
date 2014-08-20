@@ -203,7 +203,7 @@ function form_select_options($names, $value=NULL, $r="") {
     
     // Add currently active value if missing
     if ($value and !isset($map[$value]) and $value !== NULL) {
-        $map[$value] = $map[$value];
+        $map[$value] = $value;
     }
     
     // Output <option> fields
