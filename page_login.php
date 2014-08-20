@@ -16,8 +16,6 @@
 // initiate verification
 if ($_POST->has("login_url")) {
 
-    include_once("lib/openid.php");
-
     $openid = new LightOpenID(HTTP_HOST);
     $openid->identity = $_POST->uri["login_url"];
     $openid->optional = array("namePerson/friendly");
