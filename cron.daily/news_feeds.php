@@ -50,7 +50,7 @@ foreach ($feeds as $name=>$url) {
 
             // Extract project base names and version numbers
             case "sourceforge":
-                if (preg_match("~^(http://sourceforge.net/projects/(\w+))/files/.+?(\d+(\.\d)+).+?/download$~", $item->link, $m)) {
+                if (preg_match("~^(http://sourceforge.net/projects/(\w+))/files/.+?(\d+(\.\d+)+).+?/download$~", $item->link, $m)) {
                     $html .= "<a href=\"$m[1]\">$m[2] <em>$m[3]</em></a>\n";
                     $i++;
                 }
