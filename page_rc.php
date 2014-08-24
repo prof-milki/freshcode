@@ -68,8 +68,9 @@ $rc = db("
 --                AND t_changed < crnt.t_changed )
   GROUP BY crnt.name, crnt.t_changed
   ORDER BY crnt.t_changed DESC
+     LIMIT 100*?, 100
 
-");
+", $_REQUEST->int->range…1…10["n"] - 1);
 
 
 
