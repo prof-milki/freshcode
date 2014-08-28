@@ -3,7 +3,7 @@
  * api: freshcode
  * title: Submit API
  * description: Implements the Freecode JSON Rest API for release updates
- * version: 0.2
+ * version: 0.3
  * type: handler
  * category: API
  * doc: http://fossil.include-once.org/freshcode/wiki/Freecode+JSON+API
@@ -28,7 +28,7 @@
  *
  *
  * Retrieval requests usually come with an ?auth_code= token. For POST
- * or PUT access it's part of the JSON response body. Which comes with
+ * or PUT access it's part of the JSON request body. Which comes with
  * varying payloads depending on request type:
  *
  *   { "auth_code": "pw123",
@@ -74,27 +74,29 @@
 class FreeCode_API {
 
 
-    // Project name
-    var $name;
-    
-    // API method
-    var $api;
-    
     // HTTP method
     var $method;
+
+    // API function
+    var $api;
+
+    // Project name
+    var $name;
+
+    // Optional revision ID (just used for releases/; either "pending" or t_published timestamp) 
+    var $rev;
     
-    // POST/PUT request body
+    // inner @array from JSON request body
     var $body;
     
     // Optional auth_code (from URL or JSON body)
     var $auth_code;
     
-    // Optional revision ID (just used for releases/; either "pending" or t_published timestamp) 
-    var $id;
+    
+    // Logging
+    var $log = TRUE;
+    var $timestamp = 0;
 
-
-    // JSON success message    
-    var $OK = array("success" => TRUE);
 
 
 
@@ -109,13 +111,29 @@ class FreeCode_API {
         $this->api = $_GET->id->strtolower->in_array("api", "query,update_core,publish,urls,version_get,version_delete");
         $this->method = $_SERVER->id->strtoupper["REQUEST_METHOD"];
         $this->auth_code = $_REQUEST->text["auth_code"];
-        $this->id = $_REQUEST->text["id"];  // optional param
+        $this->rev = $_REQUEST->text["id"];  // optional param
         
         // Request body is only copied, because it comes with varying payloads (release, project, urls)
         if ($_SERVER->int["CONTENT_LENGTH"] && $_SERVER->stripos…json->is_int["CONTENT_TYPE"]) {
             $this->body = json_decode(file_get_contents("php://input"), TRUE);
             $this->auth_code = $this->body["auth_code"];
         }
+        
+        // Logging
+        $this->timestamp = time();
+        $this->log($this, "\n\n\n/* << REQUEST */");
+    }
+    
+    
+    /**
+     * Log incoming request, outgoing response, or data set as prepared prior updating DB.
+     *
+     */
+    function log($what, $prefix) {
+        if ($this->log) {
+            file_put_contents("api-log.txt", "$prefix\n" . json_encode($what, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n", FILE_APPEND);
+        }
+        return $what;
     }
 
 
@@ -128,13 +146,14 @@ class FreeCode_API {
     function dispatch() {
     
         // Fetch latest revision
-        if (!$project = new release($this->name)) {
-            $this->error(NULL, "404 No such project", "Invalid Project ID");
+        $project = new release($this->name);
+        if (!$project["name"]) {
+            $this->error_exit(NULL, "404 No such project", "Invalid Project ID");
         }
         
         // Run dialed method, then output JSON response.
         $this->json_exit(
-            $this->{ $this->api ?: "error" }($project)
+            $this->{ $this->api ?: "error_exit" }($project)
         );
     }
 
@@ -268,7 +287,7 @@ class FreeCode_API {
      *
      */
     function version_GET($project) {
-        assert($this->id === "pending");
+        assert($this->rev === "pending");
 
         // Query release revisions
         $list = db("
@@ -323,16 +342,16 @@ class FreeCode_API {
 
         // Obviously requires a valid `lock` hash
         $project = $this->with_permission($project);
-        assert(is_numeric($this->id));
+        assert(is_numeric($this->rev));
 
         // Hide all entries for revision
         $r = db([
          " UPDATE release ",
          "    SET :,  " => ["hidden" => 1, "flag" => 0],
-         "  WHERE :&  " => ["name" => $this->name, "t_published" => $this->id]
+         "  WHERE :&  " => ["name" => $this->name, "t_published" => $this->rev]
         ]);
 
-        return $r ? $this->OK : $this->error(NULL);
+        return $r ? array("success" => TRUE) : $this->error_exit(NULL);
     }
 
 
@@ -380,24 +399,30 @@ class FreeCode_API {
          */
         else {
 
-            // Extract all
+            // Filter incoming URLs
             $urls = new input($this->body["urls"], "urls");
             $urls = $urls->list->url[$urls->keys()];
 
-            // Extract homepage and download specifically
-            $urls = array_change_key_case($urls, CASE_LOWER);
-            $new  = array_intersect_key($urls, array_flip(str_getcsv("homepage,download")));
-            $urls = array_diff_key($urls, $new);
-
-            // Join rest into key=value format
             $new["urls"] = "";
             foreach ($urls as $label => $url) {
+
+                // Remove non-alphanumeric characters
                 $label = trim(preg_replace("/\W+/", "-", $label), "-");
-                $new["urls"] .= "$label = $url\r\n";
+                $lower = strtolower($label);
+                $lower == "home-page" and $lower = "homepage";
+
+                // Split homepage, download URL into separate fields,
+                if ($lower == "homepage" or $lower == "download") {
+                    $new[$lower] = $url;
+                }
+                // While remaining go into `urls` key=value block, retain case-sensitivity here
+                else {
+                    $new["urls"] .= "$label = $url\r\n";
+                }
             }
 
             // Update DB
-            $this->insert($project, $new);
+            return $this->insert($project, $new);
         }
     }
 
@@ -414,14 +439,17 @@ class FreeCode_API {
 
         // Write permissions required obviously.
         $project = $this->with_permission($project);
+ 
+        // Log data
+        $this->log($new, "/* ++ STORE DATA */");
 
         // Add new fields to $project
         $project->update(array_filter($new, "strlen"), $flags, [], TRUE);
 
         // Store or return JSON API error.
         return $project->store() and (header("Status: 201 Created") + 1)
-             ? $this->OK
-             : $this->error(NULL, "500 Internal Issues", "Database mistake");
+             ? array("success" => TRUE)
+             : $this->error_exit(NULL, "500 Internal Issues", "Database mistake");
     }
     
     
@@ -452,7 +480,7 @@ class FreeCode_API {
     function with_permission($data) {
         return $this->is_authorized($data)
              ? $data
-             : $this->error(NULL, "401 Unauthorized", "No matching API auth_token hash. Add a crypt(3) password in your freshcode.club project entries `lock` field, comma-delimited to your OpenID handle. See http://fossil.include-once.org/freshcode/wiki/Freecode+JSON+API");
+             : $this->error_exit(NULL, "401 Unauthorized", "No matching API auth_token hash. Add a crypt(3) password in your freshcode.club project entries `lock` field, comma-delimited to your OpenID handle. See http://fossil.include-once.org/freshcode/wiki/Freecode+JSON+API");
     }
 
 
@@ -483,6 +511,7 @@ class FreeCode_API {
     function json_exit($data) {
         header("Content-Type2: json/vnd.freecode.com; version=3; charset=UTF-8");
         header("Content-Type: application/json");
+        $this->log($data, "/* >> RESPONSE */");
         exit(
             json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
         );
@@ -493,7 +522,7 @@ class FreeCode_API {
      * Bail with error response.
      *
      */
-    function error($data, $http = "503 Unavailable", $json = "unknown method") {
+    function error_exit($data, $http = "503 Unavailable", $json = "unknown method") {
         header("Status: $http");
         $this->json_exit(["error" => "$json"]);
     }
