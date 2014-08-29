@@ -48,3 +48,7 @@ RewriteCond  %{ENV:REDIRECT_STATUS}  !200
 RewriteRule  ^\w+\.php(|/.*)$   -                       [F,L,NS]
 
 
+#-- invalid resources
+RewriteRule ^favicon\.(png|ico|jpeg)$ http://freshcode.club/img/changes.png [R=301,L]
+
+
