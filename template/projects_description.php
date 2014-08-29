@@ -23,7 +23,7 @@ print <<<PROJECT
       <article class=project>
 
         <h3>
-            <a href="projects/$entry[name]">
+            <a href="/projects/$entry[name]">
                $entry[title]
                <em class=version>$entry[version]</em>
             </a>

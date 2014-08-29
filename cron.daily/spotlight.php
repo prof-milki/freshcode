@@ -32,8 +32,8 @@ foreach ($r as $entry) {
     $entry = array_map("input::_html", $entry);
 #    $entry["description"] = preg_replace("/\.[^.]*$|[,;][^,;]*$|\S*$/", "", $entry["description"]);
     $html .= <<<EOF
-   <a class=project-spotlight href="projects/$entry[name]">
-      <img src="img/screenshot/$entry[name].jpeg" width=120 height=90 alt=$entry[name]>
+   <a class=project-spotlight href="/projects/$entry[name]">
+      <img src="/img/screenshot/$entry[name].jpeg" width=120 height=90 alt=$entry[name]>
       <b> $entry[title] </b>
       <small class=description>$entry[description]</small> 
    </a>

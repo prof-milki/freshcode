@@ -23,12 +23,13 @@ $_ = "trim";
 
 // greying out flagged entries?
 $css_flags = ($entry["flag"] < 2) ? "" : "style=\"opacity: " . (1.0 - 0.2 * $entry["flag"]) . "\"";
+$css_class = ($entry["name"] == "off-parrotvm") ? " sponsored" : ""; 
 
 // Write
 print <<<HTML
-      <article class=project $css_flags>
+      <article class="project$css_class" $css_flags>
         <h3>
-            <a href="projects/$entry[name]">$entry[title]
+            <a href="/projects/$entry[name]">$entry[title]
             <em class=version>$entry[version]</em></a>
             <span class=links>
                 <span class=published_date>$entry[formatted_date]</span>
