@@ -120,7 +120,7 @@ class FreeCode_API {
         }
         
         // Logging
-        $this->timestamp = time();
+        $this->timestamp = sprintf("%s (%s)", time(), gmdate(DATE_ISO8601, time()));
         $this->log($this, "\n\n\n/* << REQUEST */");
     }
     
@@ -229,7 +229,7 @@ class FreeCode_API {
         $new = array(
             // standard FC API fields
             "license" => tags::map_license(p_csv($core->words["license_list"])[0]),
-            "tags" => $core->text->f_tags["project_tag_list"],
+            "tags" => f_tags(join(" ", $core->text["project_tag_list"])),
             "description" => $core->text["description"],
             // additional overrides
             "homepage" => $core->url->http["homepage"],
@@ -268,6 +268,7 @@ class FreeCode_API {
         );
         $flags = array(
             "hidden" => $rel->int["hidden_from_frontpage"],
+            "deleted" => 0,
         );
         return $this->insert($project, $new, $flags);
     }
@@ -328,10 +329,11 @@ class FreeCode_API {
      * (The database is designed to be somewhat "immutable", we just
      * pile up revisions normally.)
      *
-     * So withdrawing a release just means it gets "hidden" and flagged
-     * for moderator attention. There's also a "delete" flag; but thats
-     * current purpose is terminating a project lifeline (due to VIEW
-     * revision grouping).
+     * So withdrawing a release just means it gets marked "deleted"
+     * (formerly just "hidden" and/or flagged for moderator attention.)
+     * This somewhat still may terminate a project lifeline (due to VIEW
+     * revision grouping), but can be undone by submitting the release
+     * anew.
      *
      * The reasoning being that withdrawn releases are really just
      * authors making last minute fixes; commonly retracted releases
@@ -341,13 +343,13 @@ class FreeCode_API {
     function version_DELETE($project) {
 
         // Obviously requires a valid `lock` hash
-        $project = $this->with_permission($project);
+        $this->requires_permission($project);
         assert(is_numeric($this->rev));
 
         // Hide all entries for revision
         $r = db([
          " UPDATE release ",
-         "    SET :,  " => ["hidden" => 1, "flag" => 0],
+         "    SET :,  " => ["hidden" => 1, "deleted" => 1, "flag" => 0],
          "  WHERE :&  " => ["name" => $this->name, "t_published" => $this->rev]
         ]);
 
@@ -388,7 +390,10 @@ class FreeCode_API {
          *
          */
         if ($this->method == "GET") {
-            return array("urls" => p_key_value($project["urls"], NULL));
+            $urls = p_key_value($project["urls"], NULL);
+            $urls["homepage"] = $project["homepage"];
+            $urls["download"] = $project["download"];
+            return array("urls" => $urls);
         }
         
         /**
@@ -409,7 +414,7 @@ class FreeCode_API {
                 // Remove non-alphanumeric characters
                 $label = trim(preg_replace("/\W+/", "-", $label), "-");
                 $lower = strtolower($label);
-                $lower == "home-page" and $lower = "homepage";
+                in_array($lower, ["home-page", "website"]) and $lower = "homepage";
 
                 // Split homepage, download URL into separate fields,
                 if ($lower == "homepage" or $lower == "download") {
@@ -438,7 +443,7 @@ class FreeCode_API {
     function insert($project, $new, $flags=[]) {
 
         // Write permissions required obviously.
-        $project = $this->with_permission($project);
+        $this->requires_permission($project);
  
         // Log data
         $this->log($new, "/* ++ STORE DATA */");
@@ -447,7 +452,7 @@ class FreeCode_API {
         $project->update(array_filter($new, "strlen"), $flags, [], TRUE);
 
         // Store or return JSON API error.
-        return $project->store() and (header("Status: 201 Created") + 1)
+        return ($project->store() and (header("Status: 201 Created") + 1))
              ? array("success" => TRUE)
              : $this->error_exit(NULL, "500 Internal Issues", "Database mistake");
     }
@@ -461,7 +466,8 @@ class FreeCode_API {
     function auth_filter($data) {
         if (!$this->is_authorized($data)) {
             unset(
-                $data["lock"], $data["submitter_openid"], $data["submitter"],
+                $data["lock"],
+                $data["submitter_openid"], $data["submitter"], $data["submitter_image"],
                 $data["hidden"], $data["deleted"], $data["flag"],
                 $data["social_links"],
                 $data["autoupdate_regex"], $data["autoupdate_url"],
@@ -476,8 +482,10 @@ class FreeCode_API {
      * Prevent further operations for (write) requests that
      * actually REQUIRE a valid authorization token.
      *
+     * @exit if unauthorized
+     *
      */
-    function with_permission($data) {
+    function requires_permission($data) {
         return $this->is_authorized($data)
              ? $data
              : $this->error_exit(NULL, "401 Unauthorized", "No matching API auth_token hash. Add a crypt(3) password in your freshcode.club project entries `lock` field, comma-delimited to your OpenID handle. See http://fossil.include-once.org/freshcode/wiki/Freecode+JSON+API");
