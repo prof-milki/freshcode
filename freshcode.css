@@ -3,7 +3,7 @@
  * type: stylesheet
  * title: freshcode.club layout+style
  * description: Simulates the late freecode.com layout and looks; well mostly.
- * version: 0.6.5.1
+ * version: 0.7.0
  *
  * Centered two-pane layout. The #main section is usually 33% of the screen width,
  * while the #sidebar floats at the right. They're repositioned only using padding:
@@ -57,6 +57,13 @@ tr, th, td {
    align: left;
    vertical-align: top;
 }
+
+/* presentational shortcuts */
+.grey { color: grey; }
+.black { color: black; }
+.green { color: green; }
+.blue { color: blue; }
+.red { color: red; }
 
 
 
@@ -199,6 +206,9 @@ tr, th, td {
     margin: 1pt;
     border-bottom: 1px solid #ddd;
 }
+#sidebar section a h5 {
+    color: black;
+}
 #sidebar section.article-links a {
     margin: 2pt;
     padding: 1pt;
@@ -206,6 +216,13 @@ tr, th, td {
     color: #448;
     display: block;
     background: linear-gradient(#f7f7f7 40%, #eee 70%, #ddd 100%);
+}
+#sidebar section.article-links.feed-fossies a {
+    font-size: 85%;
+}
+#sidebar section.article-links a small {
+    font-size: 65%;
+    color: grey;
 }
 #sidebar section.article-links.trimmed a {
     height: 1.3em;
@@ -380,6 +397,21 @@ tr, th, td {
     box-shadow: inset 0 5pt 5pt 0px #ffeecc;
     height: 5.55em;
     overflow: hidden;
+}
+#main .project.sponsored {
+     /*
+        No, it's not really sponsored. No such thing ;)
+        Experimental style for subtle project / language categorization.
+     */
+    box-shadow: -30px 0 30px 5px #e7e9f7;
+    background: linear-gradient(90deg,#e7e9f7,#fff);
+}
+#main .project.sponsored img.preview {
+    width: 160px;
+    height: 120px;
+}
+#main .project.sponsored h3 {
+    background: linear-gradient(#ececf3,#f0f0f3,#eeeef3,#e7e7f0,#d3d3e0);
 }
 
 
@@ -561,7 +593,7 @@ tr, th, td {
 }
 #trove_tags.pick-tags {
     width: 220px;
-    height: 950px;
+    height: 2250px;
     top: 0px;
     border: none;
     font-size: 92%;

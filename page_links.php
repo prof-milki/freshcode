@@ -2,14 +2,13 @@
 /**
  * title: Links to other directories
  * description: Collection/overview of other software tracking / link lists.
- * version: 0.4
+ * version: 0.7
  *
  *
  * ToDo
  *  - http://www.datamation.com/open-source/open-source-software-the-mega-list-1.html
  *  - http://www.datamation.com/osrc/article.php/3925806/Open-Source-Software-Top-59-Sites.htm
  *  - http://sourceforge.net/new/
- *  - http://www.krugle.org/projects/
  *  - http://flossmetrics.org/
  *
  */
@@ -88,6 +87,7 @@ include("template/header.php");
       <li> <a href="http://www.codeplex.com/">CodePlex</a>
       <li> <a href="http://www.cloudforge.com/">CloudForge</a>
       <li> <a href="https://www.bountysource.com/projects">(BountySource)</a>
+      <li> <a href="http://www.krugle.org/projects/">Krugle (meta list)</a>
     </ul>   
     <small>See also <a href="http://alternativeto.net/software/sourceforge/">SF alternatives</a>.</small>
     </section> 
@@ -131,6 +131,17 @@ include("template/header.php");
       <li> <a href="http://eos.osbf.eu/start/">EOS directory</a>
       <li> <a href="http://opensourcewindows.org/">OpenSource Windows</a>
       <li> <a href="http://osswin.sourceforge.net/">OSSWin</a>
+    </section>
+
+    <section>
+      <b>More games</b>
+      <li> <a href="http://osgameclones.com/">OS Game Clones</a>
+      <li> <a href="http://freegamer.blogspot.de/">FreeGamer</a>
+    </section>
+
+    <section>
+      <b>Code snippets</b>
+      <li> <a href="http://snipplr.com/">snipplr</a>
     </section>
 
     <?php  if (in_array("de", $langs)): ?>

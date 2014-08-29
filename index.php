@@ -4,7 +4,7 @@
  * type: main
  * title: Freshcode.club
  * description: FLOSS software release tracking website
- * version: 0.6.5
+ * version: 0.7.0
  * author: mario
  * license: AGPL
  * 
@@ -13,10 +13,8 @@
  *
  */
 
-
 #-- init
 include("config.php");
-
 
 #-- dispatch
 switch ($page = $_GET->id["page"]) {
