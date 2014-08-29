@@ -98,7 +98,16 @@ if ($name = $_GET->proj_name["name"]) {
     if ($name == "xfer") {
         $feed["releases"] = array();
         
-        $r = db("SELECT * FROM release_versions LIMIT ?", $_GET->int->default…100->range…5…1000["num"]);
+        $r = db("
+              SELECT *, MAX(t_changed)
+                FROM release_versions
+               WHERE NOT deleted
+                 AND NOT hidden
+            GROUP BY name, t_published
+            ORDER BY t_published DESC
+               LIMIT ?",
+            $_GET->int->default…100->range…5…1000["num"]
+        );
         while ( $row = $r->fetch() ) {
             $feed["releases"][] = feed_project($row) + feed_release($row) + feed_xfer($row);
         }
@@ -147,6 +156,7 @@ if ($name = $_GET->proj_name["name"]) {
             "logo"        => "http://freshcode.club/logo.png",
         ));
         
+        if (!empty($feed["releases"]))
         foreach ($feed["releases"] as $i=>$row) {
             $f->entry($i, new FeedEntry(@array(
                 "title"   => ($row["title"] ?: $feed["title"]) . " $row[version]",
