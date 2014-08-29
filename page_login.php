@@ -16,10 +16,17 @@
 // initiate verification
 if ($_POST->has("login_url")) {
 
-    $openid = new LightOpenID(HTTP_HOST);
-    $openid->identity = $_POST->uri["login_url"];
-    $openid->optional = array("namePerson/friendly");
-    exit(header("Location: " . $openid->authUrl()));
+    try {
+        $openid = new LightOpenID(HTTP_HOST);
+        $openid->verify_peer = false;
+        $openid->identity = $_POST->uri["login_url"];
+        $openid->optional = array("namePerson/friendly");
+        exit(header("Location: " . $openid->authUrl()));
+    }
+    catch (ErrorException $e) {
+        $error = $e->getMessage();
+        exit(include("page_error.php"));
+    }
 }
 
 

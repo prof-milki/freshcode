@@ -39,13 +39,19 @@ else {
 // verify incoming OpenID request
 if ($_GET->has("openid_mode") and empty($_SESSION["openid"])) {
 
-    $openid = new LightOpenID(HTTP_HOST);
-    if ($openid->mode) {
-        if ($openid->validate()) {
-            $_COOKIE->no("USER") and session_fresh();
-            $_SESSION["openid"] = $openid->identity;
-            $_SESSION["name"] = $openid->getAttributes()["namePerson/friendly"];
+    try {
+        $openid = new LightOpenID(HTTP_HOST);
+        $openid->verify_peer = false;
+        if ($openid->mode) {
+            if ($openid->validate()) {
+                $_COOKIE->no("USER") and session_fresh();
+                $_SESSION["openid"] = $openid->identity;
+                $_SESSION["name"] = $openid->getAttributes()["namePerson/friendly"];
+            }
         }
+    }
+    catch (ErrorException $e) {
+        die("OpenID verify exception (possibly endpoint / SSL error)");
     }
 
 }
