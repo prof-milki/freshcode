@@ -163,7 +163,7 @@ if ($name = $_GET->proj_name["name"] and $ext = $_GET->name->default…json["ext
                 "title"   => ($row["title"] ?: $feed["title"]) . " $row[version]",
                 "published" => $row["published"],
                 "author"  => $row["submitter"] ?: $feed["submitter"],
-                "content" => $row["changes"],
+                "content" => substr($row["description"], 0, 200) . "…\n– Changes: " . substr($row["changes"], 0, 300),
                 "permalink" => $row["homepage"] ?: $feed["homepage"],
             )));
         }
