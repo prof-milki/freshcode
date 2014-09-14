@@ -28,11 +28,13 @@ if ($_SERVER->has("HTTP_DNT") and $_SERVER->boolean["HTTP_DNT"]) {
 if ($_COOKIE->has("USER")) {
     session_fresh();
 }
-// just populate placeholders
-else {
-    $_SESSION["openid"] = "";
-    $_SESSION["name"] = "";
-    $_SESSION["csrf"] = array();
+// in either case populate placeholders
+if (isset($_SESSION) or $_SESSION = array() or true) {
+    $_SESSION += [
+        "openid" => "",
+        "name" => "",
+        "csrf" => [],
+    ];
 }
 
 
