@@ -86,7 +86,7 @@ function feed_xfer($row) {
 
 
 #-- something was requested
-if ($name = $_GET->proj_name["name"]) {
+if ($name = $_GET->proj_name["name"] and $ext = $_GET->name->default…json["ext"]) {
 
     $feed = array(
         "\$feed-origin" => "http://freshcode.club/",
@@ -129,7 +129,7 @@ if ($name = $_GET->proj_name["name"]) {
 
 
     #-- Output JSON
-    if ($ext = $_GET->name->default…json["ext"] == "json") {
+    if ($ext == "json") {
         header("Content-Type: json/vnd.freshcode.club; charset=UTF-8");
         exit(json_encode($feed, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES));
     }
@@ -154,6 +154,7 @@ if ($name = $_GET->proj_name["name"]) {
             "license"     => $feed["\$feed-license"],
             "icon"        => "http://freshcode.club/img/changes.png",
             "logo"        => "http://freshcode.club/logo.png",
+            "skipHours"   => array_diff(range(0, 23), [0,4,8,12,16,20]),
         ));
         
         if (!empty($feed["releases"]))
@@ -168,6 +169,8 @@ if ($name = $_GET->proj_name["name"]) {
         }
 
         #-- Output
+        header(sprintf("Cache-Control: max-age=%s", 3 * 90000));
+        header(sprintf("Expires: %s", gmdate(DATE_COOKIE, time() + 3 * 90000)));
         $o = ($ext == "atom") ? new AtomFeed() : new Rss20Feed();
         $o->output($f);
     }
