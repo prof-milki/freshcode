@@ -2,7 +2,7 @@
  * api: jquery
  * title: UI behaviour
  * description: Well, just client-side interface features
- * version: 0.4
+ * version: 0.4.1
  * depends: jquery, jquery-ui
  *
  * Collects a few event callbacks to toggle and trigger all the things.
@@ -133,7 +133,7 @@ $(document).ready(function(){
     });
      
     // Post submit button
-    $(".forum").delegate(".action", "click", function(){
+    $(".forum").delegate(".action", "click", function(ev){
 
         // entry/post id
         var id = $(this).data("id");
@@ -160,7 +160,7 @@ $(document).ready(function(){
                 $target.html(html);
             });
         }
-        event.preventDefault();
+        ev.preventDefault();
     });
 
     // Markup
