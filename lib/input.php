@@ -289,6 +289,15 @@ class input implements ArrayAccess, Countable, Iterator {
     }
 
     /**
+     * [e] 
+     * Normalize all linebreaks to just \n
+     * 
+     */
+    function _nl($data) {
+        return preg_replace("/\R/", "\n", $data);
+    }
+
+    /**
      * [x]
      * Regular expression filter.
      *
