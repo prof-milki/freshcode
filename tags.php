@@ -79,6 +79,7 @@ class Tags {
         "LPPL" => "LaTeX Project Public License 1.3c",
         "LPL" => "Lucent Public License Version 1.02",
         "MirOS" => "MirOS Licence",
+        "MPL-1" => "Mozilla Public License 1.x (Netscape)",
         "MS-RL" => "Microsoft Reciprocal License",
         "Motosoto" => "Motosoto License",
         "Multics" => "Multics License",
