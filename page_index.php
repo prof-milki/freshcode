@@ -21,7 +21,7 @@
  */
 
 
-$header_add = "<link rel=alternate type=application/rss+xml href=/feed/xfer.rss>\n<link rel=alternate type=application/atom+xml href=/feed/xfer.atom>";
+$header_add = "<link rel=alternate type=application/rss+xml href=/projects.rss>\n<link rel=alternate type=application/atom+xml href=/projects.atom>";
 include("template/header.php");
 include("template/index_sidebar.php");
 ?> <section id=main> <?php
