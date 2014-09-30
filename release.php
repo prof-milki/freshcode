@@ -205,7 +205,7 @@ class release extends ArrayObject {
             SELECT t_published
               FROM release
              WHERE name=? AND version=?",
-            $name, $version
+            $name, input::words($version)  // normalize version number
         );
         $t = $r ? $r->fetchColumn(0) : 0;
        # print "<b>exists=$t</b>\n";
