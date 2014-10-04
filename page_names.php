@@ -3,7 +3,7 @@
  * type: page
  * title: Browse Projects by Name
  * description: Alphabetical project lists
- * version: 0.2
+ * version: 0.3
  *
  * Minimal column styling, just project base names used,
  *
@@ -31,15 +31,18 @@ $letters = range($letters[0], $letters[1]);
 
 // Fetch project names from letter group
 $names = db("
-   SELECT DISTINCT name
+   SELECT name, SUBSTR(description, 1, 100) AS description
      FROM release
     WHERE substr(name, 1, 1) IN (??)
+  AND NOT deleted
+ GROUP BY name
  ORDER BY name
 ", $letters);
 
 // Show
-foreach ($names as $id) {
-    print "<a href=/projects/$id[name]><img src='img/screenshot/$id[name].jpeg' width=100 height=75 align=top> $id[name]</a> <br> ";
+foreach ($names as $proj) {
+    $proj = array_map("input::_html", $proj);
+    print "<a href=/projects/$proj[name] title=\"$proj[description]…\"><img src='img/screenshot/$proj[name].jpeg' width=100 height=75 align=top> $proj[name]</a> <br> ";
 }
 
 
