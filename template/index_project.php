@@ -23,7 +23,7 @@ $_ = "trim";
 
 // greying out flagged entries?
 $css_flags = ($entry["flag"] < 2) ? "" : "style=\"opacity: " . (1.0 - 0.2 * $entry["flag"]) . "\"";
-$css_class = ($entry["name"] == "off-parrotvm") ? " sponsored" : ""; 
+$css_class = preg_match("/^\d+\.0(\.0)+$/", $entry["version"]) ? " sponsored" : ""; 
 
 // Write
 print <<<HTML
