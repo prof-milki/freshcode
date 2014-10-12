@@ -336,7 +336,8 @@ class project_import {
                         array_column($data["categories"]["topic"], "shortname")
                     )
                 ),
-                "state" => $data["categories"]["developmentstatus"][0]["shortname"]
+                "state" => $data["categories"]["developmentstatus"][0]["shortname"],
+                "urls" => "SourceForge = https://sourceforge.net/projects/$name\nGitHub = \n",
             );
         }
     }
