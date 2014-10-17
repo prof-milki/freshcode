@@ -9,7 +9,7 @@
  *
  * Cron runs this hourly.
  * Script checks for 3.5 hour delay between published releases.
- * Then randomly inserts 1 or 2 new entries.
+ * Then randomly inserts 1, sometimes 2, seldomly 3 new entries.
  *
  * The incoming/ text files are simple `key: value` lists, each
  * naming one database field. Multi-line entries just should start
@@ -23,11 +23,13 @@ include("./config.php");
 
 // fresh insert attempts only every 3.5 hours
 $last_release = db("SELECT t_published FROM release ORDER BY t_published DESC LIMIT 1")->t_published;
-if (time() > $last_release + 3.5*24*3600) {
+if (rand(0,2) and time() > $last_release + 3.35*3600) {
 
 
     // check files
-    foreach (glob("incoming/*") as $fn) {
+    $files = glob("incoming/*");
+    shuffle($files);
+    foreach ($files as $fn) {
 
         // parse RFC-style text format
         $p = parse_release_fields(file_get_contents($fn));
@@ -37,22 +39,18 @@ if (time() > $last_release + 3.5*24*3600) {
             continue;
         }
         
-        // randomize import times;
-        if (!rand(0,3)) {
-        
-            // store new project/release entry
-            $rel = new release($p["name"]);
-            $rel->update($p);
-            $rel->store();
-            print_r($rel);
+        // store new project/release entry
+        $rel = new release($p["name"]);
+        $rel->update($p, [], [], TRUE);
+        $rel->store();
+        print_r($rel);
 
-            // finish or continue
-            if (rand(0,5)) {
-               exit;
-            }
-            else {
-               continue;
-            }
+        // finish or continue
+        if (rand(0,9)) {
+           exit;
+        }
+        else {
+           continue;
         }
     }
 
