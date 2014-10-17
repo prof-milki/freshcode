@@ -104,7 +104,7 @@ and preg_match_all("~<TR>.+?</TR>~s", $html, $line))
     # resources from several other projects (FT-MPI, LA-MPI, LAM/MPI, and
     # PACX-MPI) in order to build the best MPI library available. 
     # </DIV></TD></TR>
-    foreach (array_slice($line[0], 0, 15) as $html) {
+    foreach (array_slice($line[0], 0, 22) as $html) {
 
         // package name and version
         preg_match("~HREF=\"([\w-]+?)-(\d[\w._-]+?)(\.(zip|tar|gz|xz|bz2|pax|tgz|txt|tbz2|7z|exe))*/\"~", $html, $pkg);
