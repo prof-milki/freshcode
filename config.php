@@ -13,6 +13,8 @@
  */
 
 
+// base
+chdir(__DIR__);
 
 // autoloader
 include("./shared.phar");
