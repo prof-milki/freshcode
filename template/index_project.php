@@ -25,6 +25,9 @@ $_ = "trim";
 $css_flags = ($entry["flag"] < 2) ? "" : "style=\"opacity: " . (1.0 - 0.2 * $entry["flag"]) . "\"";
 $css_class = preg_match("/^\d+\.0(\.0)+$/", $entry["version"]) ? " sponsored" : ""; 
 
+// desc
+$license_long = isset(tags::$licenses[$entry["license"]]) ? tags::$licenses[$entry["license"]] : $entry["license"];
+
 // Write
 print <<<HTML
       <article class="project$css_class" $css_flags>
@@ -40,7 +43,7 @@ print <<<HTML
         <a href="$entry[homepage]"><img class=preview src="$entry[image]" align=right width=120 height=90 border=0></a>
         <p class="description trimmed">$entry[description]</p>
         <p class="release-notes trimmed"><b>$entry[scope]:</b> $entry[changes]</p>
-        <p class=tags><img src="img/tag.png" width=30 align=middle height=22 border=0><a class=license>$entry[license]</a>{$_(wrap_tags($entry["tags"]))}</p>
+        <p class=tags><img src="img/tag.png" width=30 align=middle height=22 border=0><a class=license title="$license_long">$entry[license]</a>{$_(wrap_tags($entry["tags"]))}</p>
       </article>
 HTML;
 

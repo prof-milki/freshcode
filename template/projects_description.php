@@ -19,6 +19,8 @@
 
 $_ = "trim";
 
+$license_long = isset(tags::$licenses[$entry["license"]]) ? tags::$licenses[$entry["license"]] : $entry["license"];
+
 print <<<PROJECT
       <article class=project>
 
@@ -37,7 +39,7 @@ print <<<PROJECT
 
         <table class=long-tags border=0>
            <tr> <th>Tags</th>     <td>{$_(wrap_tags($entry["tags"]))}</td>           </tr>
-           <tr> <th>License</th>  <td><a class=license>$entry[license]</a></td>      </tr>
+           <tr> <th>License</th>  <td><a class=license title="$license_long">$entry[license]</a></td>      </tr>
            <tr> <th>State</th>    <td><a class=license>$entry[state]</a></td>        </tr>
         </table>
 
