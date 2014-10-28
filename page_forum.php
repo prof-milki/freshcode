@@ -26,7 +26,7 @@ db(new PDO("sqlite:forum.db")); // separate storage
 
 #-- set up forum handling
 $f = new forum();
-$f->is_admin = in_array($_SESSION["openid"], $moderator_ids);
+$f->is_admin = in_array(@$_SESSION["openid"], $moderator_ids);
 
 
 #-- dispatch functions
