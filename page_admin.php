@@ -141,7 +141,7 @@ else {
         foreach ($row as $f=>$v) {
             $v = pdiff::tridiff($last[$f], $v, $next[$f]);
             if (in_array($f, ["t_published", "t_changed"])) {
-                $v .= " <small>(" . strftime("%Y-%m-%d %T", $row[$f]) . ")</small>";
+                $v .= " <small>(" . strftime("%Y-%m-%d %T", intval($row[$f])) . ")</small>";
             }
             if (in_array($f, ["hidden","flag","deleted","name","t_changed","version"])) {
                 $f = "<em>$f</em>";
