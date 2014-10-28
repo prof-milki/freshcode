@@ -6,10 +6,15 @@
  *
  *
  * ToDo
+ *  + http://www.fosshub.com/
  *  - http://www.datamation.com/open-source/open-source-software-the-mega-list-1.html
  *  - http://www.datamation.com/osrc/article.php/3925806/Open-Source-Software-Top-59-Sites.htm
  *  - http://sourceforge.net/new/
  *  - http://flossmetrics.org/
+ *  - https://www.nuget.org/packages
+ *  - http://pgfoundry.org/
+ *  - http://www.antepedia.com/
+ *  + http://beopen.bplaced.net/category/projects/
  *
  */
 
@@ -280,6 +285,9 @@ include("template/header.php");
    //11
       ["http://alternativeto.net/software/sourceforge/", "alternativeto.net.jpeg", "AlternativeTo",
        "is an extensive meta cross-reference list of web sites and applications."
+      ],
+      ["http://beopen.bplaced.net/category/projects/", "beopen.bplaced.net.jpeg", "BeOpen",
+       "directorizes open source projects, software forges, news, events, links and organisations.",
       ],
 #      ["", "", "",
 #       "",

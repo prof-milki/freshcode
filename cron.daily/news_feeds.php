@@ -21,6 +21,7 @@ $feeds = array(
     "linuxgames" => "http://www.linuxgames.com/feed",
     "sourceforge" => "http://sourceforge.net/directory/release_feed/",
     "distrowatch" => "http://distrowatch.com/news/dwd.xml",
+    "beopen" => "http://beopen.bplaced.net/category/projects/feed/",
 );
 $filter = 
     "/Please 'report' off-topic|namelessrom|machomebrew/"

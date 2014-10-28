@@ -45,5 +45,10 @@
         <?php  include("template/feed.sourceforge.htm");  ?>
     </section>
 
+    <section class="article-links trimmed">
+        <h5>beOpen</h5>
+        <?php  include("template/feed.beopen.htm");  ?>
+    </section>
+
  </aside>
 
