@@ -168,11 +168,16 @@ class release extends ArrayObject {
      */
     function unpack(&$newdata) {
 
+        // extract new img@gravatar
         if (!empty($newdata["submitter"]) and is_int(strpos($newdata["submitter"], "@"))
         and preg_match($rx = "/[^,;\s]+@[^,;\s]+/", $newdata["submitter"], $match))
         {
             $newdata["submitter_image"] = $match[0];
             $newdata["submitter"] = trim(preg_replace($rx, "", $newdata["submitter"]), ", ");
+        }
+        // empty any previous _image data
+        elseif (!empty($this["submitter"]) and strnatcasecmp($this["submitter"], $newdata["submitter"])) {
+            $newdata["submitter_image"] = "";
         }
     }
 
@@ -205,7 +210,7 @@ class release extends ArrayObject {
             SELECT t_published
               FROM release
              WHERE name=? AND version=?",
-            $name, rtrim(input::words($version))  // normalize version number
+            proj_name($name), trim(input::words($version))  // normalize version number
         );
         $t = $r ? $r->fetchColumn(0) : 0;
 #        print "<b>exists=$t</b>\n";

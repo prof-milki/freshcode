@@ -21,14 +21,35 @@ chdir(dirname(__DIR__));
 include("./config.php");
 
 
+// import delays, 33% chance of skipping to next cron slot
+if (rand(0,100) < 33) {
+    return;
+}
+// minimum pause between imports
+$pause = 3.35
+       + (date("N") >= 6)
+       - (count(glob("incoming/*")) >= 7);
+print $pause;
+// delay to last published project/version
+$last_release = db("SELECT t_published FROM release WHERE NOT hidden AND NOT deleted ORDER BY t_published DESC LIMIT 1")->t_published;
+if (time() < ($last_release + $pause * 3600)) {
+   return;
+}
+
+
 // fresh insert attempts only every 3.5 hours
-$last_release = db("SELECT t_published FROM release ORDER BY t_published DESC LIMIT 1")->t_published;
-if (rand(0,2) and time() > $last_release + 3.35*3600) {
+if (TRUE) {
 
-
-    // check files
+    // read filenames, sort newest first
     $files = glob("incoming/*");
-    shuffle($files);
+#    shuffle($files);
+    $files = array_combine($files, array_map("filemtime", $files));
+    asort($files);
+    $files = array_keys($files);
+#   print_r($files); exit;
+
+
+    // loop over import files
     foreach ($files as $fn) {
 
         // parse RFC-style text format
@@ -41,9 +62,10 @@ if (rand(0,2) and time() > $last_release + 3.35*3600) {
         
         // store new project/release entry
         $rel = new release($p["name"]);
-        $rel->update($p, [], [], TRUE);
+        $rel->update($p, [], ["hidden"=>intval(!empty($p["hidden"]))], TRUE);
         $rel->store();
         print_r($rel);
+        rename($fn, "oldimport/".basename($fn));
 
         // finish or continue
         if (rand(0,9)) {
