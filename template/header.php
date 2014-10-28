@@ -4,7 +4,7 @@
  * type: template
  * title: HTML page header
  * description: Starts <html> and <head>, outputs top bar / menus etc.
- * version: 0.7.0
+ * version: 0.7.3
  *
  * Optionally injects a `$header_add` list, or allows to override the
  * page $title.
@@ -15,9 +15,9 @@
 <html>
 <head> 
     <title><?= isset($title) ? $title : "freshcode.club" ?></title>
-    <meta name=version content=0.7.0>
+    <meta name=version content=0.7.3>
     <meta charset=UTF-8>
-    <link rel=stylesheet href="/freshcode.css?0.7.0">
+    <link rel=stylesheet href="/freshcode.css?0.7.3">
     <link rel="shortcut icon" href="/img/changes.png">
     <base href="/index">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -29,7 +29,7 @@
 
 <nav id=topbar>
 Open source software release tracking.
-<?= is_int(strpos(HTTP_HOST, ".")) ? '<small style="color:#9c7" class=version>[0.7.0 alpha]</small>' : '<b style="color:#c54">[local dev]</b>'; ?>
+<?= is_int(strpos(HTTP_HOST, ".")) ? '<small style="color:#9c7" class=version>[0.7.3 alpha]</small>' : '<b style="color:#c54">[local dev]</b>'; ?>
 <span style=float:right>
 <a href="//freshmeat.club/">freshmeat.club</a> |
 <a href="//freecode.club/">freecode.club</a> |
@@ -39,7 +39,7 @@ Open source software release tracking.
 
 <footer id=logo>
 <a href="/" title="freshcode.club"><img src="img/logo.png" width=200 height=110 alt=freshcode border=0></a>
-<div class=empty-box>&nbsp;</div>
+<?=file_get_contents("template/stats.htm");?>
 </footer>
 
 <nav id=tools>

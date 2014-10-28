@@ -30,20 +30,20 @@ $license_long = isset(tags::$licenses[$entry["license"]]) ? tags::$licenses[$ent
 
 // Write
 print <<<HTML
-      <article class="project$css_class" $css_flags>
+      <article class="project$css_class" $css_flags itemscope itemtype="http://schema.org/SoftwareApplication">
         <h3>
-            <a href="/projects/$entry[name]">$entry[title]
-            <em class=version>$entry[version]</em></a>
+            <a href="/projects/$entry[name]"><span itemprop=name>$entry[title]</span>
+            <em class=version itemprop=softwareVersion>$entry[version]</em></a>
             <span class=links>
-                <span class=published_date>$entry[formatted_date]</span>
-                <a href="$entry[homepage]"><img src="img/home.png" width=20 height=20 border=0 align=middle alt="⛵"></a>
-                <a href="$entry[download]"><img src="img/disk.png" width=20 height=20 border=0 align=middle alt="💾"></a>
+                <span class=published_date itemprop=datePublished>$entry[formatted_date]</span>
+                <a href="$entry[homepage]" itemprop=url><img src="img/home.png" width=20 height=20 border=0 align=middle alt="⛵"></a>
+                <a href="$entry[download]" itemprop=downloadUrl><img src="img/disk.png" width=20 height=20 border=0 align=middle alt="💾"></a>
             </span>
         </h3>
-        <a href="$entry[homepage]"><img class=preview src="$entry[image]" align=right width=120 height=90 border=0></a>
-        <p class="description trimmed">$entry[description]</p>
-        <p class="release-notes trimmed"><b>$entry[scope]:</b> $entry[changes]</p>
-        <p class=tags><img src="img/tag.png" width=30 align=middle height=22 border=0><a class=license title="$license_long">$entry[license]</a>{$_(wrap_tags($entry["tags"]))}</p>
+        <a href="$entry[homepage]"><img class=preview itemprop=image src="$entry[image]" align=right width=120 height=90 border=0></a>
+        <p class="description trimmed" itemprop=featureList>$entry[description]</p>
+        <p class="release-notes trimmed" itemprop=releaseNotes><b>$entry[scope]:</b> $entry[changes]</p>
+        <p class=tags itemprop=keywords><img src="img/tag.png" width=30 align=middle height=22 border=0><a class=license title="$license_long">$entry[license] </a>{$_(wrap_tags($entry["tags"]))}</p>
       </article>
 HTML;
 
