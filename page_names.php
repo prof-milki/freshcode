@@ -31,7 +31,7 @@ $letters = range($letters[0], $letters[1]);
 
 // Fetch project names from letter group
 $names = db("
-   SELECT name, SUBSTR(description, 1, 100) AS description
+   SELECT name, SUBSTR(description, 1, 150) AS description
      FROM release
     WHERE substr(name, 1, 1) IN (??)
   AND NOT deleted
