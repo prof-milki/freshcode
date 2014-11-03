@@ -4,7 +4,7 @@
  * type: template
  * title: HTML page header
  * description: Starts <html> and <head>, outputs top bar / menus etc.
- * version: 0.7.3
+ * version: 0.7.4
  *
  * Optionally injects a `$header_add` list, or allows to override the
  * page $title.
@@ -15,7 +15,7 @@
 <html>
 <head> 
     <title><?= isset($title) ? $title : "freshcode.club" ?></title>
-    <meta name=version content=0.7.3>
+    <meta name=version content=0.7.4>
     <meta charset=UTF-8>
     <link rel=stylesheet href="/freshcode.css?0.7.3">
     <link rel="shortcut icon" href="/img/changes.png">
@@ -29,7 +29,7 @@
 
 <nav id=topbar>
 Open source software release tracking.
-<?= is_int(strpos(HTTP_HOST, ".")) ? '<small style="color:#9c7" class=version>[0.7.3 alpha]</small>' : '<b style="color:#c54">[local dev]</b>'; ?>
+<?= is_int(strpos(HTTP_HOST, ".")) ? '<small style="color:#9c7" class=version>[0.7.4 alpha]</small>' : '<b style="color:#c54">[local dev]</b>'; ?>
 <span style=float:right>
 <a href="//freshmeat.club/">freshmeat.club</a> |
 <a href="//freecode.club/">freecode.club</a> |

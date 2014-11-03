@@ -26,5 +26,9 @@ include("config.php");
 // go
 $run = new Autoupdate();
 $run->all();
-#print_r($run->test("github", "youtube-dl"));
-
+#print_r($run->test("changelog", "uselessd"));
+#print_r($run->test("regex", "linux"));
+#print_r($run->test("regex", "php"));
+#print_r($p = $run->test("regex", "limesurvey"));
+#var_dump(input::words($p["version"]));
+#var_dump($run->version_exists('limesurvey', $p['version']));
