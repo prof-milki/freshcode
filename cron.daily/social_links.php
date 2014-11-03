@@ -21,7 +21,7 @@ include("config.php");
 define("IO_LINKS", "http://api.include-once.org/links/social.ajax.php");
 
 // traverse projects
-foreach (db("SELECT *, MAX(t_changed) FROM release_versions GROUP BY name ORDER BY t_published DESC") as $project) {
+foreach (db("SELECT *, MAX(t_changed) FROM release_versions GROUP BY name ORDER BY t_published DESC")->fetchAll() as $project) {
 
     // homepage
     $url = $project["homepage"];

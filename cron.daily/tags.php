@@ -20,7 +20,7 @@ include("config.php");
  * split up `tags` as CSV and just fille up according tags table.
  *
  */
-foreach (db("SELECT name, tags, MAX(t_changed) FROM release_versions GROUP BY name") as $entry) {
+foreach (db("SELECT name, tags, MAX(t_changed) FROM release_versions GROUP BY name")->fetchAll() as $entry) {
 
     $name = $entry["name"];
     $tags = array_slice(array_filter(p_csv($entry["tags"])), 0, 10);

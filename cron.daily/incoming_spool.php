@@ -41,7 +41,8 @@ if (time() < ($last_release + $pause * 3600)) {
 if (TRUE) {
 
     // read filenames, sort newest first
-    $files = glob("incoming/*");
+    $files = array_filter(glob("incoming/*"), "is_file");
+    $files = array_diff($files, ["incoming/.htaccess"]);
 #    shuffle($files);
     $files = array_combine($files, array_map("filemtime", $files));
     asort($files);
@@ -57,6 +58,7 @@ if (TRUE) {
         
         // skip if entry exists
         if (empty($p["name"]) or release::exists($p["name"], $p["version"])) {
+            rename($fn, "incoming/incomplete/" . basename($fn));
             continue;
         }
         
@@ -65,7 +67,7 @@ if (TRUE) {
         $rel->update($p, [], ["hidden"=>intval(!empty($p["hidden"]))], TRUE);
         $rel->store();
         print_r($rel);
-        rename($fn, "oldimport/".basename($fn));
+        rename($fn, "incoming/done/" . basename($fn));
 
         // finish or continue
         if (rand(0,9)) {
