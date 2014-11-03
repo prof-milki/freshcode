@@ -2,10 +2,12 @@
 /**
  * title: Article feeds
  * description: Queries a few online resources for article links
- * version: 0.4
+ * version: 0.5
  *
  * Highlights version numbers in news feeds,
  * and populates templates/feed.*.htm for sidebar display.
+ *
+ * Some of the collected entries (*games) are displayed togerther in sidebar blocks.
  *
  */
 
@@ -16,12 +18,14 @@ chdir(dirname(__DIR__));
 
 #-- RSS
 $feeds = array(
-    "reddit" => "http://www.reddit.com/r/linux/.rss",
-    "linuxcom" => "http://www.linux.com/news/software?format=feed&type=rss",
-    "linuxgames" => "http://www.linuxgames.com/feed",
-    "sourceforge" => "http://sourceforge.net/directory/release_feed/",
-    "distrowatch" => "http://distrowatch.com/news/dwd.xml",
-    "beopen" => "http://beopen.bplaced.net/category/projects/feed/",
+    "linuxcom,7" => "http://www.linux.com/news/software?format=feed&type=rss",
+    "reddit,17" => "http://www.reddit.com/r/linux/.rss",
+    "linuxgames,5" => "http://www.linuxgames.com/feed",
+    "gamingonlinux,4" => "http://www.gamingonlinux.com/article_rss.php",
+    "freegamer,3" => "http://freegamer.blogspot.com/feeds/posts/default?alt=rss",
+    "sourceforge,22" => "http://sourceforge.net/directory/release_feed/",
+    "distrowatch,15" => "http://distrowatch.com/news/dwd.xml",
+    "beopen,7" => "http://beopen.bplaced.net/category/projects/feed/",
 );
 $filter = 
     "/Please 'report' off-topic|namelessrom|machomebrew/"
@@ -31,6 +35,7 @@ $filter =
 foreach ($feeds as $name=>$url) {
 
     // data
+    list($name, $max) = str_getcsv($name);
     $output = "";
     $x = file_get_contents($url);
     $x = preg_replace("/[^\x20-\x7F\s]/", "", $x);
@@ -77,59 +82,13 @@ foreach ($feeds as $name=>$url) {
                 break;
         }
 
-        if ($i >= 20) { break; }
+        if ($i >= $max) { break; }
     }
     
     // save
+    strlen($output) and
     file_put_contents("./template/feed.$name.htm", $output);
 
 }
 
-
-#-- Scraping
-
-// Fossies
-include("./shared.phar");
-curl::$defaults["useragent"] = "freshcode/0.6 (Linux x86-64; curl) projects-autoupdate/0.5 (screenshots,changelog,regex,xpath) +http://freshcode.club/";
-if ($html = curl("http://fossies.org/linux/misc/index_n.html")->exec()
-and preg_match_all("~<TR>.+?</TR>~s", $html, $line))
-{
-    $output = "";
-    # <TR><TD VALIGN="top"><A HREF="openmpi-1.8.2.tar.gz"><IMG SRC="/dl.gif"
-    # class="dl" title="[Download]" ALT=""></A></TD><TD> <A
-    # HREF="openmpi-1.8.2.tar.gz/" title="Contents, browsing \&amp; more
-    # ..."><B>openmpi-1.8.2.tar.gz</B></A> (25 Aug 19:39, 19779476 Bytes) <IMG
-    # SRC="/warix/new1.gif" class="new_nb" ALT="*NEW*"><BR><DIV class="desc"><A
-    # HREF="http://www.open-mpi.org/">Open&nbsp;MPI</A> - A High Performance
-    # Message Passing Library.  Open MPI is a project combining technologies and
-    # resources from several other projects (FT-MPI, LA-MPI, LAM/MPI, and
-    # PACX-MPI) in order to build the best MPI library available. 
-    # </DIV></TD></TR>
-    foreach (array_slice($line[0], 0, 22) as $html) {
-
-        // package name and version
-        preg_match("~HREF=\"([\w-]+?)-(\d[\w._-]+?)(\.(zip|tar|gz|xz|bz2|pax|tgz|txt|tbz2|7z|exe))*/\"~", $html, $pkg);
-        if (count($pkg) < 3) { continue; }
-        list(, $pkg, $ver, ) = $pkg;
-
-        // package title
-        preg_match("~>([^<>]+)</A>~", $html, $title);
-        $title = $title[1];
-
-        // convert date string
-        preg_match("~\((\d+ \w\w\w) \d\d:\d\d~", $html, $date);
-        $date = strftime("%d/%m", strtotime($date[1]));
-        
-        // description
-        preg_match("~</A>[\s-]*([^<>]+)</DIV>~", $html, $desc);
-        $desc = htmlentities($desc[1]);
-                
-        // combine
-        $output .= "<a href=\"http://fossies.org/$pkg\" title=\"$desc\">"
-                .  "<small>$date</small> $title <em>$ver</em></a>\n";
-    }
-
-    // save
-    file_put_contents("./template/feed.fossies.htm", $output);
-}
 
