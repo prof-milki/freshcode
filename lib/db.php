@@ -387,9 +387,15 @@ class db_result extends ArrayObject implements IteratorAggregate {
     function offsetGet($name) {
     
         // get first result, transfuse into $this
-        if (is_object($this->results)) {
-            $this->exchangeArray($this->results->fetch());
+        if (is_object($r = $this->results)) {
             unset($this->results);
+            if ($row = $r->fetch()) {
+                $this->exchangeArray($row);
+            }
+            // no row returned, silently return
+            else {
+                return NULL;
+            }
         }
         
         // suffice __get
