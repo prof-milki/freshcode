@@ -3,7 +3,7 @@
  * api: freshcode
  * title: Freshcode.club config
  * description: initialization code
- * version: 0.5.0
+ * version: 0.7.0
  * plugin-register: include_once("$FN");
  * 
  *
@@ -37,7 +37,9 @@ include_once("lib/deferred_openid_session.php");
 
 // utility functions
 include_once("aux.php");
-curl::$defaults["useragent"] = "freshcode/0.6 (Linux x86-64; curl) projects-autoupdate/0.5 (screenshots,changelog,regex,xpath) +http://freshcode.club/";
+define("FRESHCODE_USER_AGENT", "freshcode/0.7 (Linux x86-64; PHP/5.5.x) projects-autoupdate/0.7 (img,news,regex,xpath) github-poll/0.4 +http://freshcode.club/");
+curl::$defaults["useragent"] = FRESHCODE_USER_AGENT;
+ini_set("user_agent", FRESHCODE_USER_AGENT);
 
 // List of administrative OpenID handles
 $moderator_ids = array();

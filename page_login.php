@@ -84,4 +84,5 @@ else {
 }
 
 include("template/bottom.php");
+
 ?>

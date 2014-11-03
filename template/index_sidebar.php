@@ -53,7 +53,7 @@
     </section>
 
     <section class="article-links trimmed">
-        <h5>GitHub releases</h5>
+        <h5><a href="/github-releases">GitHub releases</a></h5>
         <?php  include("template/feed.github.htm");  ?>
     </section>
 
