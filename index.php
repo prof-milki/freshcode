@@ -4,7 +4,7 @@
  * type: main
  * title: Freshcode.club
  * description: FLOSS software release tracking website
- * version: 0.7.3
+ * version: 0.7.4
  * author: mario
  * license: AGPL
  * 
@@ -30,6 +30,7 @@ switch ($page = $_GET->id["page"]) {
     case "search":
     case "rc":
     case "drchangelog":
+    case "githubreleases":
     case "login":
         include("page_$page.php");
         break;
