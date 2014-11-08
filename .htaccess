@@ -16,7 +16,7 @@ RewriteRule  ^                  -                       [L,NS]
 #-- Strip www. prefix
 RewriteCond  %{REQUEST_METHOD}  ^GET$
 RewriteCond  %{HTTP_HOST}       ^ww+\.(\w+\.\w+)\.?$
-RewriteRule  ^(.*)$             http://%1/$1            [R,QSA,L]
+RewriteRule  ^(.*)$             http://%1/$1            [R=301,QSA,L]
 
 #-- RSS/Atom aliases
 RewriteCond  %{QUERY_STRING}    ^format=(atom|rss|json)$
@@ -39,7 +39,7 @@ RewriteRule  ^projects/([\w-_]+)/urls\.json$  index.php?page=api&name=$1&api=url
 #-- Page dispatching
 RewriteRule  ^index/?$		/			[R=301,L]
 RewriteRule  ^$                 index.php?page=index    [L,NS,QSA]
-RewriteRule  ^(projects|submit|search|flag|names?|tags?|feed|login|links|rc|admin|github-releases|drchangelog)\b/?(\w+(?:[-_]\w+)*)?(?:\.(json|atom|rss))?/?$   index.php?page=$1&name=$2&ext=$3   [L,NS,QSA]
+RewriteRule  ^(projects|submit|search|flag|names?|tags?|feed|login|links|rc|admin|github-releases|drchangelog)\b/?(\w+(?:[-_]\w+)*(?:\.\w{2,7})?)?(?:\.(json|atom|rss))?/?$   index.php?page=$1&name=$2&ext=$3   [L,NS,QSA]
 RewriteRule  ^(forum|meta)\b/?(\w+)?/?$   page_forum.php?name=$2   [L,NS,QSA]
 
 #-- Deny direct invocations

@@ -18,7 +18,7 @@
 
 // Project names may be alphanumeric, and contain dashes
 function proj_name($s) {
-    return preg_replace("/[^a-z0-9-_]+|^[^a-z0-9]+|\W+$|(?<=[-_])[-_]+/", "", strtolower($s));
+    return preg_replace("/[^a-z0-9-_.]+|^[^a-z0-9]+|\W+$|\.(?!\w{2,7}$)|[-_.]+(?=[-_.])/", "", strtolower($s));
 }
 
 // Tags is a comma-separated list, yet sometimes delimited with something else; normalize..
@@ -94,9 +94,16 @@ function proj_links($urls, $entry, $r="") {
 
     // join into HTML list
     foreach ($urls as $title=>$url) {
+    
+        // normalize title and substitute $version placeholders
         $title = ucwords($title);
-        $url = versioned_url($url, $entry["version"]);
-        $r .= "&rarr; <a href=\"$url\">$title</a><br>\n";
+        $_title = strtolower($title);
+        $url = input::html(versioned_url($url, $entry["version"]));
+        
+        // append HTML link and <audio> for theme song
+        $r .= "\t   &rarr; <a href=\"$url\">$title</a>"
+            . ($_title == "theme-song" ? "<audio autoplay onclick='this.paused ? this.play() : this.pause()'>♫<source type=\"audio/ogg\" src=\"$url\"></audio>" : "")
+            . "<br>\n";
     }
     return $r;
 }
