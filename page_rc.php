@@ -25,10 +25,10 @@ if (TRUE) {  // Public
     $fields = "name,t_changed,title,version,t_published,license,tags,state,scope,homepage,download,urls,description,changes,submitter";
 }
 if ($_SESSION["openid"]) {  // For logged in users
-    $fields .= ",autoupdate_module,autoupdate_url,autoupdate_regex";
+    $fields .= ",autoupdate_module,autoupdate_url,autoupdate_regex,via";
 }
 if (in_array($_SESSION["openid"], $moderator_ids)) {   // Reveal control/privacy-related fields only to moderators
-    $fields .= ",submitter_image,submitter_openid,lock,hidden,deleted";
+    $fields .= ",submitter_image,submitter_openid,lock,hidden,deleted,editor_note,autoupdate_delay";
 }
 
 

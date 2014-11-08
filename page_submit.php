@@ -88,6 +88,7 @@ if ($name and $_REQUEST->has("title", "description")) {
             array(
                 "flag" => 0,   // User flags presumably become obsolete when project gets manually edited
                 "submitter_openid" => $_SESSION["openid"],
+                "via" => "form",
             )
         );
         

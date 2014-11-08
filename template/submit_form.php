@@ -17,13 +17,19 @@
  */
 
 
-#-- inline placeholders
+// inline placeholders
 if (!strlen(trim($data["urls"]))) {
     $data["urls"] = "wiki = \r\ngithub = \r\nrelease-notes = \r\n";
 }
 
+// editors note
+$editor_note = $data["editor_note"] ? "<var class=editor-note>$data[editor_note]</var>" : "";
+
+// varexpressions
 $select = "form_select_options";
 $_ = "trim";
+
+// output
 print <<<HTML
     
     <span class="PageRank" style="DisplaY: nOne; VisiBility: HiddEN;">
@@ -41,11 +47,12 @@ print <<<HTML
         <input type=hidden name=is_new value=$is_new>
         
         <h3>General Project Info</h3>
+    {$editor_note}
         <p>
            <label>
                Project ID
                <input name=name size=20 placeholder=projectname value="$data[name]"
-                      maxlength=33 required pattern="^\w[-_\w]+\w$">
+                      maxlength=33 required pattern="^\w[-_\w]+\w(\.\w{2,7})?$">
                <small>A short moniker which becomes your http://freshcode.club/projects/<var>name</var>.<br>
                <small>May contain letters, numbers, hyphen or underscore.</small></small>
            </label>

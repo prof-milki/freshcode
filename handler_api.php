@@ -449,6 +449,7 @@ class FreeCode_API {
         $this->log($new, "/* ++ STORE DATA */");
 
         // Add new fields to $project
+        $flags["via"] = "api";
         $project->update(array_filter($new, "strlen"), $flags, [], TRUE);
 
         // Store or return JSON API error.
