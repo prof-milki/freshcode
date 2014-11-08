@@ -1,11 +1,12 @@
 <?php
 /**
+ * api: cli
  * title: import spool
  * description: randomly publish new entries from incoming/ spool
- * version: 0.2
- * type: cron
- * api: cli
+ * version: 0.3
  * category: source
+ * type: cron
+ * x-cron: 05,25,45 * * * *
  *
  * Cron runs this hourly.
  * Script checks for 3.5 hour delay between published releases.
@@ -21,33 +22,44 @@ chdir(dirname(__DIR__));
 include("./config.php");
 
 
-// import delays, 33% chance of skipping to next cron slot
-if (rand(0,100) < 33) {
-    return;
+// elapsed time since last published project/version
+$diff_t_pub = time()
+            - db("SELECT t_published FROM release
+                  WHERE NOT hidden AND NOT deleted
+                  ORDER BY t_published DESC LIMIT 1")->t_published;
+
+         // minimum pause between imports
+$pause = 3.15
+
+         // extra hour jump on weekends
+       + 1.25 * (date("N") >= 6)
+
+         // less delay when spool is reasonably filled
+       - 0.5 * (count(glob("incoming/*")) >= 10)
+
+         // add 33% chance of just skipping to next cron slot
+       + 24 * (rand(0,100) < 33)
+
+         // prevent minute-slot matching (alternate between HH:05, HH:25, HH:45)
+       + 7 * ($diff_t_pub % 3600 < 5);
+
+
+// if there's enough delay to last published entry, submit a new incoming/* release
+if ($diff_t_pub > $pause * 3600) {
+   insert_from_spool();
 }
-// minimum pause between imports
-$pause = 3.35
-       + (date("N") >= 6)
-       - (count(glob("incoming/*")) >= 7);
-print $pause;
-// delay to last published project/version
-$last_release = db("SELECT t_published FROM release WHERE NOT hidden AND NOT deleted ORDER BY t_published DESC LIMIT 1")->t_published;
-if (time() < ($last_release + $pause * 3600)) {
-   return;
-}
+
 
 
 // fresh insert attempts only every 3.5 hours
-if (TRUE) {
+function insert_from_spool() {
 
-    // read filenames, sort newest first
-    $files = array_filter(glob("incoming/*"), "is_file");
-    $files = array_diff($files, ["incoming/.htaccess"]);
-#    shuffle($files);
+    // read filenames
+    $files = array_diff( array_filter( glob("incoming/*"), "is_file"), ["incoming/.htaccess"]);
+    // sort newest first
     $files = array_combine($files, array_map("filemtime", $files));
     asort($files);
     $files = array_keys($files);
-#   print_r($files); exit;
 
 
     // loop over import files
@@ -57,20 +69,21 @@ if (TRUE) {
         $p = parse_release_fields(file_get_contents($fn));
         
         // skip if entry exists
+        $alt_fn = basename($fn) . "." . time();
         if (empty($p["name"]) or release::exists($p["name"], $p["version"])) {
-            rename($fn, "incoming/incomplete/" . basename($fn));
+            rename($fn, "incoming/incomplete/$alt_fn");
             continue;
         }
         
         // store new project/release entry
         $rel = new release($p["name"]);
-        $rel->update($p, [], ["hidden"=>intval(!empty($p["hidden"]))], TRUE);
+        $rel->update($p, [], ["hidden"=>intval(!empty($p["hidden"])), "via"=>"spool"], TRUE);
         $rel->store();
         print_r($rel);
-        rename($fn, "incoming/done/" . basename($fn));
+        rename($fn, "incoming/done/$alt_fn");
 
-        // finish or continue
-        if (rand(0,9)) {
+        // finish or continue importing another entry
+        if (rand(0,27)) {
            exit;
         }
         else {
@@ -88,12 +101,18 @@ function parse_release_fields($txt) {
     preg_match_all("/^(\w+):\h*((?:\V+|\R(?!\w+:))+)/m", $txt, $p);
     
     // remove leading empty space
-    return
-        array_map(function ($s) {
-            return preg_replace("/^\h+/m", "", ltrim($s));
+    $p = array_map(
+        function ($s) {
+             return preg_replace("/^\h+/m", "", ltrim($s));
         },
         array_combine($p[1], $p[2])
     );
+    // description field does not need linebreaks at all (but changes, urls, etc. should retain them)
+    if (!empty($p["description"])) {
+        $p["description"] = input::spaces($p["description"]);
+    }
+
+    return $p;
 }
 
 
