@@ -1,10 +1,15 @@
 <?php
 /**
- * api: cron
+ * api: cli
  * title: Create random picks for project spotlight
  * description: Randomly picks out a few projects for the footer
  * version: 0.1
+ * category: template
+ * type: cron
+ * x-cron: 20 *\/6 * * *
  *
+ * Picks three projects for display in footer as projects of the day.
+ * (Actually renewed three times a day.)
  *
  */
 
@@ -43,3 +48,4 @@ EOF;
 
 // store as template
 file_put_contents("./template/spotlight.htm", $html);
+

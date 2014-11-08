@@ -1,14 +1,23 @@
 <?php
 /**
- * api: cron
+ * api: cli
  * title: Update `tags` table
  * description: Splits out tags from according column in project `release`.
  * version: 0.3
+ * category: postprocessing
+ * type: cron
+ * x-cron: 10 *\/2 * * *
  *
  * Manually update tags table.
  *   - Splits up comma separated release.tags field
  *   - Maximum of 10 tags each
  *   - Populates separate tags table with name=>tag list.
+ *
+ * While this could be done in the release::update/::store handler,
+ * it's not really urgent to have per-project tags mirrored there.
+ * (Externalizing this avoids database load/locks.)
+ *
+ * Runs every 2 hours.
  *
  */
 

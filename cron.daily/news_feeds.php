@@ -3,6 +3,10 @@
  * title: Article feeds
  * description: Queries a few online resources for article links
  * version: 0.5
+ * category: template
+ * api: cli
+ * type: cron
+ * x-cron: 12 *\/4 * * * 
  *
  * Highlights version numbers in news feeds,
  * and populates templates/feed.*.htm for sidebar display.

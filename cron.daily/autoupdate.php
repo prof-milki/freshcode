@@ -3,10 +3,11 @@
  * api: freshcode
  * title: Autoupdate runner
  * description: Cron job for invoking autoupdates on per-project basis
- * version: 0.5.0
+ * version: 0.6.0
  * depends: curl
  * author: mario
  * license: AGPL
+ * x-cron: 15 03 * * *
  * 
  *
  * Each project listing can contain:
@@ -24,11 +25,10 @@ chdir(dirname(__DIR__));
 include("config.php");
 
 // go
+$_SESSION["submitter"] = "";
 $run = new Autoupdate();
+$run->debug = 1;
+$run->msg_html = 0;
 $run->all();
-#print_r($run->test("changelog", "uselessd"));
 #print_r($run->test("regex", "linux"));
 #print_r($run->test("regex", "php"));
-#print_r($p = $run->test("regex", "limesurvey"));
-#var_dump(input::words($p["version"]));
-#var_dump($run->version_exists('limesurvey', $p['version']));

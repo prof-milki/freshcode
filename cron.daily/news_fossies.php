@@ -3,6 +3,10 @@
  * title: Fossies.org extraction
  * description: Retrieves from fossies.org and stores as sidebar feed .html.
  * version: 0.5
+ * category: template
+ * api: cli
+ * type: cron
+ * x-cron: 11 *\/4 * * * 
  *
  * Scrapes from fossies.org/linux/misc/index_n.html,
  * extracts title, version, time, and description.

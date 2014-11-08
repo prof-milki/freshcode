@@ -1,9 +1,12 @@
 <?php
 /**
- * api: freshcode
+ * api: cli
  * title: Social links count
  * description: Queries api.i-o/links for project homepages
  * version: 0.1
+ * category: rpc
+ * type: cron
+ * x-cron: 20 03 * * *
  *
  * Retrieve social media sharing site links for project homepages.
  * Stores them in `release`.`social_links`

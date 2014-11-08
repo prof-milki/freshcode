@@ -3,9 +3,13 @@
  * title: GitHubArchive releases poll
  * description: Fetch GitHub releases via BigQuery githubarchive:github.timeline
  * version: 0.4
+ * category: rpc
+ * api: cli
  * depends: config.local
  * doc: http://www.githubarchive.org/
  * github-url: https://github.com/igrigorik/githubarchive.org
+ * type: cron
+ * x-cron: 05 * * * *
  *
  * Queries githubarchive.org event blobs.
  * (Fetching via Google BigQuery too easily exceeded the quotas.)

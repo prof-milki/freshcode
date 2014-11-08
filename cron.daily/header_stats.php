@@ -2,6 +2,11 @@
 /**
  * title: statistics
  * description: generate statistics, visitors, projects, autoupdate, etc. for header
+ * version: 0.1
+ * depends:
+ * category: template
+ * type: cron
+ * x-cron: 11 1 * * *
  *
  * Approximate weekly numbers by multiplication.
  *
