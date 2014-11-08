@@ -3,6 +3,10 @@
  * title: github releases news feed
  * description: fetch from cache database, build feed and releases page
  * version: 0.3
+ * category: template
+ * api: cli
+ * type: cron
+ * x-cron: 15 * * * *
  *
  * Short summary
  *     → ./template/feed.github.htm
@@ -19,17 +23,16 @@ db(new PDO("sqlite:github.db"));
 
 // query
 $recent = db("
-   SELECT *
-     FROM (
-       SELECT *
+       SELECT t_published, created_at, repo_name, author_login, author_avatar,
+              release_url, release_tag, release_title, release_body,
+              repo_url, repo_description, repo_homepage,
+              COALESCE(NULLIF(repo_language, ?), ?) AS repo_language
          FROM releases
         WHERE LENGTH(repo_description) > 0
      GROUP BY repo_name
      ORDER BY t_published DESC
         LIMIT 500
-          )
-  ORDER BY repo_language
-");
+", "", "no-lang");
 
 // prepare output
 $lang = "";
@@ -52,8 +55,8 @@ foreach ($recent as $r) {
     #-- sidebar feed
     if (count($out) < 25) {
        $name = trim(strstr($r["repo_name"], "/"), "/");
-       $out[] = "   <a href='$r[release_url]' title='$r[repo_description]'>$name "
-              . "<em class=version title='$r[release_title]'>$r[release_tag]</em></a>";
+       $out[] = "   <a href=\"$r[release_url]\" title=\"$r[repo_description]\">$name "
+              . "<em class=version title=\"$r[release_title]\">$r[release_tag]</em></a>";
     }
 
 
@@ -66,7 +69,7 @@ foreach ($recent as $r) {
  <tr class="github release">
     <td class=author-avatar><img src="$r[author_avatar]&s=40" alt="$r[author_login]" height=40 width=40></td>
     <td class=repo-name>
-       <a href='$r[repo_url]' title='$r[repo_name]'>
+       <a href="$r[repo_url]" title="$r[repo_name]">
           <small class=repo-org>$name[0] /</small>
           <strong class=repo-localname>$name[1]</strong>
        </a>
@@ -77,7 +80,7 @@ foreach ($recent as $r) {
        <a class=repo-homepage href="$r[repo_homepage]">$r[repo_homepage]</a>
     </td>
     <td class=release>
-        <a class=release-tag href='$r[release_url]'><em class=version title='$r[release_title]'>$r[release_tag]</em></a>
+        <a class=release-tag href="$r[release_url]"><em class=version title="$r[release_title]">$r[release_tag]</em></a>
         <span class=release-body>$verdesc</span>
     </td>
  </tr>
