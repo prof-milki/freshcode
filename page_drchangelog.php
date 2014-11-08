@@ -58,7 +58,7 @@ if ($_REQUEST->has("test")) {
          "homepage" => "",
          "download" => "",
          "urls" => "",
-         "autoupdate_module" => $_REQUEST->id->in_array("autoupdate_module", "none,release.json,changelog,regex,github"),
+         "autoupdate_module" => $_REQUEST->id->in_array("autoupdate_module", "none,release.json,changelog,regex,github,sourceforge"),
          "autoupdate_url" => $_REQUEST->url["autoupdate_url"],
          "autoupdate_regex" => $_REQUEST->raw["autoupdate_regex"],
     ));
@@ -128,7 +128,7 @@ li {
            <label>
                Retrieval method
                <select name=autoupdate_module>
-                   {$select("release.json,changelog,regex,github", $data["autoupdate_module"])}
+                   {$select("release.json,changelog,regex,github,sourceforge", $data["autoupdate_module"])}
                </select>
            </label>
 

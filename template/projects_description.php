@@ -17,10 +17,14 @@
  */
 
 
+// varexpr
 $_ = "trim";
 
+
+// license title=
 $license_long = isset(tags::$licenses[$entry["license"]]) ? tags::$licenses[$entry["license"]] : $entry["license"];
 
+// html
 print <<<PROJECT
       <article class=project>
 

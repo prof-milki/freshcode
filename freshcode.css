@@ -3,7 +3,7 @@
  * type: stylesheet
  * title: freshcode.club layout+style
  * description: Simulates the late freecode.com layout and looks; well mostly.
- * version: 0.7.3
+ * version: 0.7.4
  *
  * Centered two-pane layout. The #main section is usually 33% of the screen width,
  * while the #sidebar floats at the right. They're repositioned only using padding:
@@ -65,6 +65,23 @@ tr, th, td {
 .blue { color: blue; }
 .red { color: red; }
 
+/* HTML5 audio element */
+audio {
+   display: inline;
+   width: 8pt;
+   height: 10pt;
+   content: "♫";
+   animation: blink 3s linear infinite;
+   color: #77f;
+   font-weight: 900;
+   background: #dcdcfc;
+   box-shadow: 0 0 5px 3px #dcdcfc;
+   padding: 1px 4px;
+   margin-left: 5pt;
+}
+@keyframes blink {
+  to { color: #119; }
+}
 
 
 /**
@@ -301,6 +318,16 @@ tr, th, td {
     border-bottom: 1px dashed #5d7;
 }
 
+/* Moderator/Admin notes atop the submit form */
+.editor-note {
+    display: block;
+    width: 70%;
+    margin: 9pt;
+    background: #f3e7d0;
+    padding: 5pt;
+}
+
+
 /**
  * Login box etc.
  *
@@ -340,8 +367,12 @@ tr, th, td {
  * Project listing on frontpage and /projects/xyz
  *
  */
+#main .project {
+    margin: 5pt 0 20pt 0;
+}
 #main .project h3 {
     white-space: nowrap;
+    margin: 1pt 1pt 2pt 1pt;
 }
 #main .project h3 a {
     color: #000;
@@ -376,6 +407,7 @@ tr, th, td {
     margin: 3pt;
 }
 #main .project .description {
+    margin-top: 4pt;
     padding-bottom: 5pt;
     border-bottom: 1px solid #ccc;
     margin-bottom: 3pt;
@@ -383,7 +415,7 @@ tr, th, td {
     color: #222;
 }
 #main .release-notes {
-    margin-top: 5pt;
+    margin: 3.5pt 0 1pt 0;
     font-size: 90%;
     color: #444;
     padding-left: 30pt;
@@ -392,6 +424,9 @@ tr, th, td {
 #main .release-notes b {
     font-size: 90%;
     color: #555;
+}
+#main .project .tags {
+    margin: 3.5pt 0 2pt 0;
 }
 #main .project .tags a {
     font-size: 75%;

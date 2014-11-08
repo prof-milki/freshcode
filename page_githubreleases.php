@@ -28,7 +28,8 @@ include("template/header.php");
        text-overflow: ellipsis;
        box-shadow: none;
     }
-    .github.release .author-avatar {
+    .github.release .author-avatar img {
+       border-radius: 4pt;
     }
     .github.release .repo-name {
     }
@@ -47,6 +48,7 @@ include("template/header.php");
     .github.release .repo-homepage {
        font-size: 70%;
        display: block;
+       color: #b0b0f0;
     }
     .github.release .release-tag {
        font-weight: 700;
