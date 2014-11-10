@@ -86,7 +86,8 @@ function feed_xfer($row) {
 
 
 #-- something was requested
-if ($name = $_GET->proj_name["name"] and $ext = $_GET->name->default…json["ext"]) {
+if ($name = $_GET->proj_name["name"]) {
+    list($name, $ext, ) = explode(".", "$name.json");
 
     $feed = array(
         "\$feed-origin" => "http://freshcode.club/",
@@ -99,16 +100,16 @@ if ($name = $_GET->proj_name["name"] and $ext = $_GET->name->default…json["ext
         $feed["releases"] = array();
         
         $r = db("
-              SELECT *, MAX(t_changed)
-                FROM release_versions
+              SELECT *
+                FROM release
                WHERE NOT deleted
                  AND NOT hidden
             GROUP BY name, t_published
-            ORDER BY t_published DESC
+            ORDER BY t_published DESC, t_changed DESC
                LIMIT ?",
             $_GET->int->default…100->range…5…1000["num"]
         );
-        while ( $row = $r->fetch() ) {
+        foreach ($r as $row) {
             $feed["releases"][] = feed_project($row) + feed_release($row) + feed_xfer($row);
         }
     }
