@@ -800,7 +800,7 @@ class Tags {
      */
     function scope_tags($s) {
         preg_match_all("/major|minor|bugfix|feature|security|documentation|hidden|cleanup/i", strtolower($s), $uu);
-        return join(" ", $uu[0]);
+        return join(" ", array_unique($uu[0]));
     }
 
     /**
