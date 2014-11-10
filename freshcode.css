@@ -3,7 +3,7 @@
  * type: stylesheet
  * title: freshcode.club layout+style
  * description: Simulates the late freecode.com layout and looks; well mostly.
- * version: 0.7.4
+ * version: 0.7.4.1
  *
  * Centered two-pane layout. The #main section is usually 33% of the screen width,
  * while the #sidebar floats at the right. They're repositioned only using padding:
@@ -372,7 +372,7 @@ audio {
 }
 #main .project h3 {
     white-space: nowrap;
-    margin: 1pt 1pt 2pt 1pt;
+    margin: 1pt 1pt 3pt 1pt;
 }
 #main .project h3 a {
     color: #000;
@@ -407,15 +407,15 @@ audio {
     margin: 3pt;
 }
 #main .project .description {
-    margin-top: 4pt;
+    margin-top: 5pt;
     padding-bottom: 5pt;
     border-bottom: 1px solid #ccc;
-    margin-bottom: 3pt;
+    margin-bottom: 4pt;
     font-size: 95%;
     color: #222;
 }
 #main .release-notes {
-    margin: 3.5pt 0 1pt 0;
+    margin: 4.5pt 0 1pt 0;
     font-size: 90%;
     color: #444;
     padding-left: 30pt;
@@ -426,7 +426,7 @@ audio {
     color: #555;
 }
 #main .project .tags {
-    margin: 3.5pt 0 2pt 0;
+    margin: 4.5pt 0 2pt 0;
 }
 #main .project .tags a {
     font-size: 75%;
