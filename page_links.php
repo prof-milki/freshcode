@@ -2,19 +2,15 @@
 /**
  * title: Links to other directories
  * description: Collection/overview of other software tracking / link lists.
- * version: 0.7
- *
+ * version: 0.8
+ * type: template
+ * category: links
  *
  * ToDo
- *  + http://www.fosshub.com/
  *  - http://www.datamation.com/open-source/open-source-software-the-mega-list-1.html
  *  - http://www.datamation.com/osrc/article.php/3925806/Open-Source-Software-Top-59-Sites.htm
  *  - http://sourceforge.net/new/
  *  - http://flossmetrics.org/
- *  - https://www.nuget.org/packages
- *  - http://pgfoundry.org/
- *  - http://www.antepedia.com/
- *  + http://beopen.bplaced.net/category/projects/
  *
  */
 
@@ -33,14 +29,6 @@ include("template/header.php");
  </style>
 
  <aside id=sidebar class="absolute-float community-web">
-    <section><h5>Ecosystem</h5></section>
-    <p>
-      Open Source development is more than just software and coding. User enthusiasm
-      and interaction have an even larger stake in its progress.
-    </p>
-    <p>
-      The interaction playground is technically comprised of:
-    </p>
     <section>
       <b>News sites / Blogs</b>
       <li> <a href="http://slashdot.org/">slashdot</a>
@@ -92,6 +80,9 @@ include("template/header.php");
       <li> <a href="http://www.codeplex.com/">CodePlex</a>
       <li> <a href="http://www.cloudforge.com/">CloudForge</a>
       <li> <a href="https://www.bountysource.com/projects">(BountySource)</a>
+      <li> <a href="http://pgfoundry.org/">PgFoundry</a>
+      <li> <a href="https://www.nuget.org/packages">nuGet (.NET)</a>
+      <li> <a href="http://www.antepedia.com/">Antepedia (search)</a>
       <li> <a href="http://www.krugle.org/projects/">Krugle (meta list)</a>
     </ul>   
     <small>See also <a href="http://alternativeto.net/software/sourceforge/">SF alternatives</a>.</small>
@@ -163,7 +154,7 @@ include("template/header.php");
     <?php endif; ?>
     
  </aside>
- <section id=main style="height: 2600pt; min-width: 700px;">
+ <section id=main style="height: 3000pt; min-width: 700px;">
 
  <h4>Other FLOSS/Linux software directories</h4>
    <p>
@@ -289,6 +280,36 @@ include("template/header.php");
       ["http://beopen.bplaced.net/category/projects/", "beopen.bplaced.net.jpeg", "BeOpen",
        "directorizes open source projects, software forges, news, events, links and organisations.",
       ],
+      ["http://www.lgdb.org/", "lgdb.org.jpeg", "Linux Games DB",
+       "is cataloging and searching for new Linux-specific and compatible games.",
+      ],
+   //12
+      ["http://gtk-apps.org/", "gtk-apps.org.jpeg", "Gtk-Apps",
+       "lists existing and updated Gtk+/Gnome applications",
+      ],
+      ["http://opendesktop.info/portal/", "opendesktop.info.jpeg", "openDesktop",
+       "aggregates Qt/Gtk/Gnome and Java/Wine application releasess",
+      ],
+      ["http://www.portablelinuxgames.org/", "portablelinuxgames.org.jpeg", "Portable Linux Games",
+       "provides pre-build and distribution independent .run packages.",
+      ],
+   //13
+      ["http://www.tuxarena.com/", "tuxarena.com.jpeg", "TuxArena",
+       "has news, application lists, and tutorials for Ubuntu, Debian, Mint.",
+      ],
+      ["http://linuxsoftnews.wordpress.com/", "linuxsoftnews.wordpress.com.jpeg", "LinuxSoftNews.WP",
+       "is a blog with monthly software release summaries and detailed reviews",
+      ],
+      ["http://www.fosshub.com/", "fosshub.com.jpeg", "FOSSHUB",
+       "is a project download hoster and release announcer for some well-known apps.",
+      ],
+   //14
+#      ["", "", "",
+#       "",
+#      ],
+#      ["", "", "",
+#       "",
+#      ],
 #      ["", "", "",
 #       "",
 #      ],
