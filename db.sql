@@ -1,7 +1,5 @@
-#
-# title: freshcode database schema
-# version: 0.6
-#
+--# title: freshcode database schema
+--# version: 0.7
 
 CREATE TABLE [release] ( 
     name              VARCHAR( 100 )     NOT NULL,
@@ -30,6 +28,9 @@ CREATE TABLE [release] (
     image             TEXT,
     social_links      INT                DEFAULT ( 0 ),
     submitter_image   VARCHAR( 200 ),
+    via               VARCHAR( 16 ),
+    editor_note       TEXT,
+    autoupdate_delay  REAL,
     CONSTRAINT 'release_revisions' UNIQUE ( name, version COLLATE 'NOCASE', t_published, t_changed ) 
 );
 
@@ -64,7 +65,7 @@ CREATE VIEW release_versions AS
        SELECT *,
               MAX( t_changed ) AS _order
          FROM release_ordered
-        WHERE NOTdeleted
+        WHERE NOT deleted
         GROUP BY name,
                  version
         ORDER BY t_published DESC;
