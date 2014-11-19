@@ -68,17 +68,26 @@ function versioned_url($url, $version) {
         ([ \$ % ])                  # var syntax
         ( (.?) \\1 )?+              # substitution prefix
         (version|Version|VERSION)   # 'version'
+        (\d?)                       # suffix 0, 1, 2 to access version tuples
         (?= \\1 | \b | _ )          # followed by var syntax, wordbreak, or underscore
     /x";
     // Check for '$version'
-    if (preg_match($rx, $url, $m)) {
-        // Optionally replace dots in version string
-        if (strlen($m[2])) {
-            $version = strtr($version, ["." => $m[3]]);
-        }
-        $url = preg_replace($rx, $version, $url);
-    }
-    return $url;
+    return preg_replace_callback(
+        $rx,
+        function ($m) use ($version) {
+            // Optionally substitute dots in version string
+            if (strlen($m[2])) {
+                $version = strtr($version, ["." => $m[3]]);
+            }
+            // tuple access
+            if (strlen($m[5])) {
+                $version = preg_split("/[-._~]/", $version);
+                return $version[$m[5]];
+            }
+            return $version;
+        },
+        $url
+    );
 }
 
 
