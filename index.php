@@ -4,7 +4,7 @@
  * type: main
  * title: Freshcode.club
  * description: FLOSS software release tracking website
- * version: 0.7.4
+ * version: 0.7.5
  * author: mario
  * license: AGPL
  * 
