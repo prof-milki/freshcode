@@ -3,7 +3,7 @@
  * api: cli
  * title: Twitter bridge
  * description: Posts recent releases on twitter
- * version: 0.1
+ * version: 0.3
  * category: rpc
  * type: cron
  * x-cron: 50 * * * *
@@ -28,20 +28,21 @@ $rel = db("
     SELECT *
       FROM release_versions
      WHERE t_published >= ?
-    ", time()-7300
+    ", time()-7300           # overlap: compare last two hours -- @todo: must be at least 7 minutes old, or screenshot may not exist
 )->fetchAll();
 
 
 
 // query recent/previous status messages
-$prev = twit("lsarchive");
+$prev = twurl("statuses/user_timeline.json?count=50");
+$prev = twurl_text_urls($prev);
 
 // condense individual tweets
 foreach ($rel as $row) {
 
     // skip existing
-    if (is_int(strpos($prev, $row["title"]))) {
-    print "skip($row[name]) ";
+    if (tweet_exists($prev, $row)) {
+        print "skip($row[name]) ";
         continue;
     }
     
@@ -54,6 +55,11 @@ foreach ($rel as $row) {
     $msg = "$row[title] $row[version] released. $row[homepage]";
     $msg = preg_replace("/\s+/", " ", $msg);
     
+    // check for project Twitter= URL, add @mention
+    if (preg_match("~https?://twitter.com/@?(\w{2,15})~", $row["urls"], $uu)) {
+        $msg .= " @$uu[1]";
+    }
+    
     // add tags
     $tags = p_csv($row["tags"]);
     shuffle($tags);
@@ -63,30 +69,70 @@ foreach ($rel as $row) {
         $msg .= " #$tag";
     }
     
-    // cut to limit
-    while (strlen($msg) > 140) {
+    // check for tweet size limit (140 minus URL-length [22] for appended image)
+    while (tweet_length($msg) > 118) {
         $msg = preg_replace("/\s\S+$/s", "", $msg);
     }
     
     // send
-    print_r("$msg\n");
-    twit("update", $msg);
+    print_r("\ntweet($msg) ");
+    twurl_with_img($msg, "img/screenshot/$row[name].jpeg");
 }
-
+print "\n";
 
 
 
 /**
- * Invoke cmdline twitter client
+ * twurl API
  *
  */
-function twit() {
-    $cmd = "twidge";
-    foreach (func_get_args() as $param) {
-        $cmd .= " " . escapeshellarg($param);
-    }
-    return ` $cmd `;
+function twurl($api) {
+   return json_decode(exec("twurl '/1.1/$api'"), TRUE);
 }
 
+
+/**
+ * Send MSG+IMG via twurl
+ *
+ */
+function twurl_with_img($msg, $img) {
+   $msg = escapeshellarg($msg);
+   exec("twurl -X POST '/1.1/statuses/update_with_media.json' --file $img --file-field 'media[]' -d status=$msg");
+}
+
+
+/**
+ * Calculate tweet size without URLs.
+ * 
+ */
+function tweet_length($msg) {
+    $msg = preg_replace("~http://\S+(?<![,.])~", "http://t.co/abcDEFGHIJ", $msg);
+    return strlen($msg);
+    
+}
+
+
+/**
+ * Collect `text:` and `expanded_urls:`
+ *
+ */
+function twurl_text_urls($json, $text="") {
+    foreach ($json as $tweet) {
+        $text .= "{$tweet['text']} → {$tweet['entities']['urls'][0]['expanded_url']}\n";
+    }
+    return $text;
+}
+// Compare titles and homepage links with previous feeds.
+function tweet_exists($prev, $row) {
+    # escape
+    $title = preg_quote($row["title"], "~");
+    $homepage = preg_quote($row["homepage"], "~")
+    or $homepage = "http://freshcode.club/projects/$row[name]";
+    # check mentions
+    return
+        preg_match("~^$title~mi", $prev)
+      or
+        preg_match("~$homepage~", $prev);
+}
 
 ?>
