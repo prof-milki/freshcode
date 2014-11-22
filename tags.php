@@ -95,7 +95,7 @@ class Tags {
         "OSL" => "Open Software License 3.0",
         "PostgreSQL" => "The PostgreSQL License",
         "CNRI" => "CNRI Python license (CNRI-Python)",
-        "QPL" => "Q Public License",
+        "QPL" => "Qt Public License",
         "RPSL" => "RealNetworks Public Source License V1.0",
         "RPL" => "Reciprocal Public License 1.5",
         "RSCPL" => "Ricoh Source Code Public License",
