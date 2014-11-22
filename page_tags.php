@@ -31,7 +31,7 @@ print tags::trove_select(tags::$tree);
 
 #-- print tag cloud
 ?>
-<section id=main>
+<section id=main style="min-height: 1750pt">
 <h2>Tags</h2>
 <p id=tag_cloud>
 <?php
@@ -44,6 +44,8 @@ if ($count) {
 
     // Print tag cloud
     foreach ($tags as $t) {
+    
+        if ($t["cnt"] < 2) continue;
 
         // average
         $n = 
@@ -53,7 +55,7 @@ if ($count) {
          * Qantify
          * - Values 0.1 - 20.0 are transitioned into the range 0.3 - 2.0
          */
-        $q = atan($q * 0.75 + 0.1) * 1.55;
+        $q = atan($q * 0.55 - 0.1) * 1.35;
         
         // font size
         $q = sprintf("%.1f", $q * 100);
