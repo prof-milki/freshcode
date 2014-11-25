@@ -39,7 +39,7 @@ Open source software release tracking.
 
 <footer id=logo>
 <a href="/" title="freshcode.club"><img src="img/logo.png" width=200 height=110 alt=freshcode border=0></a>
-<?=file_get_contents("template/stats.htm");?>
+<ul id=stats><?=file_get_contents("template/stats.htm");?><?=IS_ADMIN ? file_get_contents("template/stats.admin.htm") : "";?></ul>
 </footer>
 
 <nav id=tools>
@@ -50,7 +50,7 @@ Open source software release tracking.
       <a href="/tags" style="left:-5pt;">Projects by Tag</a>
    </span>
    <form id=search_q style="display:inline" action=search><input name=q size=5><a href="/search">Search</a></form>
-   <a href="//fossil.include-once.org/freshcode/wiki/About">About</a>
+   <a rel="vcs-fossil" href="//fossil.include-once.org/freshcode/wiki/About">About</a>
    <a href="/links">Links</a>
    <a href="/meta" class=meta>Meta</a>
 </nav>
