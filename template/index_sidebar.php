@@ -39,6 +39,7 @@
         <h5>Games <a href="http://www.linuxgames.com/" style=display:inline>LG</a>, <a href="http://www.gamingonlinux.com/" style=display:inline>GoL</a>, <a href="http://freegamer.blogspot.com/" style=display:inline>FG</a></h5>
         <?php  include("template/feed.gamingonlinux.htm");  ?>
         <?php  include("template/feed.linuxgames.htm");  ?>
+        <?php  include("template/feed.linuxgamenews.htm");  ?>
         <?php  include("template/feed.freegamer.htm");  ?>
     </section>
 
