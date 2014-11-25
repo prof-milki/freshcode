@@ -29,19 +29,19 @@ $diff_t_pub = time()
                   ORDER BY t_published DESC LIMIT 1")->t_published;
 
          // minimum pause between imports
-$pause = 3.15
+$pause = 3.75
 
          // extra hour jump on weekends
-       + 1.25 * (date("N") >= 6)
+       + 0.75 * (date("N") >= 6)
 
          // less delay when spool is reasonably filled
        - 0.5 * (count(glob("incoming/*")) >= 10)
 
          // add 33% chance of just skipping to next cron slot
-       + 24 * (rand(0,100) < 33)
+       + 9.9 * (rand(0,100) < 33)
 
          // prevent minute-slot matching (alternate between HH:05, HH:25, HH:45)
-       + 7 * ($diff_t_pub % 3600 < 5);
+       + 2.0 * ($diff_t_pub % 3600 < 5);
 
 
 // if there's enough delay to last published entry, submit a new incoming/* release
