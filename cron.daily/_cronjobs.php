@@ -27,7 +27,7 @@ foreach (glob(__DIR__."/*.*") as $fn) {
     $m = array_change_key_case(array_combine($m[1], $m[2] ));
 
     // assert existing `cron:` specifier
-    if (!empty($m["cron"]) and preg_match("~^([*/\d-]+(\h+|$)){5}$|^@(daily|hourly|midnight)$~", $m["cron"] = stripcslashes($m["cron"]))) {
+    if (!empty($m["cron"]) and preg_match("~^([*/\d,-]+(\h+|$)){5}$|^@(daily|hourly|midnight)$~", $m["cron"] = stripcslashes($m["cron"]))) {
        $CRONTAB .= "\n"
                 .  "#-- $m[title]\n#   ($m[description])\n"
                 .  "$m[cron] "
