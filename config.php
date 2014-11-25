@@ -45,5 +45,8 @@ ini_set("user_agent", FRESHCODE_USER_AGENT);
 $moderator_ids = array();
 include("config.local.php");   
 
+// stats
+define("IS_ADMIN", in_array($_SESSION["openid"], $moderator_ids));
+
 
 ?>

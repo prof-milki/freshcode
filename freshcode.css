@@ -122,6 +122,7 @@ audio {
     float: right;
     width: 20%;
     color: #999;
+    margin: 0; padding-top: 5pt;
 }
 #logo #stats li {
     list-style: none;
@@ -643,7 +644,7 @@ audio {
 }
 #trove_tags.pick-tags {
     width: 220px;
-    height: 2250px;
+    height: 1550px;
     top: 0px;
     border: none;
     font-size: 92%;

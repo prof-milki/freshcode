@@ -42,15 +42,22 @@ $s_num_vers = db("SELECT COUNT(name) AS cnt FROM (SELECT DISTINCT name, version 
 $s_num_auto = db("SELECT COUNT(name) AS cnt FROM (SELECT name FROM release WHERE autoupdate_module != ? GROUP BY name)", "none")->cnt;
 $s_num_auto = round($s_num_auto / $s_num_proj * 100, 1);
 
+// admin infos
+$s_flags = db("SELECT COUNT(reason) AS cnt FROM flags")->cnt;
+$s_col = $s_flags ? "style=color:red" : "";
+$s_spool = count(array_filter(glob("incoming/??*"), "is_file"));
+
 
 file_put_contents("template/stats.htm",
-<<<HTML
-   <ul id=stats>
+"
       <li> <var>$s_num_proj</var> projects
       <li> <var>$s_num_vers</var> releases
       <li> <var>$s_num_auto%</var> auto updating
       <li> <var>$s_visitors</var> visitors/wk
       <li> <var>$s_pageviews</var> recent pageviews
-   </ul>
-HTML
+");
+file_put_contents("template/stats.admin.htm",
+"
+      <li> <var $s_col>$s_flags</var> flags · <var>$s_spool</var> incoming
+"
 );

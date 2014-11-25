@@ -85,7 +85,7 @@ else {
         }
         
         // Manually empty `flags` table
-        if ($action["flag"] === 0) {
+        if ($action["flag"] === "0") {
             db("DELETE FROM flags WHERE name=?", $name);
         }
     }
@@ -196,6 +196,10 @@ else {
     <tr>
       <td> <input type=text name="action[field][4]" value=""> </td>
       <td> <input type=text name="action[value][4]" value="" size=40> </td>
+    </tr>
+    <tr>
+      <td> <input type=text name="action[field][5]" value=""> </td>
+      <td> <input type=text name="action[value][5]" value="" size=40> </td>
     </tr>
     </table>
     <br>
