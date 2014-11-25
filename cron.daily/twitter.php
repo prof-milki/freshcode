@@ -3,7 +3,7 @@
  * api: cli
  * title: Twitter bridge
  * description: Posts recent releases on twitter
- * version: 0.3
+ * version: 0.1
  * category: rpc
  * type: cron
  * x-cron: 50 * * * *
@@ -28,14 +28,15 @@ $rel = db("
     SELECT *
       FROM release_versions
      WHERE t_published >= ?
-    ", time()-7300           # overlap: compare last two hours -- @todo: must be at least 7 minutes old, or screenshot may not exist
+    ", time()-11200
 )->fetchAll();
 
 
 
 // query recent/previous status messages
-$prev = twurl("statuses/user_timeline.json?count=50");
+$prev = twurl("statuses/user_timeline.json?count=30");
 $prev = twurl_text_urls($prev);
+print $prev;
 
 // condense individual tweets
 foreach ($rel as $row) {
@@ -63,7 +64,7 @@ foreach ($rel as $row) {
     // add tags
     $tags = p_csv($row["tags"]);
     shuffle($tags);
-    foreach ($tags as $tag) {
+    foreach (array_slice($tags, 0, 5) as $tag) {
         $tag = preg_replace("/^(\w)\+\+/", "\\1pp", $tag);
         $tag = preg_replace("/-/", "_", $tag);
         $msg .= " #$tag";
@@ -76,7 +77,7 @@ foreach ($rel as $row) {
     
     // send
     print_r("\ntweet($msg) ");
-    twurl_with_img($msg, "img/screenshot/$row[name].jpeg");
+    print_r(twurl_with_img($msg, "img/screenshot/$row[name].jpeg"));
 }
 print "\n";
 
@@ -97,7 +98,7 @@ function twurl($api) {
  */
 function twurl_with_img($msg, $img) {
    $msg = escapeshellarg($msg);
-   exec("twurl -X POST '/1.1/statuses/update_with_media.json' --file $img --file-field 'media[]' -d status=$msg");
+   return exec("twurl -X POST '/1.1/statuses/update_with_media.json' --file $img --file-field 'media[]' -d status=$msg");
 }
 
 
