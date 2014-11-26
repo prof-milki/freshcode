@@ -64,13 +64,13 @@ else {
          <form action="" method=POST enctype="multipart/form-data" accept-encoding="UTF-8">
          
              <input type=hidden name=name value="$name">
-         
-             <label>
-                <input type=radio name=reason value=spam> It's just spam.
-             </label>
 
              <label>
                 <input type=radio name=reason value=non-english> Listing is not in English.
+             </label>
+         
+             <label>
+                <input type=radio name=reason value=spam> It's just spam.
              </label>
 
              <label>
@@ -96,8 +96,8 @@ else {
          </form>
       </p>
       
-      <p>This is also a reasonable contact mechanism if you want to report another type
-      of bug. For reclaiming a lost OpenID logon please preferrably contact us per mail.</p>
+      <p>This is also a reasonable contact mechanism if you want to report any system / site bug.
+      For reclaiming a disjunct OpenID logon alternatively write a mail (info#freshcode:club).</p>
       
 HTML;
 }
