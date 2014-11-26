@@ -294,12 +294,12 @@ function p_csv($str) {
  *  Values may not contain spaces
  *
  */
-function p_key_value($str, $case=CASE_LOWER) {
+function p_key_value($str, $case=CASE_LOWER, $match="\S+") {
     preg_match_all(
         "@
            [[%$]*  ([-\w]+)  []%$]*
               \h*  [:=>]+  \h*
-                   (\S+)
+                   ($match)
            (?<![,.;])
         @imsx",
         $str, $m

@@ -55,7 +55,7 @@ if ($diff_t_pub > $pause * 3600) {
 function insert_from_spool() {
 
     // read filenames
-    $files = array_diff( array_filter( glob("incoming/*"), "is_file"), ["incoming/.htaccess"]);
+    $files = array_filter( glob("incoming/??*"), "is_file");
     // sort newest first
     $files = array_combine($files, array_map("filemtime", $files));
     asort($files);
@@ -77,7 +77,8 @@ function insert_from_spool() {
         
         // store new project/release entry
         $rel = new release($p["name"]);
-        $rel->update($p, [], ["hidden"=>intval(!empty($p["hidden"])), "via"=>"spool"], TRUE);
+        $p = array_merge(["via" => "spool"], $p);
+        $rel->update($p, [], ["hidden"=>intval(!empty($p["hidden"]))], TRUE);
         $rel->store();
         print_r($rel);
         rename($fn, "incoming/done/$alt_fn");
@@ -103,7 +104,7 @@ function parse_release_fields($txt) {
     // remove leading empty space
     $p = array_map(
         function ($s) {
-             return preg_replace("/^\h+/m", "", ltrim($s));
+             return preg_replace("/^\h+/m", "", trim($s));
         },
         array_combine($p[1], $p[2])
     );
