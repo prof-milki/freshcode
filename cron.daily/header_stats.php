@@ -45,9 +45,9 @@ $s_num_auto = round($s_num_auto / $s_num_proj * 100, 1);
 // admin infos
 $s_flags = db("SELECT COUNT(reason) AS cnt FROM flags")->cnt;
 $s_col = $s_flags ? "style=color:red" : "";
-$s_spool = count(array_filter(glob("incoming/??*"), "is_file"));
+$s_spool = count($a_incoming = array_filter(glob("incoming/??*"), "is_file"));
 
-
+#-- general freshcode stats
 file_put_contents("template/stats.htm",
 "
       <li> <var>$s_num_proj</var> projects
@@ -56,8 +56,11 @@ file_put_contents("template/stats.htm",
       <li> <var>$s_visitors</var> visitors/wk
       <li> <var>$s_pageviews</var> recent pageviews
 ");
+
+#-- moderator addendum
+$a_incoming = join(", ", array_map("basename", $a_incoming));
 file_put_contents("template/stats.admin.htm",
 "
-      <li> <var $s_col>$s_flags</var> flags · <var>$s_spool</var> incoming
+      <li> <var $s_col>$s_flags</var> <a href='/admin' style=color:grey>flags</a> · <span title='$a_incoming'><var>$s_spool</var> incoming</span>
 "
 );
