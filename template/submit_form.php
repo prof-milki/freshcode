@@ -102,8 +102,8 @@ print <<<HTML
            <label>
                Image
                <input type=url name=image size=50 placeholder="http://i.imgur.com/xyzbar.png" value="$data[image]" maxlength=250>
-               <small>Previews will be 120x90 px large. Alternatively a homepage screenshot
-               will appear later.</small>
+               <small>Previews will be 120x90 px large. Leave empty to have a homepage screenshot
+               generated.</small>
            </label>
         </p>
 
