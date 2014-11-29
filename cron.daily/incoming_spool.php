@@ -34,8 +34,8 @@ $pause = 3.75
          // extra hour jump on weekends
        + 0.75 * (date("N") >= 6)
 
-         // less delay when spool is reasonably filled
-       - 0.5 * (count(glob("incoming/*")) >= 10)
+         // decrease delay when spool is reasonably filled
+       - 0.175 * count(array_filter(glob("incoming/*"), "is_file"))
 
          // add 33% chance of just skipping to next cron slot
        + 9.9 * (rand(0,100) < 33)
