@@ -53,6 +53,7 @@ function date_fmt($time) {
 
 /**
  * Substitute `$version` placeholders in URLs.
+ * (Which is one of the most useful features on freshcode.club)
  *
  * Supported syntax variations:
  *    →  $version and $version$
@@ -62,16 +63,19 @@ function date_fmt($time) {
  *    →  $-$version  for which 1.2.3 becomes 1-2-3
  *    →  $_$version  for which 2.3.4 becomes 2_3_4
  *
+ * Or to interpolate a single version tuple:
+ *    →  $version0  (becomes `7` for `7.1.2` input)
+ *
  */
 function versioned_url($url, $version) {
     $rx = "/
-        ([ \$ % ])                  # var syntax
+        ([ \$ % ])                  # var sigil
         ( (.?) \\1 )?+              # substitution prefix
         (version|Version|VERSION)   # 'version'
         (\d?)                       # suffix 0, 1, 2 to access version tuples
-        (?= \\1 | \b | _ )          # followed by var syntax, wordbreak, or underscore
+        (?= \\1 | \b | _ )          # optional ending sigil [%$], wordbreak, or underscore
     /x";
-    // Check for '$version'
+    // Check for and displace '$version'
     return preg_replace_callback(
         $rx,
         function ($m) use ($version) {
@@ -109,7 +113,7 @@ function proj_links($urls, $entry, $r="") {
         $_title = strtolower($title);
         $url = input::html(versioned_url($url, $entry["version"]));
         
-        // append HTML link and <audio> for theme song
+        //gimmick: append HTML link and <audio> for theme song
         $r .= "\t   &rarr; <a href=\"$url\">$title</a>"
             . ($_title == "theme-song" ? "<audio autoplay onclick='this.paused ? this.play() : this.pause()'>♫<source type=\"audio/ogg\" src=\"$url\"></audio>" : "")
             . "<br>\n";
