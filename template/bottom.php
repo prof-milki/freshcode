@@ -11,6 +11,7 @@
 <small>
    <a href="/login"><i>optional</i> Login</a>
 </small>
+| <span style="color:#9AF"><b>🐦</b> twitter</span> <a href="https://twitter.com/versiontracker">@versiontracker</a>
 <small style=float:right>
 <span style="display:inline-block; vertical-align:middle;">bookmark<br>freshcode</span>
 &nbsp;on&nbsp; <?php print social_share_links("freshcode", "http://freshcode.club/"); ?>

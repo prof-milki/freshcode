@@ -3,7 +3,7 @@
  * api: cli
  * title: Twitter bridge
  * description: Posts recent releases on twitter
- * version: 0.1
+ * version: 0.2
  * category: rpc
  * type: cron
  * x-cron: 50 * * * *
